@@ -21,7 +21,8 @@ function promiseArr(items){
 
 function parseHtml(htmlString){
 	$ = cheerio.load(htmlString);
-	if($('.errorTitle').text()) return new Error('Quota limit exceeded');
+	if($('.errorTitle').text()) return new Error('Quota limit exceeded, try again later');
+
 	var listItems = $('a').attr('onclick', "trends.PageTracker.analyticsTrackEvent('rising drilldown');").text();
 	var barValues = $('td.trends-bar-chart-value-cell').text();
 	
