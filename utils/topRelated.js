@@ -3,14 +3,12 @@ var cheerio = require('cheerio');
 const COUNTRY = require('../resources/countryCodes.js');
 
 module.exports = function(items, country){
-	Promise.all(promiseArr(items, country))
+	items = Array.isArray(items) ? items : [items];
+	return Promise.all(promiseArr(items, country))
 	.then(function(htmlStrings){
 		return htmlStrings.map(function(htmlString){
 			return parseHtml(htmlString);
 		});
-	})
-	.catch(function(err){
-		console.log("there was an error", err);
 	});
 };
 
@@ -18,7 +16,6 @@ function promiseArr(items, country){
 	country = country || 'US';
 	if(country.length > 2) country = COUNTRY.getAbbreviation(country);
 	if(!COUNTRY.getCode(country)){
-		console.log('yea we are rejecting')
 		return [new Promise(function(resolve, reject){
 			reject('Could not locate country');
 		})];
@@ -31,7 +28,7 @@ function promiseArr(items, country){
 
 function parseHtml(htmlString){
 	$ = cheerio.load(htmlString);
-	if($('.errorTitle').text()) return new Error('Quota limit exceeded, try again later');
+	if($('.errorTitle').text()) throw new Error('Quota limit exceeded, try again later');
 
 	var listItems = $('a').attr('onclick', "trends.PageTracker.analyticsTrackEvent('rising drilldown');").text();
 	var barValues = $('td.trends-bar-chart-value-cell').text();
