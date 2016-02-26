@@ -1,8 +1,9 @@
 var rp = require('request-promise');
 var cheerio = require('cheerio');
+const COUNTRY = require('../resources/countryCodes.js');
 
-module.exports = function(items){
-	Promise.all(promiseArr(items))
+module.exports = function(items, country){
+	Promise.all(promiseArr(items, country))
 	.then(function(htmlStrings){
 		return htmlStrings.map(function(htmlString){
 			return parseHtml(htmlString);
@@ -13,9 +14,18 @@ module.exports = function(items){
 	});
 };
 
-function promiseArr(items){
+function promiseArr(items, country){
+	country = country || 'US';
+	if(country.length > 2) country = COUNTRY.getAbbreviation(country);
+	if(!COUNTRY.getCode(country)){
+		console.log('yea we are rejecting')
+		return [new Promise(function(resolve, reject){
+			reject('Could not locate country');
+		})];
+	}
+
 	return items.map(function(item){
-		return rp(`http://www.google.com/trends/fetchComponent?hl=en-US&q=${item}&geo=US&cid=RISING_QUERIES_0_0`);
+		return rp(`http://www.google.com/trends/fetchComponent?hl=en-US&q=${item}&geo=${country}&cid=RISING_QUERIES_0_0`);
 	});
 }
 

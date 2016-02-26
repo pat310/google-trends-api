@@ -290,13 +290,17 @@ Yemen: 'YE',
 Zambia: 'ZM',
 Zimbabwe: 'ZW' };
 
+
+function getCountryCode (country) {
+	var code = mapToNumber[country] || mapToNumber[mapToAbbreviation[country]];
+	return code;
+}
+
 function getCountryAbbreviation(country){
 	return mapToAbbreviation[country];
 }
 
-function getCountryCode(country){
-	var code = mapToNumber[country] || mapToNumber[getCountryAbbreviation(country)];
-	return code || new Error('Country code not found');
-}
-
-module.exports = getCountryCode;
+module.exports = {
+	getCode: getCountryCode,
+	getAbbreviation: getCountryAbbreviation
+};
