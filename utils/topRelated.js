@@ -33,22 +33,30 @@ function parseHtml(htmlString){
 	var listItems = $('a').attr('onclick', "trends.PageTracker.analyticsTrackEvent('rising drilldown');").text();
 	var barValues = $('td.trends-bar-chart-value-cell').text();
 	
-	listItems = listItems.replace(/\r?\n|\r/g, ",").split(',').map(function(listItem){
-		return listItem.trim();
-	})
-	.filter(function(listItem){
-		return listItem !== "";
-	});
-
-	barValues = barValues.replace(/\r?\n|\r/g, "!").split('!').map(function(barValue){
-		return barValue.trim();
-	})
-	.filter(function(barValue){
-		return barValue.trim() !== "";
-	});
+	listItems = listItems.replace(/\r?\n|\r/g, ",").split(',');
+	barValues = barValues.replace(/\r?\n|\r/g, "!").split('!');
 
 	return listItems.reduce(function(acc, curr, index){
-		acc[curr] = barValues[index];
+		if(curr.trim() !== "") acc[curr.trim()] = barValues[index].trim();
 		return acc;
 	}, {});
+
+	// listItems = listItems.replace(/\r?\n|\r/g, ",").split(',').map(function(listItem){
+	// 	return listItem.trim();
+	// })
+	// .filter(function(listItem){
+	// 	return listItem !== "";
+	// });
+
+	// barValues = barValues.replace(/\r?\n|\r/g, "!").split('!').map(function(barValue){
+	// 	return barValue.trim();
+	// })
+	// .filter(function(barValue){
+	// 	return barValue.trim() !== "";
+	// });
+
+	// return listItems.reduce(function(acc, curr, index){
+	// 	acc[curr] = barValues[index];
+	// 	return acc;
+	// }, {});
 }
