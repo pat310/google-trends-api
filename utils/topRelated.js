@@ -40,7 +40,7 @@ function parseHtml(htmlString){
 		return listItem !== "";
 	});
 
-	barValues = barValues.replace(/\r?\n|\r/g, ",").split(',').map(function(barValue){
+	barValues = barValues.replace(/\r?\n|\r/g, "!").split('!').map(function(barValue){
 		return barValue.trim();
 	})
 	.filter(function(barValue){
