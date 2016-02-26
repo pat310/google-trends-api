@@ -1,0 +1,1 @@
+An API layer ontop of google trends
