@@ -1,8 +1,8 @@
 require('babel-core/register');
 
-var tools = require('./utils/topRelated.js');
+var tools = require('./utils/tools');
 
-tools(['javascript']);
+tools.topRelated(['javascript'], 'shamalamadingdong');
 
 // exports.search = tools;
 // console.log('now here');
