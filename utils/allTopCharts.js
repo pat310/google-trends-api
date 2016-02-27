@@ -7,7 +7,7 @@ module.exports = function(date, country){
 	if(!DATE.isValid(date)) return Promise.reject('Date is invalid');
 
 	country = country || 'US';
-	if(country.length > 2) country = COUNTRY.getAbbreviation(country);
+	if(country.length > 2) country = COUNTRY.getAbbreviation(country.toUpperCase());
 	if(!COUNTRY.getCode(country)) return Promise.reject('Could not locate country');
 
 	var options = {

@@ -3,7 +3,7 @@ require('babel-core/register');
 var tools = require('./utils/');
 
 // //Parameters: array of key words, country as a string (optional, 'US' is default)
-// tools.topRelated('dog')
+// tools.topRelated('dog house')
 // .then(function(topRelated){
 // 	console.log("here are the topRelated", topRelated);
 // })
@@ -28,7 +28,7 @@ var tools = require('./utils/');
 // });
 
 //Parameters: date in format yyyymm where January is 01 (optional, today's date is default), country code as string (optional, 'US' is default)
-tools.allTopCharts('201602')
+tools.allTopCharts()
 .then(function(results){
 	console.log('got your results here', results);
 })

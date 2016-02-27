@@ -3,6 +3,7 @@ const COUNTRY = require('../resources/countryCodes.js');
 
 module.exports = function(country){
 	country = country || 'US';
+	if(country.length > 2) country = COUNTRY.getAbbreviation(country.toUpperCase());
 	var countryCode = COUNTRY.getCode(country);
 	if(!countryCode) return Promise.reject(`country ${country} not available`);
 

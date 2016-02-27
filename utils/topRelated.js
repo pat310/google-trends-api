@@ -14,12 +14,7 @@ module.exports = function(items, country){
 
 function promiseArr(items, country){
 	country = country || 'US';
-	if(country.length > 2) country = COUNTRY.getAbbreviation(country);
-	// if(!COUNTRY.getCode(country)){
-	// 	return [new Promise(function(resolve, reject){
-	// 		reject('Could not locate country');
-	// 	})];
-	// }
+	if(country.length > 2) country = COUNTRY.getAbbreviation(country.toUpperCase());
 	if(!COUNTRY.getCode(country)) return [Promise.reject('Could not locate country')];
 
 	return items.map(function(item){
