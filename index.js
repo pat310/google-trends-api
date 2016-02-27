@@ -28,7 +28,7 @@ var tools = require('./utils/');
 // });
 
 //Parameters: date in format yyyymm where January is 01 (optional, today's date is default), country code as string (optional, 'US' is default)
-tools.allTopCharts('201601', 'ZZ')
+tools.allTopCharts('201602')
 .then(function(results){
 	console.log('got your results here', results);
 })
