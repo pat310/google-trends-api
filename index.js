@@ -12,7 +12,7 @@ var tools = require('./utils/');
 // 	return err;
 // });
 
-////Parameters: takes a country as a string (optional, 'US' is default)
+// //Parameters: takes a country as a string (optional, 'US' is default)
 // tools.hotTrends()
 // .then(function(results){
 // 	console.log("these are the results", results);
@@ -27,13 +27,22 @@ var tools = require('./utils/');
 // 	console.log("these are the results", results);
 // });
 
-//Parameters: date in format yyyymm where January is 01 (optional, today's date is default), country code as string (optional, 'US' is default)
-tools.allTopCharts()
+// //Parameters: date in format yyyymm where January is 01 (optional, today's date is default), country code as string (optional, 'US' is default)
+// tools.allTopCharts()
+// .then(function(results){
+// 	console.log('got your results here', results);
+// })
+// .catch(function(err){
+// 	console.log("there was an error", err);
+// });
+
+//Parameters: category (required), date in format yyyymm where January is 01 (optional, today's date is default), country code as string (optional, 'US' is default)
+tools.categoryTopCharts('actors')
 .then(function(results){
-	console.log('got your results here', results);
+	console.log('results here', results);
 })
 .catch(function(err){
-	console.log("there was an error", err);
+	console.log('there was an error', err);
 });
 
 // module.exports = require('./utils/');
