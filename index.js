@@ -1,8 +1,8 @@
 require('babel-core/register');
 
-var tools = require('./utils/');
+var tools = require('./lib/utils/');
 
-// //Parameters: array of key words, country as a string (optional, 'US' is default)
+// //Parameters: array of key words (required), country as a string (optional, 'US' is default)
 // tools.topRelated('dog house')
 // .then(function(topRelated){
 // 	console.log("here are the topRelated", topRelated);
@@ -45,7 +45,7 @@ tools.categoryTopCharts('actors')
 	console.log('there was an error', err);
 });
 
-// module.exports = require('./utils/');
+// module.exports = require('./lib/utils/');
 // console.log('now here');
 
 // exports.printMsg = function() {
