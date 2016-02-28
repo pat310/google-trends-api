@@ -1,3 +1,6 @@
 module.exports = {
-	allTopCharts: require('./allTopCharts.test.js')
+	allTopCharts: require('./allTopCharts.test.js'),
+	categoryTopcharts: require('./categoryTopcharts.test.js'),
+	hotTrends: require('./hotTrends.test.js'),
+	top30in30: require('./top30in30.test.js'),
 };
