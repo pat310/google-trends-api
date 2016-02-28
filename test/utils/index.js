@@ -3,4 +3,5 @@ module.exports = {
 	categoryTopcharts: require('./categoryTopcharts.test.js'),
 	hotTrends: require('./hotTrends.test.js'),
 	top30in30: require('./top30in30.test.js'),
+	topRelated: require('./topRelated.test.js'),
 };

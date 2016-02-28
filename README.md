@@ -4,4 +4,5 @@ TODO:
 * Write tests
 * Write documentation
 * Launch on NPM
+* Create githook that runs tests before allowing merge
 * Create more API endpoints
