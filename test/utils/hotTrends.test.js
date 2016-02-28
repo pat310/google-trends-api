@@ -8,6 +8,6 @@ var hotTrends = require('../../lib/utils/hotTrends.js');
 module.exports = 
 describe('hotTrends.js', function(){
 	it('should reject if country is invalid', function(){
-		return hotTrends('ZZ').should.be.rejectedWith('country ZZ not available');
+		return hotTrends('ZZ').should.be.rejectedWith('Could not locate country');
 	});
 });
