@@ -6,14 +6,14 @@ var tools = require('./lib/utils/');
 
 // // Parameters: array of key words (required), country as a string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {keywords: ['dog'], geo: 'US'}
-// tools.topRelated({keywords: 'dog'})
-// .then(function(topRelated){
-// 	console.log("here are the topRelated", topRelated);
-// })
-// .catch(function(err){
-// 	console.log("there was an error", err);
-// 	return err;
-// });
+tools.topRelated({keywords: 'dog house'})
+.then(function(topRelated){
+	console.log("here are the topRelated", topRelated);
+})
+.catch(function(err){
+	console.log("there was an error", err);
+	return err;
+});
 
 // //Parameters: takes a country as a string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {geo: 'US'}
