@@ -1,8 +1,6 @@
 #An API layer ontop of google trends
-<hr>
 
 ##Installation
-<hr>
 To install this package, clone this git repository and include it in your project's node_modules or simply:
 
 `npm install google-trends`
@@ -14,7 +12,6 @@ Require google-google trends in your script and give it a variable name:
 You will now be able to access the googleTrends methods in your script.  See the [API section](##API) below to see the methods available and how they work.
 
 ##API
-<hr>
 The following methods are available on your variable set to `require('PATH_TO_NODE_MODULES/google-trends/')`.  In other words, if `var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/')`, then you have access to `googleTrends.METHODNAME()`.
 
 For all the examples, the assumption is that `var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/')`.  
@@ -35,8 +32,7 @@ The following API methods are available:
 * [allTopCharts](###allTopCharts()): returns the top trending charts for a given date and location.  Charts contain information such as title, description, source, a jumpFactory, etc.
 * [categoryTopCharts](###categoryTopCharts()): returns the top trending charts for a given category, date, and location.
 
-##Promises
-<hr>
+###Promises
 By default, all the API's return a promise for the results.  Example:
 ```
 googleTrends.topRelated({keywords: 'dog house'})
@@ -62,12 +58,13 @@ Here are the results! [ { 'dog house grill': 'Breakout',
     'big dog house': '+70%' } ];
 ```
 
-##Callbacks
-<hr>
+###Callbacks
 Support for callbacks rather than promises coming soon!  Please check back
 
+###Examples
+The examples shown for each API method can be run by changing into the home `google-trends` directory and running `node examples.js`.  **Note:** Each example in `examples.js` need to be uncommented.
+
 ###topRelated()
-<hr>
 *Returns the top related keywords for a provided keyword or an array of keywords*
 
 ####Syntax
@@ -95,7 +92,6 @@ Support for callbacks rather than promises coming soon!  Please check back
 ```
 
 ###hotTrends()
-<hr>
 *Returns the current top 20 trending searches for a given location*
 
 ####Syntax
@@ -132,7 +128,6 @@ Support for callbacks rather than promises coming soon!  Please check back
 ```
 
 ###top30in30()
-<hr>
 *Returns the top 30 searches in the past 30 days*
 
 ####Syntax
@@ -229,7 +224,6 @@ Support for callbacks rather than promises coming soon!  Please check back
 ```
 
 ###allTopCharts()
-<hr>
 *Returns the top trending charts for a given date and location*
 
 ####Syntax
@@ -293,7 +287,6 @@ Support for callbacks rather than promises coming soon!  Please check back
 ```
 
 ###categoryTopCharts()
-<hr>
 *Returns the top trending charts for a given category, date and location*
 
 ####Syntax
@@ -352,7 +345,6 @@ Support for callbacks rather than promises coming soon!  Please check back
 ```
 
 ##Potential errors
-<hr>
 * Entering an incorrect or invalid country code will result in the following error: `'Could not locate country'`
 * Entering an invalid date will result in the following error: `'Date is invalid'`
 * If a required field is not provided, the following error will be returned: `FIELD must be provided`
