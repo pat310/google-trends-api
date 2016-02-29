@@ -11,7 +11,7 @@ Require google-google trends in your script and give it a variable name:
 
 You will now be able to access the googleTrends methods in your script.  See the [API section](#API) below to see the methods available and how they work.
 
-#API
+## API
 The following methods are available on your variable set to `require('PATH_TO_NODE_MODULES/google-trends/')`.  In other words, if `var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/')`, then you have access to `googleTrends.METHODNAME()`.
 
 For all the examples, the assumption is that `var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/')`.  
@@ -64,7 +64,7 @@ Support for callbacks rather than promises coming soon!  Please check back
 ###Examples
 The examples shown for each API method can be run by changing into the home `google-trends` directory and running `node examples.js`.  **Note:** Each example in [examples.js](/examples.js) need to be uncommented.
 
-###topRelated()
+### topRelated()
 *Returns the top related keywords for a provided keyword or an array of keywords*
 
 ####Syntax
