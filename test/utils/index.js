@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
 	allTopCharts: require('./allTopCharts.test.js'),
 	categoryTopcharts: require('./categoryTopcharts.test.js'),
