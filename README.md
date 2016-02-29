@@ -27,10 +27,10 @@ For each of the API methods, rather than providing the parameters to the functio
 
 The following API methods are available:
 * [topRelated](#toprelated): returns the top related keywords to a provided keyword or an array of keywords along with it's percentage of correlation.
-* [hotTrends](#hottrends()): returns the current top 20 trending searches for a given location.
-* [top30in30](#top30in30()): returns the top 30 searches in the past 30 days
-* [allTopCharts](#alltopcharts()): returns the top trending charts for a given date and location.  Charts contain information such as title, description, source, a jumpFactory, etc.
-* [categoryTopCharts](#category-top-charts): returns the top trending charts for a given category, date, and location.
+* [hotTrends](#hottrends): returns the current top 20 trending searches for a given location.
+* [top30in30](#top30in30): returns the top 30 searches in the past 30 days
+* [allTopCharts](#alltopcharts): returns the top trending charts for a given date and location.  Charts contain information such as title, description, source, a jumpFactory, etc.
+* [categoryTopCharts](#categorytopcharts): returns the top trending charts for a given category, date, and location.
 
 ###Promises
 By default, all the API's return a promise for the results.  Example:
