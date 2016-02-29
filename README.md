@@ -9,7 +9,7 @@ Require google-google trends in your script and give it a variable name:
 
 `var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/')`
 
-You will now be able to access the googleTrends methods in your script.  See the [API section](#API) below to see the methods available and how they work.
+You will now be able to access the googleTrends methods in your script.  See the [API section](#api) below to see the methods available and how they work.
 
 ## API
 The following methods are available on your variable set to `require('PATH_TO_NODE_MODULES/google-trends/')`.  In other words, if `var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/')`, then you have access to `googleTrends.METHODNAME()`.
