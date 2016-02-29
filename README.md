@@ -26,7 +26,7 @@ For each of the API methods, rather than providing the parameters to the functio
 **Note:** Google may limit the number of requests you can make in a specific amount of time.  If that happens, an error will be returned stating, "Quota limit exceeded, try again later"
 
 The following API methods are available:
-* [topRelated](###topRelated()): returns the top related keywords to a provided keyword or an array of keywords along with it's percentage of correlation.
+* [topRelated](#topRelated()): returns the top related keywords to a provided keyword or an array of keywords along with it's percentage of correlation.
 * [hotTrends](###hotTrends()): returns the current top 20 trending searches for a given location.
 * [top30in30](###top30in30()): returns the top 30 searches in the past 30 days
 * [allTopCharts](###allTopCharts()): returns the top trending charts for a given date and location.  Charts contain information such as title, description, source, a jumpFactory, etc.
