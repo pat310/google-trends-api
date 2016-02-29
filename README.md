@@ -26,11 +26,11 @@ For each of the API methods, rather than providing the parameters to the functio
 **Note:** Google may limit the number of requests you can make in a specific amount of time.  If that happens, an error will be returned stating, "Quota limit exceeded, try again later"
 
 The following API methods are available:
-* [topRelated](#topRelated()): returns the top related keywords to a provided keyword or an array of keywords along with it's percentage of correlation.
-* [hotTrends](###hotTrends()): returns the current top 20 trending searches for a given location.
-* [top30in30](###top30in30()): returns the top 30 searches in the past 30 days
-* [allTopCharts](###allTopCharts()): returns the top trending charts for a given date and location.  Charts contain information such as title, description, source, a jumpFactory, etc.
-* [categoryTopCharts](###categoryTopCharts()): returns the top trending charts for a given category, date, and location.
+* [topRelated](#toprelated()): returns the top related keywords to a provided keyword or an array of keywords along with it's percentage of correlation.
+* [hotTrends](#hottrends()): returns the current top 20 trending searches for a given location.
+* [top30in30](#top30in30()): returns the top 30 searches in the past 30 days
+* [allTopCharts](#alltopcharts()): returns the top trending charts for a given date and location.  Charts contain information such as title, description, source, a jumpFactory, etc.
+* [categoryTopCharts](#category-top-charts()): returns the top trending charts for a given category, date, and location.
 
 ###Promises
 By default, all the API's return a promise for the results.  Example:
@@ -91,7 +91,7 @@ The examples shown for each API method can be run by changing into the home `goo
     'big dog house': '+70%' } ];
 ```
 
-###hotTrends()
+### hotTrends()
 *Returns the current top 20 trending searches for a given location*
 
 ####Syntax
@@ -127,7 +127,7 @@ The examples shown for each API method can be run by changing into the home `goo
   'Inside Out' ];
 ```
 
-###top30in30()
+### top30in30()
 *Returns the top 30 searches in the past 30 days*
 
 ####Syntax
@@ -223,7 +223,7 @@ The examples shown for each API method can be run by changing into the home `goo
         ...
 ```
 
-###allTopCharts()
+### allTopCharts()
 *Returns the top trending charts for a given date and location*
 
 ####Syntax
@@ -286,7 +286,7 @@ The examples shown for each API method can be run by changing into the home `goo
             ...
 ```
 
-###categoryTopCharts()
+### categoryTopCharts()
 *Returns the top trending charts for a given category, date and location*
 
 ####Syntax
