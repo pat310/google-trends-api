@@ -25,13 +25,6 @@ For each of the API methods, rather than providing the parameters to the functio
 
 **Note:** Google may limit the number of requests you can make in a specific amount of time.  If that happens, an error will be returned stating, "Quota limit exceeded, try again later"
 
-The following API methods are available:
-* [topRelated](#toprelated): returns the top related keywords to a provided keyword or an array of keywords along with it's percentage of correlation.
-* [hotTrends](#hottrends): returns the current top 20 trending searches for a given location.
-* [top30in30](#top30in30): returns the top 30 searches in the past 30 days
-* [allTopCharts](#alltopcharts): returns the top trending charts for a given date and location.  Charts contain information such as title, description, source, a jumpFactory, etc.
-* [categoryTopCharts](#categorytopcharts): returns the top trending charts for a given category, date, and location.
-
 ###Promises
 By default, all the API's return a promise for the results.  Example:
 ```
@@ -64,20 +57,29 @@ Support for callbacks rather than promises coming soon!  Please check back
 ###Examples
 The examples shown for each API method can be run by changing into the home `google-trends` directory and running `node examples.js`.  **Note:** Each example in [examples.js](/examples.js) need to be uncommented.
 
-### topRelated()
+###API Methods
+The following API methods are available:
+* [topRelated](#toprelated): returns the top related keywords to a provided keyword or an array of keywords along with it's percentage of correlation.
+* [hotTrends](#hottrends): returns the current top 20 trending searches for a given location.
+* [top30in30](#top30in30): returns the top 30 searches in the past 30 days
+* [allTopCharts](#alltopcharts): returns the top trending charts for a given date and location.  Charts contain information such as title, description, source, a jumpFactory, etc.
+* [categoryTopCharts](#categorytopcharts): returns the top trending charts for a given category, date, and location.
+
+<hr>
+#### topRelated()
 *Returns the top related keywords for a provided keyword or an array of keywords*
 
-####Syntax
+#####Syntax
 `googleTrends.topRelated(['keywords'], 'country')`
 
 `['keywords']` is either an array of keywords as strings or a string with one keyword.  Entering a keyword is **required**.
 `country` is an optional string for the country.  Although the library can figure our the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default
 
-####Example
-#####Input
+#####Example
+######Input
 `googleTrends.topRelated('dog house', 'US')` provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.topRelated({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter and any other keys provided in the object will be ignore.
 
-#####Output
+######Output
 ```
 [ { 'dog house grill': 'Breakout',
     'best house dog': '+170%',
@@ -91,19 +93,20 @@ The examples shown for each API method can be run by changing into the home `goo
     'big dog house': '+70%' } ];
 ```
 
-### hotTrends()
+<hr>
+#### hotTrends()
 *Returns the current top 20 trending searches for a given location*
 
-####Syntax
+#####Syntax
 `googleTrends.hotTrends('country')`
 
 `country` is an optional string for the country.  Although the library can figure our the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default.
 
-####Example
-#####Input
+#####Example
+######Input
 `googleTrends.hotTrends('US')` provides the top 20 trending searches in the 'US'.  Optionally, the input could have been provided as `googleTrends.hotTrends({geo: 'US'})`.  Any other keys provided in the object will be ignore.
 
-#####Output
+######Output
 ```
 [ 'Donald Drumpf',
   'Mark Ruffalo',
@@ -127,19 +130,20 @@ The examples shown for each API method can be run by changing into the home `goo
   'Inside Out' ];
 ```
 
-### top30in30()
+<hr>
+#### top30in30()
 *Returns the top 30 searches in the past 30 days*
 
-####Syntax
+#####Syntax
 `googleTrends.top30in30()`
 
 `top30in30` does not take in parameters
 
-####Example
-#####Input
+#####Example
+######Input
 `googleTrends.top30in30()`
 
-#####Output
+######Output
 **Note:** Only showing some returned data for brevity
 
 ```
@@ -223,21 +227,22 @@ The examples shown for each API method can be run by changing into the home `goo
         ...
 ```
 
-### allTopCharts()
+<hr>
+#### allTopCharts()
 *Returns the top trending charts for a given date and location*
 
-####Syntax
+#####Syntax
 `googleTrends.allTopCharts('date', 'country')`
 
 `date` is an optional string provided as 'yyyymm'.  January === 01, December === 12.  Note that google does not aggregate the data for the current month, so the date provided must always be at least one month behind.  If no date is provided, the most recent date available is assumed.
 
 `country` is an optional string for the country.  Although the library can figure our the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default.
 
-####Example
-#####Input
+#####Example
+######Input
 `googleTrends.allTopCharts('201601', 'US'})` provides the top charts in January 2016 in the 'US'.  Optionally, the input could have been provided as `googleTrends.allTopCharts({geo: 'US', date: '201601'})`.  Order of the keys does not matter and any other keys provided in the object will be ignore.
 
-#####Output
+######Output
 **Note:** Only showing some returned data for brevity
 
 ```
@@ -286,10 +291,11 @@ The examples shown for each API method can be run by changing into the home `goo
             ...
 ```
 
-### categoryTopCharts()
+<hr>
+#### categoryTopCharts()
 *Returns the top trending charts for a given category, date and location*
 
-####Syntax
+#####Syntax
 `googleTrends.categoryTopCharts('category', 'date', 'country')`
 
 `category` is a specific category provided as a string that you wish to search for.  `category` is a **required** parameter.
@@ -298,11 +304,11 @@ The examples shown for each API method can be run by changing into the home `goo
 
 `country` is an optional string for the country.  Although the library can figure our the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default.
 
-####Example
-#####Input
+#####Example
+######Input
 `googleTrends.categoryTopCharts('actors', '201601', 'US'})` provides the top charts for actors in January 2016 in the 'US'.  Optionally, the input could have been provided as `googleTrends.categoryTopCharts({category: 'actors', geo: 'US', date: '201601'})`.  Order of the keys does not matter and any other keys provided in the object will be ignore.
 
-#####Output
+######Output
 **Note:** Only showing some returned data for brevity
 
 ```
@@ -343,6 +349,7 @@ The examples shown for each API method can be run by changing into the home `goo
       },
       ...
 ```
+
 
 ##Potential errors
 * Entering an incorrect or invalid country code will result in the following error: `'Could not locate country'`
