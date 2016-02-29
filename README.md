@@ -12,25 +12,13 @@ Require google-trends in your script and give it a variable name:
 You will now be able to access the googleTrends methods in your script.  See the [API section](#api) below to see the methods available and how they work.
 
 ## API
-The following methods are available on your variable set to `require('PATH_TO_NODE_MODULES/google-trends/')`.  In other words, if `var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/')`, then you have access to `googleTrends.METHODNAME()`.
-
-For all the examples, the assumption is that `var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/');`.  
-
-For each of the API methods, rather than providing the parameters to the function in a specific order such as `googleTrends.topRelated('keyword', 'country')`, you can provide the function with an "options" object.  Keys that are not required for the method are simply ignored.  The available keys of the options object are as follows:
-
-* geo: 'country code provided as a string',
-* date: 'date provided in format yyyymm as a string where January starts at 01,
-* category: 'a string for a specific category',
-* keywords: 'either an array of keywords as strings or a singular keyword as a string'
-
-**Note:** Google may limit the number of requests you can make in a specific amount of time.  If that happens, an error will be returned stating, "Quota limit exceeded, try again later"
 
 ###Promises
 By default, all the API's return a promise for the results.  Example:
 ```js
 googleTrends.topRelated({keywords: 'dog house'})
 .then(function(results){
-	console.log("Here are the results!");
+	console.log("Here are the results!", results);
 })
 .catch(function(err){
 	console.error('We have an error!', err);
@@ -52,7 +40,7 @@ Here are the results! [ { 'dog house grill': 'Breakout',
 ```
 
 ###Callbacks
-Support for callbacks rather than promises coming soon!  Please check back
+Support for callbacks coming soon!  Please check back.
 
 ###Examples
 The examples shown for each API method can be run by changing into the home `google-trends` directory and running `node examples.js`.  **Note:** Each example in [examples.js](/examples.js) need to be uncommented.
@@ -65,6 +53,13 @@ The following API methods are available:
 * [allTopCharts](#alltopcharts): returns the top trending charts for a given date and location.  Charts contain information such as title, description, source, a jumpFactory, etc.
 * [categoryTopCharts](#categorytopcharts): returns the top trending charts for a given category, date, and location.
 
+For each of the API methods, rather than providing the parameters to the function in a specific order such as `googleTrends.topRelated('keyword', 'country')`, you can provide the function with an "options" object.  Keys that are not required for the method are simply ignored.  The available keys of the options object are as follows:
+
+* geo: 'country code provided as a string',
+* date: 'date provided in format yyyymm as a string where January starts at 01,
+* category: 'a string for a specific category',
+* keywords: 'either an array of keywords as strings or a singular keyword as a string'
+
 <hr>
 #### topRelated()
 *Returns the top related keywords for a provided keyword or an array of keywords*
@@ -76,8 +71,18 @@ The following API methods are available:
 `country` is an optional string for the country.  Although the library can figure our the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default
 
 #####Example
+The following example provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.topRelated({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter and any other keys provided in the object will be ignore.
+
 ######Input
-`googleTrends.topRelated('dog house', 'US')` provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.topRelated({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter and any other keys provided in the object will be ignore.
+```js
+googleTrends.topRelated('dog house', 'US')
+.then(function(results){
+	console.log(results);
+})
+.catch(function(err){
+	console.error(err);
+})
+```
 
 ######Output
 ```js
