@@ -1,20 +1,20 @@
-#An API layer ontop of google trends
+#An API layer on top of google trends
 
 ##Installation
 To install this package, clone this git repository and include it in your project's node_modules or simply:
 
 `npm install google-trends`
 
-Require google-google trends in your script and give it a variable name:
+Require google-trends in your script and give it a variable name:
 
-`var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/')`
+`var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/');`
 
 You will now be able to access the googleTrends methods in your script.  See the [API section](#api) below to see the methods available and how they work.
 
 ## API
 The following methods are available on your variable set to `require('PATH_TO_NODE_MODULES/google-trends/')`.  In other words, if `var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/')`, then you have access to `googleTrends.METHODNAME()`.
 
-For all the examples, the assumption is that `var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/')`.  
+For all the examples, the assumption is that `var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/');`.  
 
 For each of the API methods, rather than providing the parameters to the function in a specific order such as `googleTrends.topRelated('keyword', 'country')`, you can provide the function with an "options" object.  Keys that are not required for the method are simply ignored.  The available keys of the options object are as follows:
 
@@ -27,7 +27,7 @@ For each of the API methods, rather than providing the parameters to the functio
 
 ###Promises
 By default, all the API's return a promise for the results.  Example:
-```
+```js
 googleTrends.topRelated({keywords: 'dog house'})
 .then(function(results){
 	console.log("Here are the results!");
@@ -38,7 +38,7 @@ googleTrends.topRelated({keywords: 'dog house'})
 ```
 
 Would console.log:
-```
+```js
 Here are the results! [ { 'dog house grill': 'Breakout',
     'best house dog': '+170%',
     'the dog house': '+140%',
@@ -80,7 +80,7 @@ The following API methods are available:
 `googleTrends.topRelated('dog house', 'US')` provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.topRelated({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter and any other keys provided in the object will be ignore.
 
 ######Output
-```
+```js
 [ { 'dog house grill': 'Breakout',
     'best house dog': '+170%',
     'the dog house': '+140%',
@@ -107,7 +107,7 @@ The following API methods are available:
 `googleTrends.hotTrends('US')` provides the top 20 trending searches in the 'US'.  Optionally, the input could have been provided as `googleTrends.hotTrends({geo: 'US'})`.  Any other keys provided in the object will be ignore.
 
 ######Output
-```
+```js
 [ 'Donald Drumpf',
   'Mark Ruffalo',
   'Ashley Graham',
@@ -146,7 +146,7 @@ The following API methods are available:
 ######Output
 **Note:** Only showing some returned data for brevity
 
-```
+```js
 {
   "summaryMessage": "Showing top 30 searches in past 30 days",
   "dataUpdateTime": 1456776000,
@@ -245,7 +245,7 @@ The following API methods are available:
 ######Output
 **Note:** Only showing some returned data for brevity
 
-```
+```js
 {
   "summaryMessage": "Showing all charts",
   "prevTimePeriod": "201512",
@@ -311,7 +311,7 @@ The following API methods are available:
 ######Output
 **Note:** Only showing some returned data for brevity
 
-```
+```js
 {
   "data": {
     "entityList": [
