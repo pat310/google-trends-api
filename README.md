@@ -1,4 +1,4 @@
-#Google-trends - API Layer
+#google-trends-api
 
 ##Introduction
 This library provides an API layer to [google trends](https://www.google.com/trends/) data.  It is constantly being expanded and improved so please check back frequently.  Also, please feel free to contribute to make the library even better! :dog:
@@ -42,13 +42,13 @@ googleTrends.apiMethod(options)
 ## Installation
 To install this package, clone this git repository and include it in your project's node_modules or simply:
 
-`npm install google-trends`
+`npm install google-trends-api`
 
 Require google-trends in your script and give it a variable name:
 
 `var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/');`
 
-You will now be able to access the googleTrends methods in your script.  See the [API section](#api) below to see the methods available and how they work.
+You will now be able to access methods on googleTrends.  See the [API Methods section](#api-methods) below to see the methods available and how they work.
 
 <hr>
 
