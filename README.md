@@ -50,6 +50,8 @@ Require google-trends in your script and give it a variable name:
 
 You will now be able to access methods on googleTrends.  See the [API Methods section](#api-methods) below to see the methods available and how they work.
 
+[back to top](#google-trends-api)
+
 <hr>
 
 ## API
