@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pat310/google-trends.git"
+    "url": "git+https://github.com/pat310/google-trends-api.git"
   },
   "keywords": [
     "google",
@@ -20,9 +20,9 @@
   "author": "Patrick Trasborg <patrick.trasborg@gmail.com> (http://trasb.org)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pat310/google-trends/issues"
+    "url": "https://github.com/pat310/google-trends-api/issues"
   },
-  "homepage": "https://github.com/pat310/google-trends#readme",
+  "homepage": "https://github.com/pat310/google-trends-api#readme",
   "dependencies": {
     "babel-core": "^6.5.2",
     "cheerio": "^0.20.0",

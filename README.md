@@ -103,6 +103,8 @@ For each of the API methods, rather than providing the parameters to the functio
 * `category`: 'a string for a specific category',
 * `keywords`: 'either an array of keywords as strings or a singular keyword as a string'
 
+[back to top](#google-trends-api)
+
 <hr>
 
 #### topRelated()
@@ -142,6 +144,8 @@ googleTrends.topRelated('dog house', 'US')
     'animal house': '+70%',
     'big dog house': '+70%' } ];
 ```
+
+[back to top](#google-trends-api)
 
 <hr>
 
@@ -190,6 +194,8 @@ googleTrends.hotTrends('US')
   'Why Does Leap Year Have 366 Days',
   'Inside Out' ];
 ```
+
+[back to top](#google-trends-api)
 
 <hr>
 
@@ -299,6 +305,8 @@ googleTrends.top30in30()
         ...
 ```
 
+[back to top](#google-trends-api)
+
 <hr>
 
 #### allTopCharts()
@@ -375,6 +383,8 @@ googleTrends.allTopCharts('201601', 'US')
             ...
 ```
 
+[back to top](#google-trends-api)
+
 <hr>
 
 #### categoryTopCharts()
@@ -445,6 +455,8 @@ googleTrends.categoryTopCharts('actors', '201601', 'US'})
       ...
 ```
 
+[back to top](#google-trends-api)
+
 <hr>
 
 ##Potential errors
@@ -452,3 +464,5 @@ googleTrends.categoryTopCharts('actors', '201601', 'US'})
 * Entering an invalid date will result in the following error: `'Date is invalid'`
 * If a required field is not provided, the following error will be returned: `FIELD must be provided`
 * Exceeding the quota limits from google will result in the following error: `'Quota limit exceeded, try again later'`
+
+[back to top](#google-trends-api)
