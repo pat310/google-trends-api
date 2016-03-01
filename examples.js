@@ -35,13 +35,13 @@ var util = require('util');
 /* ~=~=~=~=~=~=~=~=~=~= hotTrendsDetail =~=~=~=~=~=~=~=~=~=~ */
 // //Parameters: takes a country as a string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {geo: 'US'}
-googleTrends.hotTrendsDetail()
-.then(function(results){
-	console.log('here are the results', util.inspect(results, {showHidden: false, depth: null}));
-})
-.catch(function(err){
-	console.log("there was an err", err);
-});
+// googleTrends.hotTrendsDetail()
+// .then(function(results){
+// 	console.log('here are the results', util.inspect(results, {showHidden: false, depth: null}));
+// })
+// .catch(function(err){
+// 	console.log("there was an err", err);
+// });
 
 
 /* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 4 =~=~=~=~=~=~=~=~=~=~ */
