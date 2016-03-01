@@ -3,15 +3,17 @@
 ##Introduction
 This library provides an API layer to [google trends](https://www.google.com/trends/) data.  It is constantly being expanded and improved so please check back frequently.  Also, please feel free to contribute to make the library even better! :dog:
 
-The library is simple to use:
+Simple to use:
 ```js
 var googleTrends = require('google-trends');
+
 var options = {
 	geo: 'country name',
 	date: 'yyyymm',
 	keywords: ['some', 'list', 'of', 'keywords'],
 	category: 'some category'
 }
+
 googleTrends.apiMethod(options)
 .then(function(results){
 	console.log("Here are your google trend results!", results);
@@ -27,7 +29,7 @@ googleTrends.apiMethod(options)
 	* [Promises](#promises)
 	* [Callbacks](#callbacks)
 	* [Examples](#examples)
-	* [API Methods](#api_methods)
+	* [API Methods](#api-methods)
 		* [topRelated](#toprelated)
 		* [hotTrends](#hottrends)
 		* [top30in30](#top30in30)
