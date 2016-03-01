@@ -31,8 +31,20 @@ var util = require('util');
 // });
 
 
-
 /* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 3 =~=~=~=~=~=~=~=~=~=~ */
+/* ~=~=~=~=~=~=~=~=~=~= hotTrendsDetail =~=~=~=~=~=~=~=~=~=~ */
+// //Parameters: takes a country as a string (optional, 'US' is default)
+// // optionally as the first argument pass an object: {geo: 'US'}
+googleTrends.hotTrendsDetail()
+.then(function(results){
+	console.log('here are the results', util.inspect(results, {showHidden: false, depth: null}));
+})
+.catch(function(err){
+	console.log("there was an err", err);
+});
+
+
+/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 4 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= top30in30 =~=~=~=~=~=~=~=~=~=~ */
 // //Parameters: none
 // googleTrends.top30in30()
@@ -45,7 +57,7 @@ var util = require('util');
 
 
 
-/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 4 =~=~=~=~=~=~=~=~=~=~ */
+/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 5 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= allTopCharts =~=~=~=~=~=~=~=~=~=~ */
 // // Parameters: date in format yyyymm where January is 01 (optional, today's date is default), country code as string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {country: 'US', date: '201601'}
@@ -59,7 +71,7 @@ var util = require('util');
 
 
 
-/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 5 =~=~=~=~=~=~=~=~=~=~ */
+/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 6 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= categoryTopCharts =~=~=~=~=~=~=~=~=~=~ */
 // //Parameters: category (required), date in format yyyymm where January is 01 (optional, today's date is default), country code as string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {category: 'actors', geo: 'US', date:'201601'}

@@ -26,7 +26,8 @@
   "dependencies": {
     "babel-core": "^6.5.2",
     "cheerio": "^0.20.0",
-    "request-promise": "^2.0.1"
+    "request-promise": "^2.0.1",
+    "xml2js": "^0.4.16"
   },
   "devDependencies": {
     "chai": "^3.5.0",

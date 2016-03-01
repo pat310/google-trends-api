@@ -32,6 +32,7 @@ googleTrends.apiMethod(options)
 	* [API Methods](#api-methods)
 		* [topRelated](#toprelated)
 		* [hotTrends](#hottrends)
+		* [hotTrendsDetail](#hottrendsdetail)
 		* [top30in30](#top30in30)
 		* [allTopCharts](#alltopcharts)
 		* [categoryTopCharts](#categorytopcharts)
@@ -42,15 +43,19 @@ googleTrends.apiMethod(options)
 ## Installation
 To install this package, clone this git repository and include it in your project's node_modules or simply:
 
-`npm install google-trends-api`
+```
+npm install google-trends-api
+```
 
 Require google-trends in your script and give it a variable name:
 
-`var googleTrends = require('PATH_TO_NODE_MODULES/google-trends-api/');`
+```js
+var googleTrends = require('PATH_TO_NODE_MODULES/google-trends-api/');
+```
 
-You will now be able to access methods on googleTrends.  See the [API Methods section](#api-methods) below to see the methods available and how they work.
+You will now be able to access methods on `googleTrends`.  See the [API Methods section](#api-methods) below to see the methods available and their syntax.
 
-[back to top](#google-trends-api)
+[back to top](#introduction)
 
 <hr>
 
@@ -92,6 +97,7 @@ The examples shown for each API method can be run by changing into the home `goo
 The following API methods are available:
 * [topRelated](#toprelated): returns the top related keywords to a provided keyword or an array of keywords along with it's percentage of correlation.
 * [hotTrends](#hottrends): returns the current top 20 trending searches for a given location.
+* [hotTrendsDetail](#hottrendsdetail): same as the [hotTrends](#hottrends) results except with more detail such as links, publication date, approximate traffic, etc.
 * [top30in30](#top30in30): returns the top 30 searches in the past 30 days
 * [allTopCharts](#alltopcharts): returns the top trending charts for a given date and location.  Charts contain information such as title, description, source, a jumpFactory, etc.
 * [categoryTopCharts](#categorytopcharts): returns the top trending charts for a given category, date, and location.
@@ -103,7 +109,7 @@ For each of the API methods, rather than providing the parameters to the functio
 * `category`: 'a string for a specific category',
 * `keywords`: 'either an array of keywords as strings or a singular keyword as a string'
 
-[back to top](#google-trends-api)
+[back to top](#introduction)
 
 <hr>
 
@@ -145,7 +151,7 @@ googleTrends.topRelated('dog house', 'US')
     'big dog house': '+70%' } ];
 ```
 
-[back to top](#google-trends-api)
+[back to top](#introduction)
 
 <hr>
 
@@ -195,7 +201,71 @@ googleTrends.hotTrends('US')
   'Inside Out' ];
 ```
 
-[back to top](#google-trends-api)
+[back to top](#introduction)
+
+<hr>
+
+#### hotTrendsDetail()
+*Returns the current top 20 trending searches for a given location*
+
+#####Syntax
+`googleTrends.hotTrendsDetail('country')`
+
+* `country` - an optional string for the country.  Although the library can figure our the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default.
+
+#####Example
+The following example provides the top 20 trending searches in the 'US'.  Optionally, the input could have been provided as `googleTrends.hotTrendsDetail({geo: 'US'})`.  Any other keys provided in the object will be ignore.
+
+######Input
+```js
+googleTrends.hotTrendsDetail('US')
+.then(function(results){
+	console.log(results);
+})
+.catch(function(err){
+	console.log(err);
+});
+``` 
+
+######Output
+**Note:** Only showing some returned data for brevity
+
+```js
+{ rss:
+   { '$':
+      { version: '2.0',
+        'xmlns:ht': 'http://www.google.com/trends/hottrends',
+        'xmlns:atom': 'http://www.w3.org/2005/Atom' },
+     channel:
+      [ { title: [ 'Hot Trends' ],
+          link: [ 'http://www.google.us/trends/hottrends?pn=p1' ],
+          'atom:link':
+           [ { '$':
+                { href: 'http://www.google.us/trends/hottrends/atom/feed?pn=p1',
+                  rel: 'self',
+                  type: 'application/rss+xml' } } ],
+          description: [ 'Recent hot searches' ],
+          item:
+           [ { title: [ 'Melania Trump' ],
+               description: [ '' ],
+               link: [ 'http://www.google.us/trends/hottrends?pn=p1#a=20160301-Melania+Trump' ],
+               pubDate: [ 'Tue, 01 Mar 2016 01:00:00 -0800' ],
+               'ht:picture': [ '//t2.gstatic.com/images?q=tbn:ANd9GcT9MS12TcSh5cRqw6CGr7FXqTELrlqBPY-f6Nnpksa_Duy753wXe8jq1Q_fl9DVFRYqEHFW3BLA' ],
+               'ht:picture_source': [ 'Politico (blog)' ],
+               'ht:approx_traffic': [ '100,000+' ],
+               'ht:news_item':
+                [ { 'ht:news_item_title': [ '<b>Melania Trump</b> goes on the attack' ],
+                    'ht:news_item_snippet': [ '<b>Melania Trump</b> said Marco Rubio&#39;s campaign has taken a “desperate tone” toward Donald Trump, but the Republican front-runner&#39;s wife is unbothered. Rubio finally engaged Donald Trump at last Thursday&#39;s Republican debate and hasn&#39;t let up since,&nbsp;...' ],
+                    'ht:news_item_url': [ 'http://www.politico.com/blogs/2016-gop-primary-live-updates-and-results/2016/03/melania-trump-marco-rubio-220015' ],
+                    'ht:news_item_source': [ 'Politico (blog)' ] },
+                  { 'ht:news_item_title': [ '<b>Melania Trump</b>: &#39;Donald will change tone if he becomes president&#39;' ],
+                    'ht:news_item_snippet': [ 'Her comments came during a CNN interview with Anderson Cooper in which the host brought up the frequent insults fired between the Republican presidential candidates and the criticism Donald <b>Trump</b> has received for his tone on the campaign trail.' ],
+                    'ht:news_item_url': [ 'http://www.independent.co.uk/news/people/melania-trump-donald-will-change-tone-if-he-becomes-president-a6904786.html' ],
+                    'ht:news_item_source': [ 'The Independent' ] } ] },
+                    ...
+```
+
+[back to top](#introduction)
 
 <hr>
 
@@ -205,7 +275,7 @@ googleTrends.hotTrends('US')
 #####Syntax
 `googleTrends.top30in30()`
 
-`top30in30` does not take in parameters
+* `top30in30` does not take in parameters
 
 #####Example
 The following example returns the top 30 searches in the past 30 days.
@@ -305,7 +375,7 @@ googleTrends.top30in30()
         ...
 ```
 
-[back to top](#google-trends-api)
+[back to top](#introduction)
 
 <hr>
 
@@ -383,7 +453,7 @@ googleTrends.allTopCharts('201601', 'US')
             ...
 ```
 
-[back to top](#google-trends-api)
+[back to top](#introduction)
 
 <hr>
 
@@ -455,7 +525,7 @@ googleTrends.categoryTopCharts('actors', '201601', 'US'})
       ...
 ```
 
-[back to top](#google-trends-api)
+[back to top](#introduction)
 
 <hr>
 
@@ -465,4 +535,4 @@ googleTrends.categoryTopCharts('actors', '201601', 'US'})
 * If a required field is not provided, the following error will be returned: `FIELD must be provided`
 * Exceeding the quota limits from google will result in the following error: `'Quota limit exceeded, try again later'`
 
-[back to top](#google-trends-api)
+[back to top](#introduction)
