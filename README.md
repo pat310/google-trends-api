@@ -1,6 +1,41 @@
-#Introduction
-This library provides an API layer to [google trends](https://www.google.com/trends/) data.
+#Google-trends - API Layer
 
+##Introduction
+This library provides an API layer to [google trends](https://www.google.com/trends/) data.  It is constantly being expanded and improved so please check back frequently.  Also, please feel free to contribute to make the library even better! :dog:
+
+The library is simple to use:
+```js
+var googleTrends = require('google-trends');
+var options = {
+	geo: 'country name',
+	date: 'yyyymm',
+	keywords: ['some', 'list', 'of', 'keywords'],
+	category: 'some category'
+}
+googleTrends.apiMethod(options)
+.then(function(results){
+	console.log("Here are your google trend results!", results);
+})
+.catch(function(err){
+	console.log("there was an error :(", err);
+});
+```
+
+##Table of contens
+* [Installation](#installation)
+* [API](#api)
+	* [Promises](#promises)
+	* [Callbacks](#callbacks)
+	* [Examples](#examples)
+	* [API Methods](#api methods)
+		* [topRelated](#toprelated)
+		* [hotTrends](#hottrends)
+		* [top30in30](#top30in30)
+		* [allTopCharts](#alltopcharts)
+		* [categoryTopCharts](#categorytopcharts)
+*[Potential Errors](#potential errors)
+
+<hr>
 ##Installation
 To install this package, clone this git repository and include it in your project's node_modules or simply:
 
@@ -12,6 +47,7 @@ Require google-trends in your script and give it a variable name:
 
 You will now be able to access the googleTrends methods in your script.  See the [API section](#api) below to see the methods available and how they work.
 
+<hr>
 ## API
 
 ###Promises
@@ -56,10 +92,10 @@ The following API methods are available:
 
 For each of the API methods, rather than providing the parameters to the function in a specific order such as `googleTrends.topRelated('keyword', 'country')`, you can provide the function with an "options" object.  Keys that are not required for the method are simply ignored.  The available keys of the options object are as follows:
 
-* geo: 'country code provided as a string',
-* date: 'date provided in format yyyymm as a string where January starts at 01,
-* category: 'a string for a specific category',
-* keywords: 'either an array of keywords as strings or a singular keyword as a string'
+* `geo`: 'country code provided as a string',
+* `date`: 'date provided in format yyyymm as a string where January starts at 01,
+* `category`: 'a string for a specific category',
+* `keywords`: 'either an array of keywords as strings or a singular keyword as a string'
 
 <hr>
 #### topRelated()
@@ -398,7 +434,7 @@ googleTrends.categoryTopCharts('actors', '201601', 'US'})
       ...
 ```
 
-
+<hr>
 ##Potential errors
 * Entering an incorrect or invalid country code will result in the following error: `'Could not locate country'`
 * Entering an invalid date will result in the following error: `'Date is invalid'`
