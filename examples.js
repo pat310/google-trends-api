@@ -60,8 +60,8 @@ var util = require('util');
 /* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 5 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= allTopCharts =~=~=~=~=~=~=~=~=~=~ */
 // // Parameters: date in format yyyymm where January is 01 (optional, today's date is default), country code as string (optional, 'US' is default)
-// // optionally as the first argument pass an object: {country: 'US', date: '201601'}
-// googleTrends.allTopCharts({country: 'US', date: '201601'})
+// // optionally as the first argument pass an object: {geo: 'US', date: '201601'}
+// googleTrends.allTopCharts({geo: 'US', date: '201601'})
 // .then(function(results){
 // 	console.log('here are the results', util.inspect(results, {showHidden: false, depth: null}));
 // })
