@@ -27,13 +27,13 @@ googleTrends.apiMethod(options)
 	* [Promises](#promises)
 	* [Callbacks](#callbacks)
 	* [Examples](#examples)
-	* [API Methods](#api methods)
+	* [API Methods](#api_methods)
 		* [topRelated](#toprelated)
 		* [hotTrends](#hottrends)
 		* [top30in30](#top30in30)
 		* [allTopCharts](#alltopcharts)
 		* [categoryTopCharts](#categorytopcharts)
-*[Potential Errors](#potential errors)
+* [Potential Errors](#potential-errors)
 
 <hr>
 ##Installation
@@ -50,7 +50,7 @@ You will now be able to access the googleTrends methods in your script.  See the
 <hr>
 ## API
 
-###Promises
+### Promises
 By default, all the API's return a promise for the results.  Example:
 ```js
 googleTrends.topRelated({keywords: 'dog house'})
@@ -76,13 +76,13 @@ Here are the results! [ { 'dog house grill': 'Breakout',
     'big dog house': '+70%' } ];
 ```
 
-###Callbacks
+### Callbacks
 Support for callbacks coming soon!  Please check back.
 
-###Examples
+### Examples
 The examples shown for each API method can be run by changing into the home `google-trends` directory and running `node examples.js`.  **Note:** Each example in [examples.js](/examples.js) need to be uncommented.
 
-###API Methods
+### API Methods
 The following API methods are available:
 * [topRelated](#toprelated): returns the top related keywords to a provided keyword or an array of keywords along with it's percentage of correlation.
 * [hotTrends](#hottrends): returns the current top 20 trending searches for a given location.
