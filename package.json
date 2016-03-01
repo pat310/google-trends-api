@@ -11,8 +11,11 @@
     "url": "git+https://github.com/pat310/google-trends.git"
   },
   "keywords": [
-    "google-trends",
-    "API"
+    "google",
+    "trends",
+    "API",
+    "keyword",
+    "search"
   ],
   "author": "Patrick Trasborg <patrick.trasborg@gmail.com> (http://trasb.org)",
   "license": "ISC",

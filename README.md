@@ -5,7 +5,7 @@ This library provides an API layer to [google trends](https://www.google.com/tre
 
 Simple to use:
 ```js
-var googleTrends = require('google-trends');
+var googleTrends = require('google-trends-api');
 
 var options = {
 	geo: 'country name',
@@ -46,7 +46,7 @@ To install this package, clone this git repository and include it in your projec
 
 Require google-trends in your script and give it a variable name:
 
-`var googleTrends = require('PATH_TO_NODE_MODULES/google-trends/');`
+`var googleTrends = require('PATH_TO_NODE_MODULES/google-trends-api/');`
 
 You will now be able to access methods on googleTrends.  See the [API Methods section](#api-methods) below to see the methods available and how they work.
 
