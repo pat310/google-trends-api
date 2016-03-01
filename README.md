@@ -88,7 +88,25 @@ Here are the results! [ { 'dog house grill': 'Breakout',
 ```
 
 ### Callbacks
-Support for callbacks coming soon!  Please check back.
+All API methods can also take a callback function as the last input parameter.  For example:
+```js
+googleTrends.topRelated({keywords: 'dog dreams'}, function(err, results){
+	if(err) console.error('there was an error!', err);
+	else console.log('results', results);
+})
+```
+
+Would console.log:
+```js
+results [ { 'do dog dreams': 'Breakout',
+    'dog dream meaning': 'Breakout',
+    'dog dreams meaning': 'Breakout',
+    'dog in dreams': 'Breakout',
+    'dreams about dog': 'Breakout',
+    'dreams of dogs': 'Breakout',
+    'my dog dreams': 'Breakout',
+    'pet dreams': 'Breakout' } ]
+```
 
 ### Examples
 The examples shown for each API method can be run by changing into the home `google-trends` directory and running `node examples.js`.  **Note:** Each example in [examples.js](/examples.js) need to be uncommented.
