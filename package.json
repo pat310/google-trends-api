@@ -1,6 +1,6 @@
 {
   "name": "google-trends-api",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "an API layer on top of google trends",
   "main": "index.js",
   "scripts": {
