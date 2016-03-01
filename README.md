@@ -38,7 +38,8 @@ googleTrends.apiMethod(options)
 * [Potential Errors](#potential-errors)
 
 <hr>
-##Installation
+
+## Installation
 To install this package, clone this git repository and include it in your project's node_modules or simply:
 
 `npm install google-trends`
@@ -50,6 +51,7 @@ Require google-trends in your script and give it a variable name:
 You will now be able to access the googleTrends methods in your script.  See the [API section](#api) below to see the methods available and how they work.
 
 <hr>
+
 ## API
 
 ### Promises
@@ -100,6 +102,7 @@ For each of the API methods, rather than providing the parameters to the functio
 * `keywords`: 'either an array of keywords as strings or a singular keyword as a string'
 
 <hr>
+
 #### topRelated()
 *Returns the top related keywords for a provided keyword or an array of keywords*
 
@@ -139,6 +142,7 @@ googleTrends.topRelated('dog house', 'US')
 ```
 
 <hr>
+
 #### hotTrends()
 *Returns the current top 20 trending searches for a given location*
 
@@ -186,6 +190,7 @@ googleTrends.hotTrends('US')
 ```
 
 <hr>
+
 #### top30in30()
 *Returns the top 30 searches in the past 30 days*
 
@@ -293,6 +298,7 @@ googleTrends.top30in30()
 ```
 
 <hr>
+
 #### allTopCharts()
 *Returns the top trending charts for a given date and location*
 
@@ -368,6 +374,7 @@ googleTrends.allTopCharts('201601', 'US')
 ```
 
 <hr>
+
 #### categoryTopCharts()
 *Returns the top trending charts for a given category, date and location*
 
@@ -437,6 +444,7 @@ googleTrends.categoryTopCharts('actors', '201601', 'US'})
 ```
 
 <hr>
+
 ##Potential errors
 * Entering an incorrect or invalid country code will result in the following error: `'Could not locate country'`
 * Entering an invalid date will result in the following error: `'Date is invalid'`
