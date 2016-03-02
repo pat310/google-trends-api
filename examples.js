@@ -22,7 +22,7 @@ var util = require('util');
 /* ~=~=~=~=~=~=~=~=~=~= hotTrends =~=~=~=~=~=~=~=~=~=~ */
 // //Parameters: takes a country as a string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {geo: 'US'}
-// googleTrends.hotTrends()
+// googleTrends.hotTrends('ZZ')
 // .then(function(results){
 // 	console.log("these are the results", results);
 // })
@@ -60,8 +60,8 @@ var util = require('util');
 /* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 5 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= allTopCharts =~=~=~=~=~=~=~=~=~=~ */
 // // Parameters: date in format yyyymm where January is 01 (optional, today's date is default), country code as string (optional, 'US' is default)
-// // optionally as the first argument pass an object: {country: 'US', date: '201601'}
-// googleTrends.allTopCharts({country: 'US', date: '201601'})
+// // optionally as the first argument pass an object: {geo: 'US', date: '201601'}
+// googleTrends.allTopCharts({geo: 'US', date: '201601'})
 // .then(function(results){
 // 	console.log('here are the results', util.inspect(results, {showHidden: false, depth: null}));
 // })
