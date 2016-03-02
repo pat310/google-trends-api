@@ -10,9 +10,7 @@ var parseArguments = require('../../lib/resources/callbacks.js');
 
 module.exports = 
 describe('callbacks.test.js', function(){
-	function testFunc(arg1, arg2, arg3){
-
-	}
+	function testFunc(arg1, arg2, arg3){}
 
 	function cbFunc(err, result){
 		if(err) return err;
