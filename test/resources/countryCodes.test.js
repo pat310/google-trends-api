@@ -25,8 +25,17 @@ describe('countryCodes.test.js', function(){
 		it('returns the correct country abbreviation', function(){
 			expect(COUNTRY.getAbbreviation('united states')).to.equal('US');
 		});
-		it('returns the undefined if country does not exist', function(){
+		it('returns undefined if country does not exist', function(){
 			expect(COUNTRY.getAbbreviation('The best country in the world')).to.be.undefined;
+		});
+	});
+
+	describe('getDomain method', function(){
+		it('returns the correct country abbreviation', function(){
+			expect(COUNTRY.getDomain('united states')).to.equal('google.us');
+		});
+		it('returns undefined if country does not exist', function(){
+			expect(COUNTRY.getDomain('The best country in the world')).to.be.undefined;
 		});
 	});
 });
