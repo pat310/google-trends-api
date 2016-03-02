@@ -75,15 +75,10 @@ var util = require('util');
 /* ~=~=~=~=~=~=~=~=~=~= categoryTopCharts =~=~=~=~=~=~=~=~=~=~ */
 // //Parameters: category (required), date in format yyyymm where January is 01 (optional, today's date is default), country code as string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {category: 'actors', geo: 'US', date:'201601'}
-googleTrends.categoryTopCharts({category: 'actors', geo: 'US', date:'201601'})
-.then(function(results){
-	console.log('here are the results', util.inspect(results, {showHidden: false, depth: null}));
-})
-.catch(function(err){
-	console.log('there was an error', err);
-});
-
-// googleTrends.categoryTopCharts('actors', function(err, result){
-// 	if(err) console.log('err', err);
-// 	else console.log('result', result);
+// googleTrends.categoryTopCharts({category: 'actors', geo: 'US', date:'201601'})
+// .then(function(results){
+// 	console.log('here are the results', util.inspect(results, {showHidden: false, depth: null}));
+// })
+// .catch(function(err){
+// 	console.log('there was an error', err);
 // });
