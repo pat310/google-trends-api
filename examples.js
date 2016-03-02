@@ -22,7 +22,7 @@ var util = require('util');
 /* ~=~=~=~=~=~=~=~=~=~= hotTrends =~=~=~=~=~=~=~=~=~=~ */
 // //Parameters: takes a country as a string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {geo: 'US'}
-// googleTrends.hotTrends()
+// googleTrends.hotTrends('ZZ')
 // .then(function(results){
 // 	console.log("these are the results", results);
 // })

@@ -15,7 +15,11 @@ describe('dateValidate.test.js', function(){
 			var today = new Date();
 			var month = today.getMonth();
 			var year = today.getFullYear();
+			var day = today.getDate();
 			var date = "";
+
+			month = day < 7 ? month - 1 : month;
+			
 			if(month === 0){
 				year -= 1;
 				month = 12;
