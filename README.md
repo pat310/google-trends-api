@@ -1,7 +1,7 @@
 #google-trends-api
 
 ##Introduction
-This library provides an API layer to [google trends](https://www.google.com/trends/) data.  It is constantly being expanded and improved so please check back frequently.  Also, please feel free to contribute to make the library even better! :dog:
+This library provides an API layer to [google trends](https://www.google.com/trends/) data.  It is constantly being expanded and improved so please check back frequently.  Also, please feel free to contribute to make the library even better! :dog:  The library is currently compatible with node >=4.2.x with a patch on the way to support lower versions.
 
 Simple to use:
 ```js
