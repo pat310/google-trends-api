@@ -1,4 +1,4 @@
 'use strict';
 
 require('babel-core/register');
-module.exports = require('./lib/utils/');
+module.exports = require(__dirname + '/lib/utils/');

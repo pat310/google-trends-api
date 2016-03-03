@@ -5,7 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-const COUNTRY = require('../../lib/resources/countryCodes.js');
+const COUNTRY = require(__dirname + '/../../lib/resources/countryCodes.js');
 
 module.exports = 
 describe('countryCodes.test.js', function(){

@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-	dateValidate: require('./dateValidate.test.js'),
-	countryCodes: require('./countryCodes.test.js'),
-	callbacks: require('./callbacks.test.js'),
-	errorHandling: require('./errorHandling.test.js')
+	dateValidate: require(__dirname + '/dateValidate.test.js'),
+	countryCodes: require(__dirname + '/countryCodes.test.js'),
+	callbacks: require(__dirname + '/callbacks.test.js'),
+	errorHandling: require(__dirname + '/errorHandling.test.js')
 };

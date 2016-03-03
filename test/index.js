@@ -1,8 +1,8 @@
 'use strict';
 
 describe('./utils/', function(){
-	require('./utils/');
+	require(__dirname + '/utils/');
 });
 describe('./resources/', function(){
-	require('./resources/');
+	require(__dirname + '/resources/');
 });

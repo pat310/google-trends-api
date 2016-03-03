@@ -5,7 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-const DATE = require('../../lib/resources/dateValidate.js');
+const DATE = require(__dirname + '/../../lib/resources/dateValidate.js');
 
 module.exports =
 describe('dateValidate.test.js', function(){
