@@ -5,7 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var should = chai.should();
 
-var allTopCharts = require('../../lib/utils/allTopCharts.js');
+var allTopCharts = require(__dirname + '/../../lib/utils/allTopCharts.js');
 
 module.exports = 
 describe('allTopCharts.js', function(){

@@ -5,7 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var should = chai.should();
 
-var hotTrendsDetail = require('../../lib/utils/hotTrendsDetail.js');
+var hotTrendsDetail = require(__dirname + '/../../lib/utils/hotTrendsDetail.js');
 
 module.exports = 
 describe('hotTrendsDetail.js', function(){

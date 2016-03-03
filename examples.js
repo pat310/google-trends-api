@@ -1,4 +1,4 @@
-var googleTrends = require('./');
+var googleTrends = require(__dirname + '/');
 var util = require('util');
 
 //uncomment the code within each example to run it
