@@ -2,7 +2,7 @@
 
 module.exports = {
 	allTopCharts: require(__dirname + '/allTopCharts.test.js'),
-	categoryTopcharts: require(__dirname + '/categoryTopcharts.test.js'),
+	categoryTopcharts: require(__dirname + '/categoryTopCharts.test.js'),
 	hotTrends: require(__dirname + '/hotTrends.test.js'),
 	hotTrendsDetail: require(__dirname + '/hotTrendsDetail.test.js'),
 	top30in30: require(__dirname + '/top30in30.test.js'),
