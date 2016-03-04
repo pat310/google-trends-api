@@ -6,7 +6,7 @@ var checkErrors = require(__dirname + '/../resources/errorHandling.js');
 var parseHtml = require(__dirname + '/../resources/htmlParser.js');
 
 module.exports = function request(keywords, geo, cbFunc){
-	var obj = createObj(Array.from(arguments), request);
+	var obj = createObj(arguments, request);
 
 	var error = checkErrors(obj);
 	if(error instanceof Error) return Promise.reject(obj.cbFunc(error));
