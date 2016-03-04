@@ -5,7 +5,7 @@ var createObj = require('../resources/callbacks.js');
 var checkErrors = require('../resources/errorHandling.js');
 
 module.exports = function request(cid, date, geo, cbFunc){
-	var obj = createObj(Array.from(arguments), request);
+	var obj = createObj(arguments, request);
 
 	var error = checkErrors(obj);
 	if(error instanceof Error) return Promise.reject(obj.cbFunc(error));

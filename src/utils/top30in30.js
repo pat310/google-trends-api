@@ -6,7 +6,7 @@ var checkErrors = require(__dirname + '/../resources/errorHandling.js');
 
 
 module.exports = function request(cbFunc) {
-	var obj = createObj(Array.from(arguments), request);
+	var obj = createObj(arguments, request);
 
 	var error = checkErrors(obj);
 	if(error instanceof Error) return Promise.reject(obj.cbFunc(error));
