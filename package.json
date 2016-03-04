@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha",
     "compile": "babel --presets es2015 -d lib/ src/",
-    "prepublish": "npm run compile"
+    "prepublish": "npm run compile",
+    "pretest": "npm run compile"
   },
   "repository": {
     "type": "git",
