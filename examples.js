@@ -7,14 +7,14 @@ var util = require('util');
 /* ~=~=~=~=~=~=~=~=~=~= topRelated =~=~=~=~=~=~=~=~=~=~ */
 // // Parameters: array of key words (required), country as a string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {keywords: ['dog'], geo: 'US'}
-// googleTrends.topRelated({keywords: 'dog house'})
-// .then(function(topRelated){
-// 	console.log("here are the topRelated", topRelated);
-// })
-// .catch(function(err){
-// 	console.log("there was an error", err);
-// 	return err;
-// });
+googleTrends.topRelated({keywords: 'dog house'})
+.then(function(topRelated){
+	console.log("here are the topRelated", topRelated);
+})
+.catch(function(err){
+	console.log("there was an error", err);
+	return err;
+});
 
 
 
