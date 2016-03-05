@@ -18,9 +18,9 @@ function getToday(){
 	var month = today.getMonth();
 	var day = today.getDate();
 
-	month = day < 7 ? month - 1 : month;
+	month = month - 1;
 
-	if(month < 0){
+	if(month <= 0){
 		year -= 1;
 		month = month + 12;
 	}
