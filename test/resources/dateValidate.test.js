@@ -18,11 +18,11 @@ describe('dateValidate.test.js', function(){
 			var day = today.getDate();
 			var date = "";
 
-			month = day < 7 ? month - 1 : month;
+			month = month - 1;
 			
-			if(month === 0){
+			if(month <= 0){
 				year -= 1;
-				month = 12;
+				month = month + 12;
 			}
 			date += year;
 			if(month < 10) date += "0";
