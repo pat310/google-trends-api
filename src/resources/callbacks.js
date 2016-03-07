@@ -16,7 +16,7 @@ function getParamNames(func) {
 }
 
 function parseArguments(args, func){
-	args = Array.isArray(args) ? args : Array.prototype.slice.call(args);
+	args = Array.prototype.slice.call(args);
 	var parameters = getParamNames(func);
 
 	var returnObj = parameters.reduce(function(acc, curr, index){
