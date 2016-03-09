@@ -39,7 +39,8 @@
     "chai-as-promised": "^5.2.0",
     "coveralls": "^2.11.8",
     "istanbul": "^0.4.2",
+    "jscoverage": "^0.6.0",
     "mocha": "^2.4.5",
-    "tape": "^4.5.1"
+    "mocha-lcov-reporter": "^1.2.0"
   }
 }
