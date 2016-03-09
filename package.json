@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "compile": "babel --presets es2015 -d lib/ src/",
-    "test-cov": "istanbul cover tape tests/test-*.js",
+    "test-cov": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./test/*",
     "prepublish": "npm run compile",
     "pretest": "npm run compile"
   },
@@ -39,8 +39,6 @@
     "chai-as-promised": "^5.2.0",
     "coveralls": "^2.11.8",
     "istanbul": "^0.4.2",
-    "jscoverage": "^0.6.0",
-    "mocha": "^2.4.5",
-    "mocha-lcov-reporter": "^1.2.0"
+    "mocha": "^2.4.5"
   }
 }
