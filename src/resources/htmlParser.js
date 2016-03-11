@@ -30,4 +30,19 @@ function removeWhiteSpace(arr){
 	}, []);
 }
 
-module.exports = parseHtml;
+function parseJSON(htmlString){
+	var dates = htmlString.match(/\"f\"\:\"\w+ \d{4}\"/g);
+	var data = htmlString.match(/\"f\"\:\"\d+\"/g);
+
+	return dates.reduce(function(acc, curr, index){
+		var obj = {};
+		obj[curr.split('"')[3]] = data[index].split('"')[3];
+		acc.push(obj);
+		return acc;
+	},[]);
+}
+
+module.exports = {
+	parseHtml: parseHtml,
+	parseJSON: parseJSON
+};

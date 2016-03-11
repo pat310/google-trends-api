@@ -1,4 +1,5 @@
 module.exports = {
+	trendData: require(__dirname + '/trendData.js'),
 	topRelated: require(__dirname + '/topRelated.js'),
 	hotTrends: require(__dirname + '/hotTrends.js'),
 	hotTrendsDetail: require(__dirname + '/hotTrendsDetail.js'),
