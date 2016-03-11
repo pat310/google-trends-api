@@ -35,8 +35,10 @@ function parseJSON(htmlString){
 	var data = htmlString.match(/\"f\"\:\"\d+\"/g);
 
 	return dates.reduce(function(acc, curr, index){
-	  acc.push({date: curr.split('"')[3], value: data[index].split('"')[3]});
-	  return acc;
+		var obj = {};
+		obj[curr.split('"')[3]] = data[index].split('"')[3];
+		acc.push(obj);
+		return acc;
 	},[]);
 }
 

@@ -38,6 +38,7 @@ googleTrends.apiMethod(options)
 	* [Callbacks](#callbacks)
 	* [Examples](#examples)
 	* [API Methods](#api-methods)
+    * [trendData](#trenddata)
 		* [topRelated](#toprelated)
 		* [hotTrends](#hottrends)
 		* [hotTrendsDetail](#hottrendsdetail)
@@ -121,6 +122,7 @@ The examples shown for each API method can be run by changing into the home `goo
 
 ### API Methods
 The following API methods are available:
+* [trendData](#trenddata): returns the historical trend data to a provided keyword or an array of keywords.
 * [topRelated](#toprelated): returns the top related keywords to a provided keyword or an array of keywords along with it's percentage of correlation.
 * [hotTrends](#hottrends): returns the current top 20 trending searches for a given location.
 * [hotTrendsDetail](#hottrendsdetail): same as the [hotTrends](#hottrends) results except with more detail such as links, publication date, approximate traffic, etc.
@@ -134,6 +136,58 @@ For each of the API methods, rather than providing the parameters to the functio
 * `date`: 'date provided in format yyyymm as a string where January starts at 01,
 * `category`: 'a string for a specific category',
 * `keywords`: 'either an array of keywords as strings or a singular keyword as a string'
+
+[back to top](#introduction)
+
+<hr>
+
+#### trendData()
+*Returns the historical trend data to a provided keyword or an array of keywords.*
+
+#####Syntax
+`googleTrends.trendData(['keywords'])`
+
+* `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  Entering a keyword is **required**.
+
+#####Example
+The following example provides the historical trend data for 'OJ Simpson'.  Optionally, the input could have been provided as `googleTrends.trendData({keywords: 'OJ Simpson'})`.  Any other keys provided in the object will be ignore.
+
+######Input
+```js
+googleTrends.trendData('OJ Simpson')
+.then(function(results){
+	console.log(results);
+})
+.catch(function(err){
+	console.error(err);
+});
+```
+
+######Output
+```js
+[ [ { 'May 2014': '10' },
+    { 'June 2014': '3' },
+    { 'July 2014': '3' },
+    { 'August 2014': '3' },
+    { 'September 2014': '5' },
+    { 'October 2014': '4' },
+    { 'November 2014': '3' },
+    { 'December 2014': '4' },
+    { 'January 2015': '4' },
+    { 'February 2015': '3' },
+    { 'March 2015': '4' },
+    { 'April 2015': '4' },
+    { 'May 2015': '4' },
+    { 'June 2015': '3' },
+    { 'July 2015': '3' },
+    { 'August 2015': '8' },
+    { 'September 2015': '12' },
+    { 'October 2015': '5' },
+    { 'November 2015': '7' },
+    { 'December 2015': '14' },
+    { 'January 2016': '72' },
+    { 'February 2016': '100' } ] ]
+```
 
 [back to top](#introduction)
 
@@ -156,10 +210,10 @@ The following example provides the top related keywords to 'dog house' in the 'U
 ```js
 googleTrends.topRelated('dog house', 'US')
 .then(function(results){
-	console.log(results);
+  console.log(results);
 })
 .catch(function(err){
-	console.error(err);
+  console.error(err);
 });
 ```
 

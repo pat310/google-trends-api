@@ -7,4 +7,5 @@ module.exports = {
 	hotTrendsDetail: require(__dirname + '/hotTrendsDetail.test.js'),
 	top30in30: require(__dirname + '/top30in30.test.js'),
 	topRelated: require(__dirname + '/topRelated.test.js'),
+	trendData: require(__dirname + '/trendData.test.js')
 };
