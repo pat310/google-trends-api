@@ -56,10 +56,10 @@ To install this package, clone this git repository and include it in your projec
 npm install google-trends-api
 ```
 
-Require google-trends in your script and give it a variable name:
+Require google-trends-api in your script and give it a variable name:
 
 ```js
-var googleTrends = require('PATH_TO_NODE_MODULES/google-trends-api/');
+var googleTrends = require('google-trends-api/');
 ```
 
 You will now be able to access methods on `googleTrends`.  See the [API Methods section](#api-methods) below to see the methods available and their syntax.
