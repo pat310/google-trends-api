@@ -1,9 +1,24 @@
+'use strict';
+
 var googleTrends = require(__dirname + '/');
 var util = require('util');
 
 //uncomment the code within each example to run it
-
 /* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 1 =~=~=~=~=~=~=~=~=~=~ */
+/* ~=~=~=~=~=~=~=~=~=~= trendData =~=~=~=~=~=~=~=~=~=~ */
+// // Parameters: array of key words (required)
+// // optionally as the first argument pass an object: {keywords: ['dog']}
+// googleTrends.trendData({keywords: 'OJ Simpson'})
+// .then(function(trendData){
+// 	console.log("here is the trendData", trendData);
+// })
+// .catch(function(err){
+// 	console.log("there was an error", err);
+// 	return err;
+// });
+
+
+/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 2 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= topRelated =~=~=~=~=~=~=~=~=~=~ */
 // // Parameters: array of key words (required), country as a string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {keywords: ['dog'], geo: 'US'}
@@ -18,7 +33,7 @@ var util = require('util');
 
 
 
-/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 2 =~=~=~=~=~=~=~=~=~=~ */
+/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 3 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= hotTrends =~=~=~=~=~=~=~=~=~=~ */
 // //Parameters: takes a country as a string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {geo: 'US'}
@@ -31,7 +46,7 @@ var util = require('util');
 // });
 
 
-/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 3 =~=~=~=~=~=~=~=~=~=~ */
+/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 4 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= hotTrendsDetail =~=~=~=~=~=~=~=~=~=~ */
 // //Parameters: takes a country as a string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {geo: 'US'}
@@ -44,7 +59,7 @@ var util = require('util');
 // });
 
 
-/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 4 =~=~=~=~=~=~=~=~=~=~ */
+/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 5 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= top30in30 =~=~=~=~=~=~=~=~=~=~ */
 // //Parameters: none
 // googleTrends.top30in30()
@@ -57,7 +72,7 @@ var util = require('util');
 
 
 
-/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 5 =~=~=~=~=~=~=~=~=~=~ */
+/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 6 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= allTopCharts =~=~=~=~=~=~=~=~=~=~ */
 // // Parameters: date in format yyyymm where January is 01 (optional, today's date is default), country code as string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {geo: 'US', date: '201601'}
@@ -71,7 +86,7 @@ var util = require('util');
 
 
 
-/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 6 =~=~=~=~=~=~=~=~=~=~ */
+/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 7 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= categoryTopCharts =~=~=~=~=~=~=~=~=~=~ */
 // //Parameters: category (required), date in format yyyymm where January is 01 (optional, today's date is default), country code as string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {category: 'actors', geo: 'US', date:'201601'}
