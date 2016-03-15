@@ -4,7 +4,7 @@ var cheerio = require('cheerio');
 
 function parseHtml(htmlString){
 	var $ = cheerio.load(htmlString);
-	if($('.errorTitle').text()) throw new Error('Quota limit exceeded, try again later');
+	if($('.errorTitle').text()) return new Error('Quota limit exceeded, try again later');
 
 	var listItems = $('a').attr('onclick', "trends.PageTracker.analyticsTrackEvent('rising drilldown');").text();
 	var barValues = $('td.trends-bar-chart-value-cell').text();

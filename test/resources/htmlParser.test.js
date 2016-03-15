@@ -8,6 +8,7 @@ var expect = chai.expect;
 var assert = chai.assert;
 
 var exampleHtml = fs.readFileSync(__dirname + '/examples/exampleHtml.html', 'utf8');
+var exampleErrorHtml = fs.readFileSync(__dirname + '/examples/exampleErrorHtml.html', 'utf8');
 var exampleJSON = fs.readFileSync(__dirname + '/examples/exampleJSON.json', 'utf8');
 
 var htmlParser = require(__dirname + '/../../lib/resources/htmlParser.js');
@@ -21,6 +22,9 @@ describe('htmlParser.test.js', function(){
 		});
 		it('correctly parses htmlstrings', function(){
 			expect(htmlParser.parseHtml(exampleHtml)).to.deep.equal(expectedHTMLOutput);
+		});
+		it('returns an error when quota limit reached', function(){
+			expect(htmlParser.parseHtml(exampleErrorHtml)).to.be.an('error').and.have.property('message', 'Quota limit exceeded, try again later');
 		});
 	});
 
