@@ -59,7 +59,7 @@ npm install google-trends-api
 Require google-trends-api in your script and give it a variable name:
 
 ```js
-var googleTrends = require('google-trends-api/');
+var googleTrends = require('google-trends-api');
 ```
 
 You will now be able to access methods on `googleTrends`.  See the [API Methods section](#api-methods) below to see the methods available and their syntax.
