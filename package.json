@@ -29,7 +29,7 @@
   "homepage": "https://github.com/pat310/google-trends-api#readme",
   "dependencies": {
     "cheerio": "^0.20.0",
-    "request-promise": "^2.0.1",
+    "request-promise": "^3.0.0",
     "xml2js": "^0.4.16"
   },
   "devDependencies": {
