@@ -22,7 +22,7 @@
     "search"
   ],
   "author": "Patrick Trasborg <patrick.trasborg@gmail.com> (http://trasb.org)",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/pat310/google-trends-api/issues"
   },
