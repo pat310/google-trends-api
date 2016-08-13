@@ -24,7 +24,8 @@ function promiseArr(keywords){
 	return keywords.map(function(keyword){
 		return rp(`http://www.google.com/trends/fetchComponent?q="${keyword}"&cid=TIMESERIES_GRAPH_0&export=3`)
 		.then(function(htmlString){
-			return parseJSON(htmlString);
+		   return htmlString;	
+         // return parseJSON(htmlString);
 		});
 	});
 }

@@ -30,17 +30,19 @@ function removeWhiteSpace(arr){
 	}, []);
 }
 
-function parseJSON(htmlString){
+function parseJSON(htmlString) {
 	var dates = htmlString.match(/\"f\"\:\"\w+ \d{4}\"/g);
 	var data = htmlString.match(/\"f\"\:\"\d+\"/g);
 
-	if(!!dates && Array.isArray(dates)){	
-		return dates.reduce(function(acc, curr, index){
+	if (!!dates && Array.isArray(dates)) {
+		return dates.reduce(function (acc, curr, index) {
 			var obj = {};
-			obj[curr.split('"')[3]] = data[index].split('"')[3];
-			acc.push(obj);
+			if(curr && data[index]) {
+				obj[curr.split('"')[3]] = data[index].split('"')[3];
+				acc.push(obj);
+			}
 			return acc;
-		},[]);
+		}, []);
 	}
 
 	return new Error('An error occured, try again later');
