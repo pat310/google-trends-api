@@ -30,20 +30,23 @@ function removeWhiteSpace(arr){
 	}, []);
 }
 
-function parseJSON(htmlString){
+function parseJSON(htmlString, wordArr){
 	var dates = htmlString.match(/\"f\"\:\"\w+ \d{4}\"/g);
 	var data = htmlString.match(/\"f\"\:\"\d+\"/g);
 
-	if(!!dates && Array.isArray(dates)){	
+	if(!!dates && Array.isArray(dates)){
 		return dates.reduce(function(acc, curr, index){
-			var obj = {};
-			obj[curr.split('"')[3]] = data[index].split('"')[3];
-			acc.push(obj);
+			for(let i = 0; i < wordArr.length; i++){
+				let obj = {};
+				obj[curr.split('"')[3]] = data[index + i].split('"')[3];
+				if(!acc[i % wordArr.length]) acc[i % wordArr.length] = [];
+				acc[i % wordArr.length].push(obj);
+			}
 			return acc;
 		},[]);
 	}
 
-	return new Error('An error occured, try again later');
+	return new Error('Quota limit exceeded, try again later');
 }
 
 module.exports = {

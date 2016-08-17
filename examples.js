@@ -17,6 +17,17 @@ var util = require('util');
 // 	return err;
 // });
 
+// Trend data example with multiple keywords
+// googleTrends.trendData({keywords: ['Olympics', 'Michael Phelps']})
+// .then(function(trendData){
+// 	console.log("here is the trendData", trendData);
+// })
+// .catch(function(err){
+// 	console.log("there was an error", err);
+// 	return err;
+// });
+
+
 
 /* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 2 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= topRelated =~=~=~=~=~=~=~=~=~=~ */
