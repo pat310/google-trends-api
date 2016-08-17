@@ -46,7 +46,7 @@ function parseJSON(htmlString, wordArr){
 		},[]);
 	}
 
-	return new Error('An error occured, try again later');
+	return new Error('Quota limit exceeded, try again later');
 }
 
 module.exports = {
