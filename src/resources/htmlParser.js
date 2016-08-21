@@ -32,7 +32,7 @@ function removeWhiteSpace(arr){
 
 function parseJSON(htmlString){
 	if(htmlString && htmlString.indexOf('errorTitle') !== -1)
-		throw new Error('Quota limit exceeded, try again later');
+		return new Error('Quota limit exceeded, try again later');
 	try {
         var parsedTrends, trendsData = [], google = { 'visualization': { 'Query': { 'setResponse': function(data) { parsedTrends = data; } } } }
         eval(htmlString);

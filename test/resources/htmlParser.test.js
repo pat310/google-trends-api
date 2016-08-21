@@ -50,7 +50,10 @@ module.exports =
                 expect(htmlParser.parseJSON(exampleJSONTwoFields)[1]).to.have.property('values');
                 expect(htmlParser.parseJSON(exampleJSONTwoFields)[1].values).to.have.lengthOf(152);
                 expect(htmlParser.parseJSON(exampleJSONTwoFields)[1].values[0]).to.include.keys('date', 'value');
-            })
+            });
+            it('returns an error when quota limit reached', function() {
+                expect(htmlParser.parseJSON(exampleErrorHtml)).to.be.an('error').and.have.property('message', 'Quota limit exceeded, try again later');
+            });
         });
     });
 
