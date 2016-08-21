@@ -165,28 +165,100 @@ googleTrends.trendData('OJ Simpson')
 
 ######Output
 ```js
-[ [ { 'May 2014': '10' },
-    { 'June 2014': '3' },
-    { 'July 2014': '3' },
-    { 'August 2014': '3' },
-    { 'September 2014': '5' },
-    { 'October 2014': '4' },
-    { 'November 2014': '3' },
-    { 'December 2014': '4' },
-    { 'January 2015': '4' },
-    { 'February 2015': '3' },
-    { 'March 2015': '4' },
-    { 'April 2015': '4' },
-    { 'May 2015': '4' },
-    { 'June 2015': '3' },
-    { 'July 2015': '3' },
-    { 'August 2015': '8' },
-    { 'September 2015': '12' },
-    { 'October 2015': '5' },
-    { 'November 2015': '7' },
-    { 'December 2015': '14' },
-    { 'January 2016': '72' },
-    { 'February 2016': '100' } ] ]
+[
+  {
+    "query": "oj simpson",
+    "values": [{
+        "date": "Thu, 01 Jan 2004 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 Feb 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Mar 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Apr 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 May 2004 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Tue, 01 Jun 2004 05:00:00 GMT",
+        "value": 7
+    }, {
+        "date": "Thu, 01 Jul 2004 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 Aug 2004 05:00:00 GMT",
+        "value": 2
+    },
+    ...
+    }, {
+        "date": "Mon, 01 Aug 2016 05:00:00 GMT",
+        "value": 9
+    }
+  }
+]
+```
+
+######Input
+```js
+googleTrends.trendData(['swimming', 'olympics'])
+.then(function(results){
+  console.log(results);
+})
+.catch(function(err){
+  console.error(err);
+});
+```
+
+######Output
+```js
+[
+  {
+    "query": "swimming",
+    "values": [{
+        "date": "Thu, 01 Jan 2004 06:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Sun, 01 Feb 2004 06:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Mon, 01 Mar 2004 06:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Thu, 01 Apr 2004 06:00:00 GMT",
+        "value": 5
+    }, {
+    ...
+    }, {
+        "date": "Mon, 01 Aug 2016 05:00:00 GMT",
+        "value": 10
+    }]
+  },
+  {
+    "query": "olympics",
+    "values": [{
+        "date": "Thu, 01 Jan 2004 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 Feb 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Mar 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Apr 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+    ...
+    }, {
+        "date": "Mon, 01 Aug 2016 05:00:00 GMT",
+        "value": 100
+    }]
+  }
+]
 ```
 
 [back to top](#introduction)

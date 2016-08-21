@@ -30,23 +30,38 @@ function removeWhiteSpace(arr){
 	}, []);
 }
 
-function parseJSON(htmlString, wordArr){
-	var dates = htmlString.match(/\"f\"\:\"\w+ \d{4}\"/g);
-	var data = htmlString.match(/\"f\"\:\"\d+\"/g);
-
-	if(!!dates && Array.isArray(dates)){
-		return dates.reduce(function(acc, curr, index){
-			for(let i = 0; i < wordArr.length; i++){
-				let obj = {};
-				obj[curr.split('"')[3]] = data[index + i].split('"')[3];
-				if(!acc[i % wordArr.length]) acc[i % wordArr.length] = [];
-				acc[i % wordArr.length].push(obj);
-			}
-			return acc;
-		},[]);
-	}
-
-	return new Error('Quota limit exceeded, try again later');
+function parseJSON(htmlString){
+	if(htmlString && htmlString.indexOf('errorTitle') !== -1)
+		throw new Error('Quota limit exceeded, try again later');
+	try {
+        var parsedTrends, trendsData = [], google = { 'visualization': { 'Query': { 'setResponse': function(data) { parsedTrends = data; } } } }
+        eval(htmlString);
+        if(!parsedTrends) {
+        	return [];
+        }
+        if(parsedTrends.table) {
+        	for(let i = 1; i < parsedTrends.table.cols.length; i++){
+        		trendsData.push({
+        			query: parsedTrends.table.cols[i].label,
+        			values: []
+        		});
+        	}
+        	for(let j = 0; j < parsedTrends.table.rows.length; j++){
+        		var data = parsedTrends.table.rows[j].c, date = data[0].v;
+        		for(let k = 1; k < data.length; k++){
+        			trendsData[k-1].values.push({
+        				date: date.toUTCString(),
+        				value: data[k].v
+        			})
+        		}
+        	}
+        	return trendsData;
+        }
+        return [];
+    } catch (err) {
+    	console.log(err);
+        return [];
+    }
 }
 
 module.exports = {

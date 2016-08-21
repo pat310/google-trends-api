@@ -14,40 +14,40 @@ var exampleJSONTwoFields = fs.readFileSync(__dirname + '/examples/exampleJSONTwo
 
 var htmlParser = require(__dirname + '/../../lib/resources/htmlParser.js');
 
-module.exports = 
-describe('htmlParser.test.js', function(){
-	
-	describe('htmlParser.parseHtml', function(){
-		it('has method', function(){
-			assert.isFunction(htmlParser.parseHtml);
-		});
-		it('correctly parses htmlstrings', function(){
-			expect(htmlParser.parseHtml(exampleHtml)).to.deep.equal(expectedHTMLOutput);
-		});
-		it('returns an error when quota limit reached', function(){
-			expect(htmlParser.parseHtml(exampleErrorHtml)).to.be.an('error').and.have.property('message', 'Quota limit exceeded, try again later');
-		});
-	});
+module.exports =
+    describe('htmlParser.test.js', function() {
 
-	describe('htmlParse.parseJSON', function(){
-		it('has method', function(){
-			assert.isFunction(htmlParser.parseJSON);
-		});
-		it('correctly parses JSON', function(){
-			expect(htmlParser.parseJSON(exampleJSON, ['OJ Simpson'])).to.deep.equal(expectedJSONOutput);
-		});
-        it('correctly parses JSON for multiple fields', function(){
-            expect(htmlParser.parseJSON(exampleJSONTwoFields, ['Swimming', 'Olympics'])).to.have.length.of(2);
-            expect(htmlParser.parseJSON(exampleJSONTwoFields, ['Swimming', 'Olympics'])[0]).to.have.length.of(152);
-            expect(htmlParser.parseJSON(exampleJSONTwoFields, ['Swimming', 'Olympics'])[0][0]).to.deep.equal(expectedJSONTwoFieldsOutput[0][0]);
-            expect(htmlParser.parseJSON(exampleJSONTwoFields, ['Swimming', 'Olympics'])[1][0]).to.deep.equal(expectedJSONTwoFieldsOutput[1][0]);
-            expect(htmlParser.parseJSON(exampleJSONTwoFields, ['Swimming', 'Olympics'])[0][1]).to.deep.equal(expectedJSONTwoFieldsOutput[0][1]);
-            expect(htmlParser.parseJSON(exampleJSONTwoFields, ['Swimming', 'Olympics'])[1][1]).to.deep.equal(expectedJSONTwoFieldsOutput[1][1]);
-        })
-	});
-});
+        describe('htmlParser.parseHtml', function() {
+            it('has method', function() {
+                assert.isFunction(htmlParser.parseHtml);
+            });
+            it('correctly parses htmlstrings', function() {
+                expect(htmlParser.parseHtml(exampleHtml)).to.deep.equal(expectedHTMLOutput);
+            });
+            it('returns an error when quota limit reached', function() {
+                expect(htmlParser.parseHtml(exampleErrorHtml)).to.be.an('error').and.have.property('message', 'Quota limit exceeded, try again later');
+            });
+        });
 
-var expectedHTMLOutput = { 'dog house grill': '+550%',
+        describe('htmlParse.parseJSON', function() {
+            it('has method', function() {
+                assert.isFunction(htmlParser.parseJSON);
+            });
+            it('correctly parses JSON', function() {
+                expect(htmlParser.parseJSON(exampleJSON)).to.deep.equal(expectedJSONOutput);
+            });
+            it('correctly parses JSON for multiple fields', function() {
+                expect(htmlParser.parseJSON(exampleJSONTwoFields).length).to.equal(2);
+                expect(htmlParser.parseJSON(exampleJSONTwoFields)[0].query).to.deep.equal(expectedJSONTwoFieldsOutput[0].query);
+                expect(htmlParser.parseJSON(exampleJSONTwoFields)[0].values).to.deep.equal(expectedJSONTwoFieldsOutput[0].values);
+                expect(htmlParser.parseJSON(exampleJSONTwoFields)[1].query).to.deep.equal(expectedJSONTwoFieldsOutput[1].query);
+                expect(htmlParser.parseJSON(exampleJSONTwoFields)[1].values).to.deep.equal(expectedJSONTwoFieldsOutput[1].values);
+            })
+        });
+    });
+
+var expectedHTMLOutput = {
+    'dog house grill': '+550%',
     'the dog house': '+160%',
     'large dog house': '+150%',
     'best house dog': '+120%',
@@ -56,357 +56,1386 @@ var expectedHTMLOutput = { 'dog house grill': '+550%',
     'house train dog': '+90%',
     'small dog house': '+60%',
     'big dog house': '+40%',
-    'build dog house': '+40%' };
+    'build dog house': '+40%'
+};
 
-var expectedJSONOutput = [[ { 'December 2003': '2' },
-    { 'January 2004': '3' },
-    { 'February 2004': '2' },
-    { 'March 2004': '2' },
-    { 'April 2004': '3' },
-    { 'May 2004': '5' },
-    { 'June 2004': '1' },
-    { 'July 2004': '1' },
-    { 'August 2004': '2' },
-    { 'September 2004': '2' },
-    { 'October 2004': '3' },
-    { 'November 2004': '2' },
-    { 'December 2004': '2' },
-    { 'January 2005': '2' },
-    { 'February 2005': '3' },
-    { 'March 2005': '3' },
-    { 'April 2005': '2' },
-    { 'May 2005': '3' },
-    { 'June 2005': '2' },
-    { 'July 2005': '2' },
-    { 'August 2005': '2' },
-    { 'September 2005': '3' },
-    { 'October 2005': '2' },
-    { 'November 2005': '2' },
-    { 'December 2005': '2' },
-    { 'January 2006': '2' },
-    { 'February 2006': '2' },
-    { 'March 2006': '2' },
-    { 'April 2006': '3' },
-    { 'May 2006': '2' },
-    { 'June 2006': '1' },
-    { 'July 2006': '2' },
-    { 'August 2006': '2' },
-    { 'September 2006': '2' },
-    { 'October 2006': '14' },
-    { 'November 2006': '3' },
-    { 'December 2006': '2' },
-    { 'January 2007': '2' },
-    { 'February 2007': '2' },
-    { 'March 2007': '2' },
-    { 'April 2007': '3' },
-    { 'May 2007': '2' },
-    { 'June 2007': '2' },
-    { 'July 2007': '3' },
-    { 'August 2007': '19' },
-    { 'September 2007': '3' },
-    { 'October 2007': '4' },
-    { 'November 2007': '2' },
-    { 'December 2007': '3' },
-    { 'January 2008': '2' },
-    { 'February 2008': '2' },
-    { 'March 2008': '2' },
-    { 'April 2008': '3' },
-    { 'May 2008': '2' },
-    { 'June 2008': '2' },
-    { 'July 2008': '1' },
-    { 'August 2008': '4' },
-    { 'September 2008': '12' },
-    { 'October 2008': '3' },
-    { 'November 2008': '13' },
-    { 'December 2008': '2' },
-    { 'January 2009': '2' },
-    { 'February 2009': '3' },
-    { 'March 2009': '3' },
-    { 'April 2009': '2' },
-    { 'May 2009': '3' },
-    { 'June 2009': '3' },
-    { 'July 2009': '2' },
-    { 'August 2009': '2' },
-    { 'September 2009': '2' },
-    { 'October 2009': '2' },
-    { 'November 2009': '2' },
-    { 'December 2009': '2' },
-    { 'January 2010': '2' },
-    { 'February 2010': '2' },
-    { 'March 2010': '2' },
-    { 'April 2010': '2' },
-    { 'May 2010': '3' },
-    { 'June 2010': '3' },
-    { 'July 2010': '2' },
-    { 'August 2010': '3' },
-    { 'September 2010': '3' },
-    { 'October 2010': '3' },
-    { 'November 2010': '3' },
-    { 'December 2010': '3' },
-    { 'January 2011': '4' },
-    { 'February 2011': '2' },
-    { 'March 2011': '2' },
-    { 'April 2011': '3' },
-    { 'May 2011': '7' },
-    { 'June 2011': '9' },
-    { 'July 2011': '3' },
-    { 'August 2011': '3' },
-    { 'September 2011': '3' },
-    { 'October 2011': '3' },
-    { 'November 2011': '3' },
-    { 'December 2011': '6' },
-    { 'January 2012': '3' },
-    { 'February 2012': '3' },
-    { 'March 2012': '4' },
-    { 'April 2012': '3' },
-    { 'May 2012': '4' },
-    { 'June 2012': '3' },
-    { 'July 2012': '3' },
-    { 'August 2012': '5' },
-    { 'September 2012': '4' },
-    { 'October 2012': '4' },
-    { 'November 2012': '3' },
-    { 'December 2012': '4' },
-    { 'January 2013': '5' },
-    { 'February 2013': '3' },
-    { 'March 2013': '3' },
-    { 'April 2013': '8' },
-    { 'May 2013': '4' },
-    { 'June 2013': '8' },
-    { 'July 2013': '3' },
-    { 'August 2013': '3' },
-    { 'September 2013': '3' },
-    { 'October 2013': '4' },
-    { 'November 2013': '3' },
-    { 'December 2013': '4' },
-    { 'January 2014': '3' },
-    { 'February 2014': '3' },
-    { 'March 2014': '3' },
-    { 'April 2014': '3' },
-    { 'May 2014': '10' },
-    { 'June 2014': '4' },
-    { 'July 2014': '3' },
-    { 'August 2014': '4' },
-    { 'September 2014': '5' },
-    { 'October 2014': '4' },
-    { 'November 2014': '3' },
-    { 'December 2014': '4' },
-    { 'January 2015': '4' },
-    { 'February 2015': '3' },
-    { 'March 2015': '4' },
-    { 'April 2015': '4' },
-    { 'May 2015': '4' },
-    { 'June 2015': '3' },
-    { 'July 2015': '3' },
-    { 'August 2015': '8' },
-    { 'September 2015': '12' },
-    { 'October 2015': '5' },
-    { 'November 2015': '7' },
-    { 'December 2015': '14' },
-    { 'January 2016': '71' },
-    { 'February 2016': '100' } ]];
+var expectedJSONOutput = [{
+    "query": "oj simpson",
+    "values": [{
+        "date": "Thu, 01 Jan 2004 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 Feb 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Mar 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Apr 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 May 2004 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Tue, 01 Jun 2004 05:00:00 GMT",
+        "value": 7
+    }, {
+        "date": "Thu, 01 Jul 2004 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 Aug 2004 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Wed, 01 Sep 2004 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Fri, 01 Oct 2004 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 Nov 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Wed, 01 Dec 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 Jan 2005 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Feb 2005 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Tue, 01 Mar 2005 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Apr 2005 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 May 2005 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Wed, 01 Jun 2005 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Jul 2005 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Mon, 01 Aug 2005 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Thu, 01 Sep 2005 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sat, 01 Oct 2005 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Nov 2005 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Dec 2005 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Jan 2006 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Wed, 01 Feb 2006 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Wed, 01 Mar 2006 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sat, 01 Apr 2006 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Mon, 01 May 2006 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Jun 2006 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Jul 2006 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Tue, 01 Aug 2006 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Fri, 01 Sep 2006 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Oct 2006 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Wed, 01 Nov 2006 06:00:00 GMT",
+        "value": 19
+    }, {
+        "date": "Fri, 01 Dec 2006 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Jan 2007 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Feb 2007 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Mar 2007 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Apr 2007 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Tue, 01 May 2007 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Jun 2007 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Jul 2007 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Wed, 01 Aug 2007 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Sep 2007 05:00:00 GMT",
+        "value": 26
+    }, {
+        "date": "Mon, 01 Oct 2007 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Thu, 01 Nov 2007 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Sat, 01 Dec 2007 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Jan 2008 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Feb 2008 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 Mar 2008 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Tue, 01 Apr 2008 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 May 2008 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 Jun 2008 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Tue, 01 Jul 2008 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Fri, 01 Aug 2008 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Mon, 01 Sep 2008 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Wed, 01 Oct 2008 05:00:00 GMT",
+        "value": 17
+    }, {
+        "date": "Sat, 01 Nov 2008 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Dec 2008 06:00:00 GMT",
+        "value": 18
+    }, {
+        "date": "Thu, 01 Jan 2009 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Feb 2009 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 Mar 2009 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 Apr 2009 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 May 2009 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Jun 2009 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Wed, 01 Jul 2009 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Aug 2009 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Sep 2009 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Oct 2009 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 Nov 2009 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Dec 2009 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Jan 2010 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Feb 2010 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Mar 2010 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Thu, 01 Apr 2010 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 May 2010 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Jun 2010 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Thu, 01 Jul 2010 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 Aug 2010 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Wed, 01 Sep 2010 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Oct 2010 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 Nov 2010 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 Dec 2010 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Jan 2011 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Tue, 01 Feb 2011 06:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Tue, 01 Mar 2011 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Fri, 01 Apr 2011 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 May 2011 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 Jun 2011 05:00:00 GMT",
+        "value": 9
+    }, {
+        "date": "Fri, 01 Jul 2011 05:00:00 GMT",
+        "value": 12
+    }, {
+        "date": "Mon, 01 Aug 2011 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Thu, 01 Sep 2011 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Oct 2011 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Tue, 01 Nov 2011 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Thu, 01 Dec 2011 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 Jan 2012 06:00:00 GMT",
+        "value": 8
+    }, {
+        "date": "Wed, 01 Feb 2012 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Thu, 01 Mar 2012 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 Apr 2012 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Tue, 01 May 2012 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Jun 2012 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Sun, 01 Jul 2012 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 Aug 2012 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Sep 2012 05:00:00 GMT",
+        "value": 7
+    }, {
+        "date": "Mon, 01 Oct 2012 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Thu, 01 Nov 2012 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Sat, 01 Dec 2012 06:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Tue, 01 Jan 2013 06:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Fri, 01 Feb 2013 06:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Fri, 01 Mar 2013 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 Apr 2013 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 May 2013 05:00:00 GMT",
+        "value": 11
+    }, {
+        "date": "Sat, 01 Jun 2013 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Mon, 01 Jul 2013 05:00:00 GMT",
+        "value": 10
+    }, {
+        "date": "Thu, 01 Aug 2013 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Sun, 01 Sep 2013 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Tue, 01 Oct 2013 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Nov 2013 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Sun, 01 Dec 2013 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 Jan 2014 06:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Sat, 01 Feb 2014 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Mar 2014 06:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Tue, 01 Apr 2014 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Thu, 01 May 2014 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 Jun 2014 05:00:00 GMT",
+        "value": 15
+    }, {
+        "date": "Tue, 01 Jul 2014 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Fri, 01 Aug 2014 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 Sep 2014 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Wed, 01 Oct 2014 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Sat, 01 Nov 2014 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Mon, 01 Dec 2014 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Thu, 01 Jan 2015 06:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Sun, 01 Feb 2015 06:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Sun, 01 Mar 2015 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 Apr 2015 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Fri, 01 May 2015 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Mon, 01 Jun 2015 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Wed, 01 Jul 2015 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Aug 2015 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Tue, 01 Sep 2015 05:00:00 GMT",
+        "value": 10
+    }, {
+        "date": "Thu, 01 Oct 2015 05:00:00 GMT",
+        "value": 17
+    }, {
+        "date": "Sun, 01 Nov 2015 05:00:00 GMT",
+        "value": 7
+    }, {
+        "date": "Tue, 01 Dec 2015 06:00:00 GMT",
+        "value": 9
+    }, {
+        "date": "Fri, 01 Jan 2016 06:00:00 GMT",
+        "value": 19
+    }, {
+        "date": "Mon, 01 Feb 2016 06:00:00 GMT",
+        "value": 100
+    }, {
+        "date": "Tue, 01 Mar 2016 06:00:00 GMT",
+        "value": 74
+    }, {
+        "date": "Fri, 01 Apr 2016 05:00:00 GMT",
+        "value": 41
+    }, {
+        "date": "Sun, 01 May 2016 05:00:00 GMT",
+        "value": 17
+    }, {
+        "date": "Wed, 01 Jun 2016 05:00:00 GMT",
+        "value": 40
+    }, {
+        "date": "Fri, 01 Jul 2016 05:00:00 GMT",
+        "value": 16
+    }, {
+        "date": "Mon, 01 Aug 2016 05:00:00 GMT",
+        "value": 9
+    }]
+}];
 
-var expectedJSONTwoFieldsOutput = [ [ { 'December 2003': '5' },
-    { 'January 2004': '2' },
-    { 'February 2004': '5' },
-    { 'March 2004': '3' },
-    { 'April 2004': '5' },
-    { 'May 2004': '3' },
-    { 'June 2004': '5' },
-    { 'July 2004': '3' },
-    { 'August 2004': '6' },
-    { 'September 2004': '4' },
-    { 'October 2004': '6' },
-    { 'November 2004': '4' },
-    { 'December 2004': '7' },
-    { 'January 2005': '6' },
-    { 'February 2005': '8' },
-    { 'March 2005': '47' },
-    { 'April 2005': '5' },
-    { 'May 2005': '6' },
-    { 'June 2005': '4' },
-    { 'July 2005': '2' },
-    { 'August 2005': '4' },
-    { 'September 2005': '2' },
-    { 'October 2005': '3' },
-    { 'November 2005': '2' },
-    { 'December 2005': '4' },
-    { 'January 2006': '2' },
-    { 'February 2006': '5' },
-    { 'March 2006': '2' },
-    { 'April 2006': '5' },
-    { 'May 2006': '2' },
-    { 'June 2006': '4' },
-    { 'July 2006': '2' },
-    { 'August 2006': '5' },
-    { 'September 2006': '2' },
-    { 'October 2006': '6' },
-    { 'November 2006': '2' },
-    { 'December 2006': '7' },
-    { 'January 2007': '3' },
-    { 'February 2007': '5' },
-    { 'March 2007': '1' },
-    { 'April 2007': '4' },
-    { 'May 2007': '2' },
-    { 'June 2007': '4' },
-    { 'July 2007': '2' },
-    { 'August 2007': '3' },
-    { 'September 2007': '2' },
-    { 'October 2007': '3' },
-    { 'November 2007': '2' },
-    { 'December 2007': '4' },
-    { 'January 2008': '4' },
-    { 'February 2008': '4' },
-    { 'March 2008': '28' },
-    { 'April 2008': '4' },
-    { 'May 2008': '3' },
-    { 'June 2008': '4' },
-    { 'July 2008': '2' },
-    { 'August 2008': '5' },
-    { 'September 2008': '2' },
-    { 'October 2008': '6' },
-    { 'November 2008': '1' },
-    { 'December 2008': '6' },
-    { 'January 2009': '1' },
-    { 'February 2009': '5' },
-    { 'March 2009': '1' },
-    { 'April 2009': '4' },
-    { 'May 2009': '1' },
-    { 'June 2009': '3' },
-    { 'July 2009': '1' },
-    { 'August 2009': '3' },
-    { 'September 2009': '1' },
-    { 'October 2009': '3' },
-    { 'November 2009': '1' },
-    { 'December 2009': '4' },
-    { 'January 2010': '1' },
-    { 'February 2010': '4' },
-    { 'March 2010': '1' },
-    { 'April 2010': '4' },
-    { 'May 2010': '2' },
-    { 'June 2010': '4' },
-    { 'July 2010': '2' },
-    { 'August 2010': '4' },
-    { 'September 2010': '1' },
-    { 'October 2010': '5' },
-    { 'November 2010': '2' },
-    { 'December 2010': '5' },
-    { 'January 2011': '1' },
-    { 'February 2011': '4' },
-    { 'March 2011': '1' },
-    { 'April 2011': '3' },
-    { 'May 2011': '1' },
-    { 'June 2011': '3' },
-    { 'July 2011': '2' },
-    { 'August 2011': '3' },
-    { 'September 2011': '3' },
-    { 'October 2011': '3' },
-    { 'November 2011': '3' },
-    { 'December 2011': '4' },
-    { 'January 2012': '3' },
-    { 'February 2012': '4' },
-    { 'March 2012': '3' },
-    // ... 52 more items 
-    ],
-  [ { 'December 2003': '2' },
-    { 'January 2004': '5' },
-    { 'February 2004': '3' },
-    { 'March 2004': '5' },
-    { 'April 2004': '3' },
-    { 'May 2004': '5' },
-    { 'June 2004': '3' },
-    { 'July 2004': '6' },
-    { 'August 2004': '4' },
-    { 'September 2004': '6' },
-    { 'October 2004': '4' },
-    { 'November 2004': '7' },
-    { 'December 2004': '6' },
-    { 'January 2005': '8' },
-    { 'February 2005': '47' },
-    { 'March 2005': '5' },
-    { 'April 2005': '6' },
-    { 'May 2005': '4' },
-    { 'June 2005': '2' },
-    { 'July 2005': '4' },
-    { 'August 2005': '2' },
-    { 'September 2005': '3' },
-    { 'October 2005': '2' },
-    { 'November 2005': '4' },
-    { 'December 2005': '2' },
-    { 'January 2006': '5' },
-    { 'February 2006': '2' },
-    { 'March 2006': '5' },
-    { 'April 2006': '2' },
-    { 'May 2006': '4' },
-    { 'June 2006': '2' },
-    { 'July 2006': '5' },
-    { 'August 2006': '2' },
-    { 'September 2006': '6' },
-    { 'October 2006': '2' },
-    { 'November 2006': '7' },
-    { 'December 2006': '3' },
-    { 'January 2007': '5' },
-    { 'February 2007': '1' },
-    { 'March 2007': '4' },
-    { 'April 2007': '2' },
-    { 'May 2007': '4' },
-    { 'June 2007': '2' },
-    { 'July 2007': '3' },
-    { 'August 2007': '2' },
-    { 'September 2007': '3' },
-    { 'October 2007': '2' },
-    { 'November 2007': '4' },
-    { 'December 2007': '4' },
-    { 'January 2008': '4' },
-    { 'February 2008': '28' },
-    { 'March 2008': '4' },
-    { 'April 2008': '3' },
-    { 'May 2008': '4' },
-    { 'June 2008': '2' },
-    { 'July 2008': '5' },
-    { 'August 2008': '2' },
-    { 'September 2008': '6' },
-    { 'October 2008': '1' },
-    { 'November 2008': '6' },
-    { 'December 2008': '1' },
-    { 'January 2009': '5' },
-    { 'February 2009': '1' },
-    { 'March 2009': '4' },
-    { 'April 2009': '1' },
-    { 'May 2009': '3' },
-    { 'June 2009': '1' },
-    { 'July 2009': '3' },
-    { 'August 2009': '1' },
-    { 'September 2009': '3' },
-    { 'October 2009': '1' },
-    { 'November 2009': '4' },
-    { 'December 2009': '1' },
-    { 'January 2010': '4' },
-    { 'February 2010': '1' },
-    { 'March 2010': '4' },
-    { 'April 2010': '2' },
-    { 'May 2010': '4' },
-    { 'June 2010': '2' },
-    { 'July 2010': '4' },
-    { 'August 2010': '1' },
-    { 'September 2010': '5' },
-    { 'October 2010': '2' },
-    { 'November 2010': '5' },
-    { 'December 2010': '1' },
-    { 'January 2011': '4' },
-    { 'February 2011': '1' },
-    { 'March 2011': '3' },
-    { 'April 2011': '1' },
-    { 'May 2011': '3' },
-    { 'June 2011': '2' },
-    { 'July 2011': '3' },
-    { 'August 2011': '3' },
-    { 'September 2011': '3' },
-    { 'October 2011': '3' },
-    { 'November 2011': '4' },
-    { 'December 2011': '3' },
-    { 'January 2012': '4' },
-    { 'February 2012': '3' },
-    { 'March 2012': '4' },
-    // ... 52 more items 
-    ] ]
+var expectedJSONTwoFieldsOutput = [{
+    "query": "swimming",
+    "values": [{
+        "date": "Thu, 01 Jan 2004 06:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Sun, 01 Feb 2004 06:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Mon, 01 Mar 2004 06:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Thu, 01 Apr 2004 06:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Sat, 01 May 2004 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Tue, 01 Jun 2004 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Thu, 01 Jul 2004 05:00:00 GMT",
+        "value": 7
+    }, {
+        "date": "Sun, 01 Aug 2004 05:00:00 GMT",
+        "value": 8
+    }, {
+        "date": "Wed, 01 Sep 2004 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Fri, 01 Oct 2004 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 Nov 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Wed, 01 Dec 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 Jan 2005 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Tue, 01 Feb 2005 06:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Tue, 01 Mar 2005 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Apr 2005 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 May 2005 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Wed, 01 Jun 2005 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Fri, 01 Jul 2005 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Mon, 01 Aug 2005 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Thu, 01 Sep 2005 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Oct 2005 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Tue, 01 Nov 2005 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Dec 2005 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Jan 2006 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 Feb 2006 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 Mar 2006 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Apr 2006 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 May 2006 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Thu, 01 Jun 2006 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Sat, 01 Jul 2006 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Tue, 01 Aug 2006 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Sep 2006 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 Oct 2006 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Wed, 01 Nov 2006 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Fri, 01 Dec 2006 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Jan 2007 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Thu, 01 Feb 2007 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Thu, 01 Mar 2007 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 Apr 2007 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Tue, 01 May 2007 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Jun 2007 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Sun, 01 Jul 2007 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Wed, 01 Aug 2007 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Sep 2007 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Oct 2007 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Nov 2007 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 Dec 2007 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Jan 2008 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Feb 2008 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Mar 2008 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Tue, 01 Apr 2008 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Thu, 01 May 2008 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 Jun 2008 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Tue, 01 Jul 2008 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Fri, 01 Aug 2008 05:00:00 GMT",
+        "value": 7
+    }, {
+        "date": "Mon, 01 Sep 2008 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Wed, 01 Oct 2008 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 Nov 2008 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Dec 2008 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Jan 2009 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Feb 2009 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 Mar 2009 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 Apr 2009 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 May 2009 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 Jun 2009 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Wed, 01 Jul 2009 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Sat, 01 Aug 2009 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Tue, 01 Sep 2009 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Oct 2009 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Nov 2009 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Dec 2009 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Fri, 01 Jan 2010 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Feb 2010 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Mar 2010 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Apr 2010 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 May 2010 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Tue, 01 Jun 2010 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Thu, 01 Jul 2010 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Sun, 01 Aug 2010 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Wed, 01 Sep 2010 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Fri, 01 Oct 2010 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Nov 2010 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Wed, 01 Dec 2010 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sat, 01 Jan 2011 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Feb 2011 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Mar 2011 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Fri, 01 Apr 2011 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 May 2011 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 Jun 2011 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Fri, 01 Jul 2011 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Mon, 01 Aug 2011 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Thu, 01 Sep 2011 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 Oct 2011 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Nov 2011 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Dec 2011 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 Jan 2012 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Wed, 01 Feb 2012 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Mar 2012 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 Apr 2012 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Tue, 01 May 2012 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Jun 2012 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Sun, 01 Jul 2012 05:00:00 GMT",
+        "value": 7
+    }, {
+        "date": "Wed, 01 Aug 2012 05:00:00 GMT",
+        "value": 7
+    }, {
+        "date": "Sat, 01 Sep 2012 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 Oct 2012 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Nov 2012 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 Dec 2012 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Jan 2013 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Feb 2013 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Mar 2013 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 Apr 2013 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 May 2013 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Jun 2013 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Mon, 01 Jul 2013 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Thu, 01 Aug 2013 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 Sep 2013 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Oct 2013 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Fri, 01 Nov 2013 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Dec 2013 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Wed, 01 Jan 2014 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 Feb 2014 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Mar 2014 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Tue, 01 Apr 2014 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Thu, 01 May 2014 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 Jun 2014 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Tue, 01 Jul 2014 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Fri, 01 Aug 2014 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 Sep 2014 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Wed, 01 Oct 2014 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 Nov 2014 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Dec 2014 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Thu, 01 Jan 2015 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Feb 2015 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Mar 2015 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Wed, 01 Apr 2015 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 May 2015 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 Jun 2015 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Wed, 01 Jul 2015 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Sat, 01 Aug 2015 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Tue, 01 Sep 2015 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Oct 2015 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Nov 2015 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Dec 2015 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Fri, 01 Jan 2016 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 Feb 2016 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Tue, 01 Mar 2016 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Apr 2016 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sun, 01 May 2016 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 Jun 2016 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Fri, 01 Jul 2016 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Mon, 01 Aug 2016 05:00:00 GMT",
+        "value": 10
+    }]
+}, {
+    "query": "olympics",
+    "values": [{
+        "date": "Thu, 01 Jan 2004 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 Feb 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Mon, 01 Mar 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 Apr 2004 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 May 2004 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Tue, 01 Jun 2004 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Thu, 01 Jul 2004 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Sun, 01 Aug 2004 05:00:00 GMT",
+        "value": 47
+    }, {
+        "date": "Wed, 01 Sep 2004 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Fri, 01 Oct 2004 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Mon, 01 Nov 2004 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Wed, 01 Dec 2004 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sat, 01 Jan 2005 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Tue, 01 Feb 2005 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Tue, 01 Mar 2005 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Fri, 01 Apr 2005 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 May 2005 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Wed, 01 Jun 2005 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Fri, 01 Jul 2005 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 Aug 2005 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Thu, 01 Sep 2005 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sat, 01 Oct 2005 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Tue, 01 Nov 2005 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Thu, 01 Dec 2005 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 Jan 2006 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 Feb 2006 06:00:00 GMT",
+        "value": 27
+    }, {
+        "date": "Wed, 01 Mar 2006 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 Apr 2006 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Mon, 01 May 2006 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Thu, 01 Jun 2006 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sat, 01 Jul 2006 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Tue, 01 Aug 2006 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Fri, 01 Sep 2006 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sun, 01 Oct 2006 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Wed, 01 Nov 2006 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Fri, 01 Dec 2006 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Mon, 01 Jan 2007 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Thu, 01 Feb 2007 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Thu, 01 Mar 2007 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 Apr 2007 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Tue, 01 May 2007 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Fri, 01 Jun 2007 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 Jul 2007 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Wed, 01 Aug 2007 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sat, 01 Sep 2007 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Mon, 01 Oct 2007 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Thu, 01 Nov 2007 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sat, 01 Dec 2007 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Jan 2008 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Fri, 01 Feb 2008 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sat, 01 Mar 2008 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Apr 2008 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Thu, 01 May 2008 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Jun 2008 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 Jul 2008 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Fri, 01 Aug 2008 05:00:00 GMT",
+        "value": 60
+    }, {
+        "date": "Mon, 01 Sep 2008 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Wed, 01 Oct 2008 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sat, 01 Nov 2008 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Mon, 01 Dec 2008 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Thu, 01 Jan 2009 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 Feb 2009 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 Mar 2009 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Wed, 01 Apr 2009 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Fri, 01 May 2009 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Mon, 01 Jun 2009 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Wed, 01 Jul 2009 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sat, 01 Aug 2009 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Tue, 01 Sep 2009 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Thu, 01 Oct 2009 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Nov 2009 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Tue, 01 Dec 2009 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Fri, 01 Jan 2010 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 Feb 2010 06:00:00 GMT",
+        "value": 37
+    }, {
+        "date": "Mon, 01 Mar 2010 06:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Thu, 01 Apr 2010 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sat, 01 May 2010 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Tue, 01 Jun 2010 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Thu, 01 Jul 2010 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sun, 01 Aug 2010 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Wed, 01 Sep 2010 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Fri, 01 Oct 2010 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Mon, 01 Nov 2010 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Wed, 01 Dec 2010 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sat, 01 Jan 2011 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Tue, 01 Feb 2011 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Tue, 01 Mar 2011 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Fri, 01 Apr 2011 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 May 2011 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Wed, 01 Jun 2011 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Fri, 01 Jul 2011 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Mon, 01 Aug 2011 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Thu, 01 Sep 2011 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sat, 01 Oct 2011 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Tue, 01 Nov 2011 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Thu, 01 Dec 2011 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sun, 01 Jan 2012 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Wed, 01 Feb 2012 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Thu, 01 Mar 2012 06:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Sun, 01 Apr 2012 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Tue, 01 May 2012 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Fri, 01 Jun 2012 05:00:00 GMT",
+        "value": 6
+    }, {
+        "date": "Sun, 01 Jul 2012 05:00:00 GMT",
+        "value": 40
+    }, {
+        "date": "Wed, 01 Aug 2012 05:00:00 GMT",
+        "value": 59
+    }, {
+        "date": "Sat, 01 Sep 2012 05:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Mon, 01 Oct 2012 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Thu, 01 Nov 2012 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sat, 01 Dec 2012 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Tue, 01 Jan 2013 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Fri, 01 Feb 2013 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Fri, 01 Mar 2013 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Mon, 01 Apr 2013 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Wed, 01 May 2013 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sat, 01 Jun 2013 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Mon, 01 Jul 2013 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Thu, 01 Aug 2013 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sun, 01 Sep 2013 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Tue, 01 Oct 2013 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Fri, 01 Nov 2013 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sun, 01 Dec 2013 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Wed, 01 Jan 2014 06:00:00 GMT",
+        "value": 4
+    }, {
+        "date": "Sat, 01 Feb 2014 06:00:00 GMT",
+        "value": 32
+    }, {
+        "date": "Sat, 01 Mar 2014 06:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Tue, 01 Apr 2014 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Thu, 01 May 2014 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sun, 01 Jun 2014 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Tue, 01 Jul 2014 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Fri, 01 Aug 2014 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Mon, 01 Sep 2014 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Wed, 01 Oct 2014 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sat, 01 Nov 2014 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Mon, 01 Dec 2014 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Thu, 01 Jan 2015 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sun, 01 Feb 2015 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sun, 01 Mar 2015 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Wed, 01 Apr 2015 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Fri, 01 May 2015 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Mon, 01 Jun 2015 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Wed, 01 Jul 2015 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sat, 01 Aug 2015 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Tue, 01 Sep 2015 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Thu, 01 Oct 2015 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Sun, 01 Nov 2015 05:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Tue, 01 Dec 2015 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Fri, 01 Jan 2016 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Mon, 01 Feb 2016 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Tue, 01 Mar 2016 06:00:00 GMT",
+        "value": 1
+    }, {
+        "date": "Fri, 01 Apr 2016 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Sun, 01 May 2016 05:00:00 GMT",
+        "value": 2
+    }, {
+        "date": "Wed, 01 Jun 2016 05:00:00 GMT",
+        "value": 3
+    }, {
+        "date": "Fri, 01 Jul 2016 05:00:00 GMT",
+        "value": 5
+    }, {
+        "date": "Mon, 01 Aug 2016 05:00:00 GMT",
+        "value": 100
+    }]
+}];
