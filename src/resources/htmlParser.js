@@ -50,7 +50,7 @@ function parseJSON(htmlString){
         		var data = parsedTrends.table.rows[j].c, date = data[0].v;
         		for(let k = 1; k < data.length; k++){
         			trendsData[k-1].values.push({
-        				date: date.toUTCString(),
+        				date: date.toISOString(),
         				value: data[k].v
         			})
         		}
