@@ -11,6 +11,7 @@ var exampleHtml = fs.readFileSync(__dirname + '/examples/exampleHtml.html', 'utf
 var exampleErrorHtml = fs.readFileSync(__dirname + '/examples/exampleErrorHtml.html', 'utf8');
 var exampleJSON = fs.readFileSync(__dirname + '/examples/exampleJSON.json', 'utf8');
 var exampleJSONTwoFields = fs.readFileSync(__dirname + '/examples/exampleJSONTwoFields.json', 'utf8');
+var exampleJSONEmpty = fs.readFileSync(__dirname + '/examples/exampleJSONEmpty.json', 'utf8');
 
 var htmlParser = require(__dirname + '/../../lib/resources/htmlParser.js');
 
@@ -53,6 +54,9 @@ module.exports =
             });
             it('returns an error when quota limit reached', function() {
                 expect(htmlParser.parseJSON(exampleErrorHtml)).to.be.an('error').and.have.property('message', 'Quota limit exceeded, try again later');
+            });
+            it('returns an error when Google Trends has no data', function() {
+                expect(htmlParser.parseJSON(exampleJSONEmpty)).to.have.lengthOf(0);
             });
         });
     });
