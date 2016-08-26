@@ -35,7 +35,11 @@ function parseJSON(htmlString) {
         return new Error('Quota limit exceeded, try again later');
     var parsedTrends, trendsData = [],
         google = { 'visualization': { 'Query': { 'setResponse': function(data) { parsedTrends = data; } } } }
-    eval(parsedTrends);
+    try {
+        eval(htmlString);
+    } catch (e) {
+        return [];
+    }
     if (!parsedTrends) {
         return [];
     }
