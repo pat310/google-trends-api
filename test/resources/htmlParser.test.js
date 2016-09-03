@@ -11,6 +11,7 @@ var exampleHtml = fs.readFileSync(__dirname + '/examples/exampleHtml.html', 'utf
 var exampleErrorHtml = fs.readFileSync(__dirname + '/examples/exampleErrorHtml.html', 'utf8');
 var exampleJSON = fs.readFileSync(__dirname + '/examples/exampleJSON.json', 'utf8');
 var exampleJSONTwoFields = fs.readFileSync(__dirname + '/examples/exampleJSONTwoFields.json', 'utf8');
+var exampleJSONMultipleFields = fs.readFileSync(__dirname + '/examples/exampleJSONMultipleFields.json', 'utf8');
 var exampleJSONEmpty = fs.readFileSync(__dirname + '/examples/exampleJSONEmpty.json', 'utf8');
 
 var htmlParser = require(__dirname + '/../../lib/resources/htmlParser.js');
@@ -51,6 +52,9 @@ module.exports =
                 expect(htmlParser.parseJSON(exampleJSONTwoFields)[1]).to.have.property('values');
                 expect(htmlParser.parseJSON(exampleJSONTwoFields)[1].values).to.have.lengthOf(152);
                 expect(htmlParser.parseJSON(exampleJSONTwoFields)[1].values[0]).to.include.keys('date', 'value');
+            });
+            it('runs successfully for multiple fields', function() {
+                expect(htmlParser.parseJSON(exampleJSONMultipleFields)).to.be.instanceof(Array);
             });
             it('returns an error when quota limit reached', function() {
                 expect(htmlParser.parseJSON(exampleErrorHtml)).to.be.an('error').and.have.property('message', 'Quota limit exceeded, try again later');

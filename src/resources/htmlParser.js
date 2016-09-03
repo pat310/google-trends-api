@@ -57,7 +57,7 @@ function parseJSON(htmlString) {
                 trendsData[k - 1].values.push({
                     date: date.toISOString(),
                     value: data[k].v
-                })
+                });
             }
         }
         return trendsData;
