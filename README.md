@@ -31,7 +31,7 @@ googleTrends.apiMethod(options)
 });
 ```
 
-##Table of contens
+##Table of contents
 * [Installation](#installation)
 * [API](#api)
 	* [Promises](#promises)
