@@ -554,7 +554,7 @@ The following example provides the top charts for actors in January 2016 in the 
 
 ######Input
 ```js
-googleTrends.categoryTopCharts('actors', '201601', 'US'})
+googleTrends.categoryTopCharts({'actors', '201601', 'US'})
 .then(function(results){
 	console.log(results);
 })
