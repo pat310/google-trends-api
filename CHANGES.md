@@ -1,3 +1,11 @@
+## [v2.1.0]
+> Oct 22, 2016
+
+- `trendData` now accepts an optional `timePeriod` object that will return trend data based on a provided time period ([#33])
+
+[v2.1.0]: https://github.com/pat310/google-trends-api/compare/v2.0.0...v2.1.0
+[#33]: https://github.com/pat310/google-trends-api/pull/33
+
 ## [v2.0.0]
 > Oct 22, 2016
 

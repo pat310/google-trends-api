@@ -19,7 +19,11 @@ var options = {
 	geo: 'country name',
 	date: 'yyyymm',
 	keywords: ['some', 'list', 'of', 'keywords'],
-	category: 'some category'
+	category: 'some category',
+	timePeriod: {
+		type: enumerated string 'hour', 'day', 'month', or 'year'
+		value: number
+	}
 }
 
 googleTrends.apiMethod(options)
@@ -122,7 +126,7 @@ The examples shown for each API method can be run by changing into the home `goo
 
 ### API Methods
 The following API methods are available:
-* [trendData](#trenddata): returns the historical trend data to a provided keyword or an array of keywords.
+* [trendData](#trenddata): returns the historical trend data to a provided keyword or an array of keywords - optionally accepts a `timePeriod` object
 * [topRelated](#toprelated): returns the top related keywords to a provided keyword or an array of keywords along with it's percentage of correlation.
 * [hotTrends](#hottrends): returns the current top 20 trending searches for a given location.
 * [hotTrendsDetail](#hottrendsdetail): same as the [hotTrends](#hottrends) results except with more detail such as links, publication date, approximate traffic, etc.
@@ -145,12 +149,13 @@ For each of the API methods, rather than providing the parameters to the functio
 *Returns the historical trend data to a provided keyword or an array of keywords.*
 
 #####Syntax
-`googleTrends.trendData(['keywords'])`
+`googleTrends.trendData(['keywords'], {type: 'string', value: number})`
 
 * `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  Entering a keyword is **required**.
+* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default `trendData` will return all past trend data available.
 
 #####Example
-The following example provides the historical trend data for 'OJ Simpson'.  Optionally, the input could have been provided as `googleTrends.trendData({keywords: 'OJ Simpson'})`.  Any other keys provided in the object will be ignore.
+The following example provides the historical trend data for 'OJ Simpson'.  Optionally, the input could have been provided as `googleTrends.trendData({keywords: 'OJ Simpson'})`.
 
 ######Input
 ```js
@@ -165,42 +170,26 @@ googleTrends.trendData('OJ Simpson')
 
 ######Output
 ```js
-[
-  {
-    "query": "oj simpson",
-    "values": [{
-        "date": "Thu, 01 Jan 2004 06:00:00 GMT",
-        "value": 4
-    }, {
-        "date": "Sun, 01 Feb 2004 06:00:00 GMT",
-        "value": 3
-    }, {
-        "date": "Mon, 01 Mar 2004 06:00:00 GMT",
-        "value": 3
-    }, {
-        "date": "Thu, 01 Apr 2004 06:00:00 GMT",
-        "value": 3
-    }, {
-        "date": "Sat, 01 May 2004 05:00:00 GMT",
-        "value": 4
-    }, {
-        "date": "Tue, 01 Jun 2004 05:00:00 GMT",
-        "value": 7
-    }, {
-        "date": "Thu, 01 Jul 2004 05:00:00 GMT",
-        "value": 2
-    }, {
-        "date": "Sun, 01 Aug 2004 05:00:00 GMT",
-        "value": 2
-    },
-    ...
-    }, {
-        "date": "Mon, 01 Aug 2016 05:00:00 GMT",
-        "value": 9
-    }
-  }
-]
+[ { query: 'oj simpson',
+    values:
+     [ { date: '2003-12-01T05:00:00.000Z', value: 4 },
+       { date: '2004-01-01T05:00:00.000Z', value: 4 },
+       { date: '2004-02-01T05:00:00.000Z', value: 3 },
+       { date: '2004-03-01T05:00:00.000Z', value: 4 },
+       { date: '2004-04-01T05:00:00.000Z', value: 5 },
+       { date: '2004-05-01T04:00:00.000Z', value: 7 },
+       { date: '2004-06-01T04:00:00.000Z', value: 2 },
+       { date: '2004-07-01T04:00:00.000Z', value: 2 },
+       { date: '2004-08-01T04:00:00.000Z', value: 2 },
+       { date: '2004-09-01T04:00:00.000Z', value: 4 },
+       { date: '2004-10-01T04:00:00.000Z', value: 4 },
+       { date: '2004-11-01T05:00:00.000Z', value: 3 },
+       { date: '2004-12-01T05:00:00.000Z', value: 3 },
+       ... more items ] } ]
 ```
+
+#####Example
+The following example provides the historical trend data for 'swimming' and the 'olympics'.  Optionally, the input could have been provided as `googleTrends.trendData({keywords: ['swimming', 'olympics']})`.
 
 ######Input
 ```js
@@ -215,50 +204,89 @@ googleTrends.trendData(['swimming', 'olympics'])
 
 ######Output
 ```js
-[
-  {
-    "query": "swimming",
-    "values": [{
-        "date": "Thu, 01 Jan 2004 06:00:00 GMT",
-        "value": 5
-    }, {
-        "date": "Sun, 01 Feb 2004 06:00:00 GMT",
-        "value": 5
-    }, {
-        "date": "Mon, 01 Mar 2004 06:00:00 GMT",
-        "value": 5
-    }, {
-        "date": "Thu, 01 Apr 2004 06:00:00 GMT",
-        "value": 5
-    }, {
-    ...
-    }, {
-        "date": "Mon, 01 Aug 2016 05:00:00 GMT",
-        "value": 10
-    }]
-  },
-  {
-    "query": "olympics",
-    "values": [{
-        "date": "Thu, 01 Jan 2004 06:00:00 GMT",
-        "value": 2
-    }, {
-        "date": "Sun, 01 Feb 2004 06:00:00 GMT",
-        "value": 3
-    }, {
-        "date": "Mon, 01 Mar 2004 06:00:00 GMT",
-        "value": 3
-    }, {
-        "date": "Thu, 01 Apr 2004 06:00:00 GMT",
-        "value": 3
-    }, {
-    ...
-    }, {
-        "date": "Mon, 01 Aug 2016 05:00:00 GMT",
-        "value": 100
-    }]
-  }
-]
+[ { query: 'swimming',
+    values:
+     [ { date: '2003-12-01T05:00:00.000Z', value: 7 },
+       { date: '2004-01-01T05:00:00.000Z', value: 7 },
+       { date: '2004-02-01T05:00:00.000Z', value: 7 },
+       { date: '2004-03-01T05:00:00.000Z', value: 7 },
+       { date: '2004-04-01T05:00:00.000Z', value: 8 },
+       { date: '2004-05-01T04:00:00.000Z', value: 9 },
+       { date: '2004-06-01T04:00:00.000Z', value: 10 },
+       { date: '2004-07-01T04:00:00.000Z', value: 11 },
+       { date: '2004-08-01T04:00:00.000Z', value: 7 },
+       { date: '2004-09-01T04:00:00.000Z', value: 6 },
+       { date: '2004-10-01T04:00:00.000Z', value: 5 },
+       { date: '2004-11-01T05:00:00.000Z', value: 4 },
+       { date: '2004-12-01T05:00:00.000Z', value: 6 },
+       { date: '2005-01-01T05:00:00.000Z', value: 6 },
+       { date: '2005-02-01T05:00:00.000Z', value: 6 },
+       ... more items ] },
+  { query: 'olympics',
+    values:
+     [ { date: '2003-12-01T05:00:00.000Z', value: 3 },
+       { date: '2004-01-01T05:00:00.000Z', value: 4 },
+       { date: '2004-02-01T05:00:00.000Z', value: 4 },
+       { date: '2004-03-01T05:00:00.000Z', value: 4 },
+       { date: '2004-04-01T05:00:00.000Z', value: 5 },
+       { date: '2004-05-01T04:00:00.000Z', value: 5 },
+       { date: '2004-06-01T04:00:00.000Z', value: 8 },
+       { date: '2004-07-01T04:00:00.000Z', value: 66 },
+       { date: '2004-08-01T04:00:00.000Z', value: 8 },
+       { date: '2004-09-01T04:00:00.000Z', value: 3 },
+       { date: '2004-10-01T04:00:00.000Z', value: 3 },
+       ... more items ] } ]
+```
+
+#####Example
+The following example provides the historical trend data for 'OJ Simpson' for the past 5 days.  Optionally, the input could have been provided as `googleTrends.trendData('OJ Simpson', {type: 'day', value: 5})`.
+
+######Input
+```js
+googleTrends.trendData({keywords: 'Oj Simpson', timePeriod: {type: 'day', value: 5}})
+.then(function(results){
+  console.log(results);
+})
+.catch(function(err){
+  console.error(err);
+});
+```
+
+######Output
+**Note: Query was conducted on 10/22 so 5 days back leads to results starting at 10/17**
+```js
+[ { query: 'oj simpson',
+    values:
+     [ { date: '2016-10-17T21:00:00.000Z', value: 20 },
+       { date: '2016-10-17T22:00:00.000Z', value: 18 },
+       { date: '2016-10-17T23:00:00.000Z', value: 17 },
+       { date: '2016-10-18T00:00:00.000Z', value: 23 },
+       { date: '2016-10-18T01:00:00.000Z', value: 20 },
+       { date: '2016-10-18T02:00:00.000Z', value: 22 },
+       { date: '2016-10-18T03:00:00.000Z', value: 19 },
+       { date: '2016-10-18T04:00:00.000Z', value: 15 },
+       { date: '2016-10-18T05:00:00.000Z', value: 11 },
+       { date: '2016-10-18T06:00:00.000Z', value: 8 },
+       { date: '2016-10-18T07:00:00.000Z', value: 7 },
+       { date: '2016-10-18T08:00:00.000Z', value: 7 },
+       { date: '2016-10-18T09:00:00.000Z', value: 6 },
+       { date: '2016-10-18T10:00:00.000Z', value: 7 },
+       { date: '2016-10-18T11:00:00.000Z', value: 7 },
+       { date: '2016-10-18T12:00:00.000Z', value: 10 },
+       { date: '2016-10-18T13:00:00.000Z', value: 10 },
+       { date: '2016-10-18T14:00:00.000Z', value: 10 },
+       { date: '2016-10-18T15:00:00.000Z', value: 11 },
+       { date: '2016-10-18T16:00:00.000Z', value: 13 },
+       { date: '2016-10-18T17:00:00.000Z', value: 13 },
+       { date: '2016-10-18T18:00:00.000Z', value: 18 },
+       { date: '2016-10-18T19:00:00.000Z', value: 16 },
+       { date: '2016-10-18T20:00:00.000Z', value: 16 },
+       { date: '2016-10-18T21:00:00.000Z', value: 19 },
+       { date: '2016-10-18T22:00:00.000Z', value: 33 },
+       { date: '2016-10-18T23:00:00.000Z', value: 81 },
+       { date: '2016-10-19T00:00:00.000Z', value: 100 },
+       { date: '2016-10-19T01:00:00.000Z', value: 30 },
+       ... more items ] } ]
 ```
 
 [back to top](#introduction)
@@ -626,7 +654,7 @@ The following example provides the top charts for actors in January 2016 in the 
 
 ######Input
 ```js
-googleTrends.categoryTopCharts({'actors', '201601', 'US'})
+googleTrends.categoryTopCharts('actors', '201601', 'US')
 .then(function(results){
 	console.log(results);
 })

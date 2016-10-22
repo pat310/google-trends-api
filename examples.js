@@ -7,7 +7,7 @@ var util = require('util');
 /* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 1 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= trendData =~=~=~=~=~=~=~=~=~=~ */
 // // Parameters: array of key words (required)
-// // optionally as the first argument pass an object: {keywords: ['dog']}
+// // optionally as the first argument pass an object instead: {keywords: ['dog']}
 // googleTrends.trendData({keywords: 'OJ Simpson'})
 // .then(function(trendData){
 // 	console.log('here are the results', util.inspect(trendData, {showHidden: false, depth: null}));
@@ -17,8 +17,8 @@ var util = require('util');
 // 	return err;
 // });
 
-// Trend data example with multiple keywords
-// googleTrends.trendData({keywords: ['OJ Simpson', 'Michael Phelps']})
+// // Trend data example with multiple keywords
+// googleTrends.trendData(['swimming', 'olympics'])
 // .then(function(trendData){
 // 	console.log('here are the results', util.inspect(trendData, {showHidden: false, depth: null}));
 // })
@@ -27,6 +27,15 @@ var util = require('util');
 // 	return err;
 // });
 
+// // Trend data example with a time period provided (timePeriod is an optional parameter)
+// googleTrends.trendData({keywords: 'OJ Simpson', timePeriod: {type: 'day', value: 5}})
+// .then(function(trendData){
+// 	console.log('here are the results', util.inspect(trendData, {showHidden: false, depth: null}));
+// })
+// .catch(function(err){
+// 	console.log("there was an error", err);
+// 	return err;
+// });
 
 
 /* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 2 =~=~=~=~=~=~=~=~=~=~ */

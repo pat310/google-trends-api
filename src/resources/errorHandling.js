@@ -3,7 +3,6 @@
 const COUNTRY = require(__dirname + '/countryCodes.js');
 const DATE = require(__dirname + '/dateValidate.js');
 
-
 function checkErrors(obj){
 	var keys = Object.keys(obj);
 
@@ -20,6 +19,7 @@ function checkErrors(obj){
 	obj.countryDomain = COUNTRY.getDomain(obj.geo);
 	obj.countryCode = COUNTRY.getCode(obj.geo);
 
+	if(obj.timePeriod && obj.timePeriod instanceof Error) return obj.timePeriod;
 }
 
 function findKey(searchKey, keys){
