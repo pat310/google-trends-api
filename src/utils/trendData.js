@@ -6,7 +6,6 @@ var checkErrors = require(__dirname + '/../resources/errorHandling.js');
 var parseJSON = require(__dirname + '/../resources/htmlParser.js').parseJSON;
 var groupKeywords = require(__dirname + '/../resources/trendDataHelper.js').groupKeywords;
 var reduceArrayDimensions = require(__dirname + '/../resources/trendDataHelper.js').reduceArrayDimensions;
-var timePeriodConverter = require(__dirname + '/../resources/timePeriodConverter.js');
 
 module.exports = function request(keywords, timePeriod, cbFunc){
 	var obj = createObj(arguments, request);
@@ -14,7 +13,7 @@ module.exports = function request(keywords, timePeriod, cbFunc){
 	var error = checkErrors(obj);
 	if(error instanceof Error) return Promise.reject(obj.cbFunc(error));
 
-	return Promise.all(promiseArr(obj.keywords, timePeriodConverter(obj.timePeriod)))
+	return Promise.all(promiseArr(obj.keywords, obj.timePeriod))
 	.then(function(results){
 		return obj.cbFunc(null, reduceArrayDimensions(results));
 	})

@@ -20,7 +20,7 @@ function checkErrors(obj){
 	obj.countryDomain = COUNTRY.getDomain(obj.geo);
 	obj.countryCode = COUNTRY.getCode(obj.geo);
 
-	if(obj.timePeriod && timePeriodConverter(obj.timePeriod) instanceof Error) return timePeriodConverter(obj.timePeriod);
+	if(obj.timePeriod && obj.timePeriod instanceof Error) return obj.timePeriod;
 }
 
 function findKey(searchKey, keys){
