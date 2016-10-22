@@ -141,6 +141,7 @@ For each of the API methods, rather than providing the parameters to the functio
 * `date`: 'date provided in format yyyymm as a string where January starts at 01,
 * `category`: 'a string for a specific category',
 * `keywords`: 'either an array of keywords as strings or a singular keyword as a string'
+* `timePeriod`: an object with keys `type` and `value` where `type`'s value is an enumerated string (either 'hour', 'day', 'month', or 'year') and `value`'s value is a number
 
 [back to top](#introduction)
 
@@ -153,6 +154,7 @@ For each of the API methods, rather than providing the parameters to the functio
 `googleTrends.trendData(['keywords'], {type: 'string', value: number})`
 
 * `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  Entering a keyword is **required**.
+
 * `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default `trendData` will return all past trend data available.
 
 #####Example
@@ -298,14 +300,16 @@ googleTrends.trendData({keywords: 'Oj Simpson', timePeriod: {type: 'day', value:
 *Returns terms that are most frequently searched with the term you entered in the same search session, within the chosen category (optional) and country (optional). If you didn't enter a search term, top searches overall are shown*
 
 #####Syntax
-`googleTrends.topRelated(['keywords'], 'country')`
+`googleTrends.topRelated(['keywords'], {type: 'string', value: number}, 'country')`
 
 * `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  If no keyword is entered, top searches overall are shown
+
+* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default all past data will be used
 
 * `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default
 
 #####Example
-The following example provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.topRelated({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter and any other keys provided in the object will be ignore.
+The following example provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.topRelated({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter.
 
 ######Input
 ```js
@@ -340,14 +344,16 @@ googleTrends.topRelated('dog house', 'US')
 *Returns terms that were searched for with the term you entered (or overall, if no keyword was entered), which had the most significant growth in volume in the requested time period. For each rising search term, you’ll see a percentage of the term’s growth compared to the previous time period. If you see “Breakout” instead of a percentage, it means that the search term grew by more than 5000%.*
 
 #####Syntax
-`googleTrends.risingSearches(['keywords'], 'country')`
+`googleTrends.risingSearches(['keywords'], {type: 'string', value: number} 'country')`
 
 * `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  If no keyword is entered, top searches overall are shown
+
+* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default all past data will be used
 
 * `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default
 
 #####Example
-The following example provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.risingSearches({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter and any other keys provided in the object will be ignore.
+The following example provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.risingSearches({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter.
 
 ######Input
 ```js
@@ -612,7 +618,7 @@ googleTrends.top30in30()
 * `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default.
 
 #####Example
-The following example provides the top charts in January 2016 in the 'US'.  Optionally, the input could have been provided as `googleTrends.allTopCharts({geo: 'US', date: '201601'})`.  Order of the keys does not matter and any other keys provided in the object will be ignore.
+The following example provides the top charts in January 2016 in the 'US'.  Optionally, the input could have been provided as `googleTrends.allTopCharts({geo: 'US', date: '201601'})`.  Order of the keys does not matter.
 
 ######Input
 ```js
@@ -692,7 +698,7 @@ googleTrends.allTopCharts('201601', 'US')
 * `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default.
 
 #####Example
-The following example provides the top charts for actors in January 2016 in the 'US'.  Optionally, the input could have been provided as `googleTrends.categoryTopCharts({category: 'actors', geo: 'US', date: '201601'})`.  Order of the keys does not matter and any other keys provided in the object will be ignore.
+The following example provides the top charts for actors in January 2016 in the 'US'.  Optionally, the input could have been provided as `googleTrends.categoryTopCharts({category: 'actors', geo: 'US', date: '201601'})`.  Order of the keys does not matter.
 
 ######Input
 ```js

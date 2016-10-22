@@ -51,6 +51,16 @@ var util = require('util');
 // 	return err;
 // });
 
+// // topRelated example with timePeriod object
+// googleTrends.topRelated({keywords: 'dog house', timePeriod: {type: 'hour', value: 5}})
+// .then(function(topRelated){
+// 	console.log("here are the topRelated", topRelated);
+// })
+// .catch(function(err){
+// 	console.log("there was an error", err);
+// 	return err;
+// });
+
 
 
 /* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 3 =~=~=~=~=~=~=~=~=~=~ */
@@ -125,6 +135,16 @@ var util = require('util');
 // // Parameters: array of key words (optional), country as a string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {keywords: ['dog'], geo: 'US'}
 // googleTrends.risingSearches({keywords: 'dog house'})
+// .then(function(risingSearches){
+// 	console.log("here are the risingSearches", risingSearches);
+// })
+// .catch(function(err){
+// 	console.log("there was an error", err);
+// 	return err;
+// });
+
+// // risingSearches example with timePeriod object
+// googleTrends.risingSearches({keywords: 'dog house', timePeriod: {type: 'hour', value: 5}})
 // .then(function(risingSearches){
 // 	console.log("here are the risingSearches", risingSearches);
 // })
