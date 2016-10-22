@@ -2,7 +2,6 @@
 
 const COUNTRY = require(__dirname + '/countryCodes.js');
 const DATE = require(__dirname + '/dateValidate.js');
-const timePeriodConverter = require(__dirname + '/../resources/timePeriodConverter.js');
 
 function checkErrors(obj){
 	var keys = Object.keys(obj);

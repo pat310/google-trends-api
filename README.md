@@ -20,10 +20,10 @@ var options = {
 	date: 'yyyymm',
 	keywords: ['some', 'list', 'of', 'keywords'],
 	category: 'some category',
-  timePeriod: {
-    type: enumerated string 'hour', 'day', 'month', or 'year'
-    value: number
-  }
+	timePeriod: {
+		type: enumerated string 'hour', 'day', 'month', or 'year'
+		value: number
+	}
 }
 
 googleTrends.apiMethod(options)
@@ -654,7 +654,7 @@ The following example provides the top charts for actors in January 2016 in the 
 
 ######Input
 ```js
-googleTrends.categoryTopCharts({'actors', '201601', 'US'})
+googleTrends.categoryTopCharts('actors', '201601', 'US')
 .then(function(results){
 	console.log(results);
 })

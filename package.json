@@ -4,7 +4,7 @@
   "description": "an API layer on top of google trends",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --timeout 15000",
     "compile": "./node_modules/.bin/babel --presets es2015 -d lib/ src/",
     "test-cov": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./test/*",
     "prepublish": "npm run compile",
