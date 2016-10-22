@@ -128,6 +128,7 @@ The examples shown for each API method can be run by changing into the home `goo
 The following API methods are available:
 * [trendData](#trenddata): returns the historical trend data to a provided keyword or an array of keywords - optionally accepts a `timePeriod` object
 * [topRelated](#toprelated): returns terms that are most frequently searched with the term(s) you entered in the same search session, within the chosen category and country (optional). If you didn't enter a search term, top searches overall are shown.
+* [risingSearches](#risingsearches): returns terms that were searched for with the term you entered (or overall, if no keyword was entered), which had the most significant growth in volume in the requested time period. For each rising search term, you’ll see a percentage of the term’s growth compared to the previous time period. If you see “Breakout” instead of a percentage, it means that the search term grew by more than 5000%.
 * [hotTrends](#hottrends): returns the current top 20 trending searches for a given location.
 * [hotTrendsDetail](#hottrendsdetail): same as the [hotTrends](#hottrends) results except with more detail such as links, publication date, approximate traffic, etc.
 * [top30in30](#top30in30): returns the top 30 searches in the past 30 days
@@ -329,6 +330,47 @@ googleTrends.topRelated('dog house', 'US')
     'build dog house': '10',
     'best house dog': '10',
     'dog houses': '10' } ]
+```
+
+[back to top](#introduction)
+
+<hr>
+
+#### risingSearches()
+*Returns terms that are most frequently searched with the term you entered in the same search session, within the chosen category (optional) and country (optional). If you didn't enter a search term, top searches overall are shown*
+
+#####Syntax
+`googleTrends.risingSearches(['keywords'], 'country')`
+
+* `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  If no keyword is entered, top searches overall are shown
+
+* `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default
+
+#####Example
+The following example provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.risingSearches({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter and any other keys provided in the object will be ignore.
+
+######Input
+```js
+googleTrends.risingSearches('dog house', 'US')
+.then(function(results){
+  console.log(results);
+})
+.catch(function(err){
+  console.error(err);
+});
+```
+
+######Output
+```js
+[ { 'little dog house': '+250%',
+    'dog house grill': '+140%',
+    'large dog house': '+90%',
+    'best house dog': '+80%',
+    'hot dog house': '+70%',
+    'the dog house': '+70%',
+    'the house': '+70%',
+    'house of dog': '+50%',
+    'house train dog': '+40%' } ]
 ```
 
 [back to top](#introduction)

@@ -7,11 +7,12 @@ var parseHtml = require(__dirname + '/../resources/htmlParser.js').parseHtml;
 
 module.exports = function request(keywords, geo, cbFunc){
 	var obj = createObj(arguments, request);
+	if(!obj.keywords) delete obj.keywords;
 
 	var error = checkErrors(obj);
 	if(error instanceof Error) return Promise.reject(obj.cbFunc(error));
 
-	return Promise.all(promiseArr(obj.keywords, obj.geo))
+	return Promise.all(promiseArr(obj.keywords || [''], obj.geo))
 	.then(function(results){
 		return obj.cbFunc(null, results);
 	})

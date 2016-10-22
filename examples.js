@@ -117,3 +117,18 @@ var util = require('util');
 // .catch(function(err){
 // 	console.log('there was an error', err);
 // });
+
+
+
+/* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 8 =~=~=~=~=~=~=~=~=~=~ */
+/* ~=~=~=~=~=~=~=~=~=~= risingSearches =~=~=~=~=~=~=~=~=~=~ */
+// // Parameters: array of key words (optional), country as a string (optional, 'US' is default)
+// // optionally as the first argument pass an object: {keywords: ['dog'], geo: 'US'}
+// googleTrends.risingSearches({keywords: 'dog house'})
+// .then(function(risingSearches){
+// 	console.log("here are the risingSearches", risingSearches);
+// })
+// .catch(function(err){
+// 	console.log("there was an error", err);
+// 	return err;
+// });
