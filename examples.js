@@ -10,7 +10,7 @@ var util = require('util');
 // // optionally as the first argument pass an object: {keywords: ['dog']}
 // googleTrends.trendData({keywords: 'OJ Simpson'})
 // .then(function(trendData){
-// 	console.log("here is the trendData", trendData);
+// 	console.log('here are the results', util.inspect(trendData, {showHidden: false, depth: null}));
 // })
 // .catch(function(err){
 // 	console.log("there was an error", err);
@@ -18,9 +18,9 @@ var util = require('util');
 // });
 
 // Trend data example with multiple keywords
-// googleTrends.trendData({keywords: ['Olympics', 'Michael Phelps']})
+// googleTrends.trendData({keywords: ['OJ Simpson', 'Michael Phelps']})
 // .then(function(trendData){
-// 	console.log("here is the trendData", trendData);
+// 	console.log('here are the results', util.inspect(trendData, {showHidden: false, depth: null}));
 // })
 // .catch(function(err){
 // 	console.log("there was an error", err);

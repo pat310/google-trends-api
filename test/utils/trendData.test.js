@@ -12,4 +12,7 @@ describe('trendData.js', function(){
 	it('should reject if no keyword is provided', function(){
 		return trendData().should.be.rejectedWith('Keywords must be provided');
 	});
+	it('should run analysis for keywords', function(){
+		return trendData('swimming').should.be.resolved;
+	});
 });

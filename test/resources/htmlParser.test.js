@@ -11,43 +11,62 @@ var exampleHtml = fs.readFileSync(__dirname + '/examples/exampleHtml.html', 'utf
 var exampleErrorHtml = fs.readFileSync(__dirname + '/examples/exampleErrorHtml.html', 'utf8');
 var exampleJSON = fs.readFileSync(__dirname + '/examples/exampleJSON.json', 'utf8');
 var exampleJSONTwoFields = fs.readFileSync(__dirname + '/examples/exampleJSONTwoFields.json', 'utf8');
+var exampleJSONMultipleFields = fs.readFileSync(__dirname + '/examples/exampleJSONMultipleFields.json', 'utf8');
+var exampleJSONEmpty = fs.readFileSync(__dirname + '/examples/exampleJSONEmpty.json', 'utf8');
 
 var htmlParser = require(__dirname + '/../../lib/resources/htmlParser.js');
 
-module.exports = 
-describe('htmlParser.test.js', function(){
-	
-	describe('htmlParser.parseHtml', function(){
-		it('has method', function(){
-			assert.isFunction(htmlParser.parseHtml);
-		});
-		it('correctly parses htmlstrings', function(){
-			expect(htmlParser.parseHtml(exampleHtml)).to.deep.equal(expectedHTMLOutput);
-		});
-		it('returns an error when quota limit reached', function(){
-			expect(htmlParser.parseHtml(exampleErrorHtml)).to.be.an('error').and.have.property('message', 'Quota limit exceeded, try again later');
-		});
-	});
+module.exports =
+    describe('htmlParser.test.js', function() {
 
-	describe('htmlParse.parseJSON', function(){
-		it('has method', function(){
-			assert.isFunction(htmlParser.parseJSON);
-		});
-		it('correctly parses JSON', function(){
-			expect(htmlParser.parseJSON(exampleJSON, ['OJ Simpson'])).to.deep.equal(expectedJSONOutput);
-		});
-        it('correctly parses JSON for multiple fields', function(){
-            expect(htmlParser.parseJSON(exampleJSONTwoFields, ['Swimming', 'Olympics'])).to.have.length.of(2);
-            expect(htmlParser.parseJSON(exampleJSONTwoFields, ['Swimming', 'Olympics'])[0]).to.have.length.of(152);
-            expect(htmlParser.parseJSON(exampleJSONTwoFields, ['Swimming', 'Olympics'])[0][0]).to.deep.equal(expectedJSONTwoFieldsOutput[0][0]);
-            expect(htmlParser.parseJSON(exampleJSONTwoFields, ['Swimming', 'Olympics'])[1][0]).to.deep.equal(expectedJSONTwoFieldsOutput[1][0]);
-            expect(htmlParser.parseJSON(exampleJSONTwoFields, ['Swimming', 'Olympics'])[0][1]).to.deep.equal(expectedJSONTwoFieldsOutput[0][1]);
-            expect(htmlParser.parseJSON(exampleJSONTwoFields, ['Swimming', 'Olympics'])[1][1]).to.deep.equal(expectedJSONTwoFieldsOutput[1][1]);
-        })
-	});
-});
+        describe('htmlParser.parseHtml', function() {
+            it('has method', function() {
+                assert.isFunction(htmlParser.parseHtml);
+            });
+            it('correctly parses htmlstrings', function() {
+                expect(htmlParser.parseHtml(exampleHtml)).to.deep.equal(expectedHTMLOutput);
+            });
+            it('returns an error when quota limit reached', function() {
+                expect(htmlParser.parseHtml(exampleErrorHtml)).to.be.an('error').and.have.property('message', 'Quota limit exceeded, try again later');
+            });
+        });
 
-var expectedHTMLOutput = { 'dog house grill': '+550%',
+        describe('htmlParse.parseJSON', function() {
+            it('has method', function() {
+                assert.isFunction(htmlParser.parseJSON);
+            });
+            it('correctly parses JSON', function() {
+                expect(htmlParser.parseJSON(exampleJSON)).to.have.lengthOf(1);
+                expect(htmlParser.parseJSON(exampleJSON)[0]).to.have.property('query', 'oj simpson');
+                expect(htmlParser.parseJSON(exampleJSON)[0]).to.have.property('values');
+                expect(htmlParser.parseJSON(exampleJSON)[0].values).to.have.lengthOf(152);
+                expect(htmlParser.parseJSON(exampleJSON)[0].values[0]).to.include.keys('date', 'value');
+            });
+            it('correctly parses JSON for multiple fields', function() {
+                expect(htmlParser.parseJSON(exampleJSONTwoFields)).to.have.lengthOf(2);
+                expect(htmlParser.parseJSON(exampleJSONTwoFields)[0]).to.have.property('query', 'swimming');
+                expect(htmlParser.parseJSON(exampleJSONTwoFields)[0]).to.have.property('values');
+                expect(htmlParser.parseJSON(exampleJSONTwoFields)[0].values).to.have.lengthOf(152);
+                expect(htmlParser.parseJSON(exampleJSONTwoFields)[0].values[0]).to.include.keys('date', 'value');
+                expect(htmlParser.parseJSON(exampleJSONTwoFields)[1]).to.have.property('query', 'olympics');
+                expect(htmlParser.parseJSON(exampleJSONTwoFields)[1]).to.have.property('values');
+                expect(htmlParser.parseJSON(exampleJSONTwoFields)[1].values).to.have.lengthOf(152);
+                expect(htmlParser.parseJSON(exampleJSONTwoFields)[1].values[0]).to.include.keys('date', 'value');
+            });
+            it('runs successfully for multiple fields', function() {
+                expect(htmlParser.parseJSON(exampleJSONMultipleFields)).to.be.instanceof(Array);
+            });
+            it('returns an error when quota limit reached', function() {
+                expect(htmlParser.parseJSON(exampleErrorHtml)).to.be.an('error').and.have.property('message', 'Quota limit exceeded, try again later');
+            });
+            it('returns an error when Google Trends has no data', function() {
+                expect(htmlParser.parseJSON(exampleJSONEmpty)).to.have.lengthOf(0);
+            });
+        });
+    });
+
+var expectedHTMLOutput = {
+    'dog house grill': '+550%',
     'the dog house': '+160%',
     'large dog house': '+150%',
     'best house dog': '+120%',
@@ -56,357 +75,5 @@ var expectedHTMLOutput = { 'dog house grill': '+550%',
     'house train dog': '+90%',
     'small dog house': '+60%',
     'big dog house': '+40%',
-    'build dog house': '+40%' };
-
-var expectedJSONOutput = [[ { 'December 2003': '2' },
-    { 'January 2004': '3' },
-    { 'February 2004': '2' },
-    { 'March 2004': '2' },
-    { 'April 2004': '3' },
-    { 'May 2004': '5' },
-    { 'June 2004': '1' },
-    { 'July 2004': '1' },
-    { 'August 2004': '2' },
-    { 'September 2004': '2' },
-    { 'October 2004': '3' },
-    { 'November 2004': '2' },
-    { 'December 2004': '2' },
-    { 'January 2005': '2' },
-    { 'February 2005': '3' },
-    { 'March 2005': '3' },
-    { 'April 2005': '2' },
-    { 'May 2005': '3' },
-    { 'June 2005': '2' },
-    { 'July 2005': '2' },
-    { 'August 2005': '2' },
-    { 'September 2005': '3' },
-    { 'October 2005': '2' },
-    { 'November 2005': '2' },
-    { 'December 2005': '2' },
-    { 'January 2006': '2' },
-    { 'February 2006': '2' },
-    { 'March 2006': '2' },
-    { 'April 2006': '3' },
-    { 'May 2006': '2' },
-    { 'June 2006': '1' },
-    { 'July 2006': '2' },
-    { 'August 2006': '2' },
-    { 'September 2006': '2' },
-    { 'October 2006': '14' },
-    { 'November 2006': '3' },
-    { 'December 2006': '2' },
-    { 'January 2007': '2' },
-    { 'February 2007': '2' },
-    { 'March 2007': '2' },
-    { 'April 2007': '3' },
-    { 'May 2007': '2' },
-    { 'June 2007': '2' },
-    { 'July 2007': '3' },
-    { 'August 2007': '19' },
-    { 'September 2007': '3' },
-    { 'October 2007': '4' },
-    { 'November 2007': '2' },
-    { 'December 2007': '3' },
-    { 'January 2008': '2' },
-    { 'February 2008': '2' },
-    { 'March 2008': '2' },
-    { 'April 2008': '3' },
-    { 'May 2008': '2' },
-    { 'June 2008': '2' },
-    { 'July 2008': '1' },
-    { 'August 2008': '4' },
-    { 'September 2008': '12' },
-    { 'October 2008': '3' },
-    { 'November 2008': '13' },
-    { 'December 2008': '2' },
-    { 'January 2009': '2' },
-    { 'February 2009': '3' },
-    { 'March 2009': '3' },
-    { 'April 2009': '2' },
-    { 'May 2009': '3' },
-    { 'June 2009': '3' },
-    { 'July 2009': '2' },
-    { 'August 2009': '2' },
-    { 'September 2009': '2' },
-    { 'October 2009': '2' },
-    { 'November 2009': '2' },
-    { 'December 2009': '2' },
-    { 'January 2010': '2' },
-    { 'February 2010': '2' },
-    { 'March 2010': '2' },
-    { 'April 2010': '2' },
-    { 'May 2010': '3' },
-    { 'June 2010': '3' },
-    { 'July 2010': '2' },
-    { 'August 2010': '3' },
-    { 'September 2010': '3' },
-    { 'October 2010': '3' },
-    { 'November 2010': '3' },
-    { 'December 2010': '3' },
-    { 'January 2011': '4' },
-    { 'February 2011': '2' },
-    { 'March 2011': '2' },
-    { 'April 2011': '3' },
-    { 'May 2011': '7' },
-    { 'June 2011': '9' },
-    { 'July 2011': '3' },
-    { 'August 2011': '3' },
-    { 'September 2011': '3' },
-    { 'October 2011': '3' },
-    { 'November 2011': '3' },
-    { 'December 2011': '6' },
-    { 'January 2012': '3' },
-    { 'February 2012': '3' },
-    { 'March 2012': '4' },
-    { 'April 2012': '3' },
-    { 'May 2012': '4' },
-    { 'June 2012': '3' },
-    { 'July 2012': '3' },
-    { 'August 2012': '5' },
-    { 'September 2012': '4' },
-    { 'October 2012': '4' },
-    { 'November 2012': '3' },
-    { 'December 2012': '4' },
-    { 'January 2013': '5' },
-    { 'February 2013': '3' },
-    { 'March 2013': '3' },
-    { 'April 2013': '8' },
-    { 'May 2013': '4' },
-    { 'June 2013': '8' },
-    { 'July 2013': '3' },
-    { 'August 2013': '3' },
-    { 'September 2013': '3' },
-    { 'October 2013': '4' },
-    { 'November 2013': '3' },
-    { 'December 2013': '4' },
-    { 'January 2014': '3' },
-    { 'February 2014': '3' },
-    { 'March 2014': '3' },
-    { 'April 2014': '3' },
-    { 'May 2014': '10' },
-    { 'June 2014': '4' },
-    { 'July 2014': '3' },
-    { 'August 2014': '4' },
-    { 'September 2014': '5' },
-    { 'October 2014': '4' },
-    { 'November 2014': '3' },
-    { 'December 2014': '4' },
-    { 'January 2015': '4' },
-    { 'February 2015': '3' },
-    { 'March 2015': '4' },
-    { 'April 2015': '4' },
-    { 'May 2015': '4' },
-    { 'June 2015': '3' },
-    { 'July 2015': '3' },
-    { 'August 2015': '8' },
-    { 'September 2015': '12' },
-    { 'October 2015': '5' },
-    { 'November 2015': '7' },
-    { 'December 2015': '14' },
-    { 'January 2016': '71' },
-    { 'February 2016': '100' } ]];
-
-var expectedJSONTwoFieldsOutput = [ [ { 'December 2003': '5' },
-    { 'January 2004': '2' },
-    { 'February 2004': '5' },
-    { 'March 2004': '3' },
-    { 'April 2004': '5' },
-    { 'May 2004': '3' },
-    { 'June 2004': '5' },
-    { 'July 2004': '3' },
-    { 'August 2004': '6' },
-    { 'September 2004': '4' },
-    { 'October 2004': '6' },
-    { 'November 2004': '4' },
-    { 'December 2004': '7' },
-    { 'January 2005': '6' },
-    { 'February 2005': '8' },
-    { 'March 2005': '47' },
-    { 'April 2005': '5' },
-    { 'May 2005': '6' },
-    { 'June 2005': '4' },
-    { 'July 2005': '2' },
-    { 'August 2005': '4' },
-    { 'September 2005': '2' },
-    { 'October 2005': '3' },
-    { 'November 2005': '2' },
-    { 'December 2005': '4' },
-    { 'January 2006': '2' },
-    { 'February 2006': '5' },
-    { 'March 2006': '2' },
-    { 'April 2006': '5' },
-    { 'May 2006': '2' },
-    { 'June 2006': '4' },
-    { 'July 2006': '2' },
-    { 'August 2006': '5' },
-    { 'September 2006': '2' },
-    { 'October 2006': '6' },
-    { 'November 2006': '2' },
-    { 'December 2006': '7' },
-    { 'January 2007': '3' },
-    { 'February 2007': '5' },
-    { 'March 2007': '1' },
-    { 'April 2007': '4' },
-    { 'May 2007': '2' },
-    { 'June 2007': '4' },
-    { 'July 2007': '2' },
-    { 'August 2007': '3' },
-    { 'September 2007': '2' },
-    { 'October 2007': '3' },
-    { 'November 2007': '2' },
-    { 'December 2007': '4' },
-    { 'January 2008': '4' },
-    { 'February 2008': '4' },
-    { 'March 2008': '28' },
-    { 'April 2008': '4' },
-    { 'May 2008': '3' },
-    { 'June 2008': '4' },
-    { 'July 2008': '2' },
-    { 'August 2008': '5' },
-    { 'September 2008': '2' },
-    { 'October 2008': '6' },
-    { 'November 2008': '1' },
-    { 'December 2008': '6' },
-    { 'January 2009': '1' },
-    { 'February 2009': '5' },
-    { 'March 2009': '1' },
-    { 'April 2009': '4' },
-    { 'May 2009': '1' },
-    { 'June 2009': '3' },
-    { 'July 2009': '1' },
-    { 'August 2009': '3' },
-    { 'September 2009': '1' },
-    { 'October 2009': '3' },
-    { 'November 2009': '1' },
-    { 'December 2009': '4' },
-    { 'January 2010': '1' },
-    { 'February 2010': '4' },
-    { 'March 2010': '1' },
-    { 'April 2010': '4' },
-    { 'May 2010': '2' },
-    { 'June 2010': '4' },
-    { 'July 2010': '2' },
-    { 'August 2010': '4' },
-    { 'September 2010': '1' },
-    { 'October 2010': '5' },
-    { 'November 2010': '2' },
-    { 'December 2010': '5' },
-    { 'January 2011': '1' },
-    { 'February 2011': '4' },
-    { 'March 2011': '1' },
-    { 'April 2011': '3' },
-    { 'May 2011': '1' },
-    { 'June 2011': '3' },
-    { 'July 2011': '2' },
-    { 'August 2011': '3' },
-    { 'September 2011': '3' },
-    { 'October 2011': '3' },
-    { 'November 2011': '3' },
-    { 'December 2011': '4' },
-    { 'January 2012': '3' },
-    { 'February 2012': '4' },
-    { 'March 2012': '3' },
-    // ... 52 more items 
-    ],
-  [ { 'December 2003': '2' },
-    { 'January 2004': '5' },
-    { 'February 2004': '3' },
-    { 'March 2004': '5' },
-    { 'April 2004': '3' },
-    { 'May 2004': '5' },
-    { 'June 2004': '3' },
-    { 'July 2004': '6' },
-    { 'August 2004': '4' },
-    { 'September 2004': '6' },
-    { 'October 2004': '4' },
-    { 'November 2004': '7' },
-    { 'December 2004': '6' },
-    { 'January 2005': '8' },
-    { 'February 2005': '47' },
-    { 'March 2005': '5' },
-    { 'April 2005': '6' },
-    { 'May 2005': '4' },
-    { 'June 2005': '2' },
-    { 'July 2005': '4' },
-    { 'August 2005': '2' },
-    { 'September 2005': '3' },
-    { 'October 2005': '2' },
-    { 'November 2005': '4' },
-    { 'December 2005': '2' },
-    { 'January 2006': '5' },
-    { 'February 2006': '2' },
-    { 'March 2006': '5' },
-    { 'April 2006': '2' },
-    { 'May 2006': '4' },
-    { 'June 2006': '2' },
-    { 'July 2006': '5' },
-    { 'August 2006': '2' },
-    { 'September 2006': '6' },
-    { 'October 2006': '2' },
-    { 'November 2006': '7' },
-    { 'December 2006': '3' },
-    { 'January 2007': '5' },
-    { 'February 2007': '1' },
-    { 'March 2007': '4' },
-    { 'April 2007': '2' },
-    { 'May 2007': '4' },
-    { 'June 2007': '2' },
-    { 'July 2007': '3' },
-    { 'August 2007': '2' },
-    { 'September 2007': '3' },
-    { 'October 2007': '2' },
-    { 'November 2007': '4' },
-    { 'December 2007': '4' },
-    { 'January 2008': '4' },
-    { 'February 2008': '28' },
-    { 'March 2008': '4' },
-    { 'April 2008': '3' },
-    { 'May 2008': '4' },
-    { 'June 2008': '2' },
-    { 'July 2008': '5' },
-    { 'August 2008': '2' },
-    { 'September 2008': '6' },
-    { 'October 2008': '1' },
-    { 'November 2008': '6' },
-    { 'December 2008': '1' },
-    { 'January 2009': '5' },
-    { 'February 2009': '1' },
-    { 'March 2009': '4' },
-    { 'April 2009': '1' },
-    { 'May 2009': '3' },
-    { 'June 2009': '1' },
-    { 'July 2009': '3' },
-    { 'August 2009': '1' },
-    { 'September 2009': '3' },
-    { 'October 2009': '1' },
-    { 'November 2009': '4' },
-    { 'December 2009': '1' },
-    { 'January 2010': '4' },
-    { 'February 2010': '1' },
-    { 'March 2010': '4' },
-    { 'April 2010': '2' },
-    { 'May 2010': '4' },
-    { 'June 2010': '2' },
-    { 'July 2010': '4' },
-    { 'August 2010': '1' },
-    { 'September 2010': '5' },
-    { 'October 2010': '2' },
-    { 'November 2010': '5' },
-    { 'December 2010': '1' },
-    { 'January 2011': '4' },
-    { 'February 2011': '1' },
-    { 'March 2011': '3' },
-    { 'April 2011': '1' },
-    { 'May 2011': '3' },
-    { 'June 2011': '2' },
-    { 'July 2011': '3' },
-    { 'August 2011': '3' },
-    { 'September 2011': '3' },
-    { 'October 2011': '3' },
-    { 'November 2011': '4' },
-    { 'December 2011': '3' },
-    { 'January 2012': '4' },
-    { 'February 2012': '3' },
-    { 'March 2012': '4' },
-    // ... 52 more items 
-    ] ]
+    'build dog house': '+40%'
+};
