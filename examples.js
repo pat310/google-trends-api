@@ -18,7 +18,7 @@ var util = require('util');
 // });
 
 // // Trend data example with multiple keywords
-// googleTrends.trendData({keywords: ['OJ Simpson', 'Michael Phelps']})
+// googleTrends.trendData(['swimming', 'olympics'])
 // .then(function(trendData){
 // 	console.log('here are the results', util.inspect(trendData, {showHidden: false, depth: null}));
 // })
@@ -28,7 +28,7 @@ var util = require('util');
 // });
 
 // // Trend data example with a time period provided (timePeriod is an optional parameter)
-// googleTrends.trendData({keywords: 'OJ Simpson', timePeriod: {type: 'month', value: 1}})
+// googleTrends.trendData({keywords: 'OJ Simpson', timePeriod: {type: 'day', value: 5}})
 // .then(function(trendData){
 // 	console.log('here are the results', util.inspect(trendData, {showHidden: false, depth: null}));
 // })

@@ -52,7 +52,7 @@ function parseJSON(htmlString) {
         }
         for (let j = 0; j < parsedTrends.table.rows.length; j++) {
             var data = parsedTrends.table.rows[j].c,
-                date = data[0].v;
+                date = new Date(data[0].f);
             for (let k = 1; k < data.length; k++) {
                 if (data[k]) {
                     trendsData[k - 1].values.push({
