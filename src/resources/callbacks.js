@@ -20,7 +20,7 @@ function parseArguments(args, func){
 	var parameters = getParamNames(func);
 
 	var returnObj = parameters.reduce(function(acc, curr, index){
-		if((typeof args[index] !== 'object' || Array.isArray(args[index])) && curr !== 'cbFunc') acc[curr] = typeof args[index] !== 'function' ? args[index] : undefined;
+		if((curr === 'timePeriod' || typeof args[index] !== 'object' || Array.isArray(args[index])) && curr !== 'cbFunc') acc[curr] = typeof args[index] !== 'function' ? args[index] : undefined;
 		if(typeof args[index] === 'function') acc.cbFunc = args[index];
 		return acc;
 	}, {});
