@@ -337,7 +337,7 @@ googleTrends.topRelated('dog house', 'US')
 <hr>
 
 #### risingSearches()
-*Returns terms that are most frequently searched with the term you entered in the same search session, within the chosen category (optional) and country (optional). If you didn't enter a search term, top searches overall are shown*
+*Returns terms that were searched for with the term you entered (or overall, if no keyword was entered), which had the most significant growth in volume in the requested time period. For each rising search term, you’ll see a percentage of the term’s growth compared to the previous time period. If you see “Breakout” instead of a percentage, it means that the search term grew by more than 5000%.*
 
 #####Syntax
 `googleTrends.risingSearches(['keywords'], 'country')`
