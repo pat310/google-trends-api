@@ -24,7 +24,7 @@ module.exports = function request(keywords, cbFunc){
 
 function promiseArr(keywords){
 	return groupKeywords(keywords).map(function(keyword, index, arr){
-		return rp(`http://www.google.com/trends/fetchComponent?q="${keyword}"&cid=TIMESERIES_GRAPH_0&export=3`)
+		return rp(`http://www.google.com/trends/fetchComponent?q=${keyword}&cid=TIMESERIES_GRAPH_0&export=3`)
 		.then(function(htmlString){
 			return parseJSON(htmlString, arr[index].split(','));
 		});
