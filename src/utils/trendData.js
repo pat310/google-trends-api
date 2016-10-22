@@ -13,7 +13,6 @@ module.exports = function request(keywords, timePeriod, cbFunc){
 
 	var error = checkErrors(obj);
 	if(error instanceof Error) return Promise.reject(obj.cbFunc(error));
-	if(timePeriodConverter(obj.timePeriod) instanceof Error) return Promise.reject(obj.cbFunc(timePeriodConverter(obj.timePeriod)));
 
 	return Promise.all(promiseArr(obj.keywords, timePeriodConverter(obj.timePeriod)))
 	.then(function(results){
