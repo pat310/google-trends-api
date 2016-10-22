@@ -6,5 +6,6 @@ module.exports = {
 	dateValidate: require(__dirname + '/dateValidate.test.js'),
 	errorHandling: require(__dirname + '/errorHandling.test.js'),
 	htmlParser: require(__dirname + '/htmlParser.test.js'),
-	trendDataHelper: require(__dirname + '/trendDataHelper.js')
+	trendDataHelper: require(__dirname + '/trendDataHelper.test.js'),
+	timePeriodConverter: require(__dirname + '/timePeriodConverter.test.js')
 };

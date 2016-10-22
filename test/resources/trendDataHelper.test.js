@@ -20,8 +20,8 @@ describe('trendDataHelper.test.js', function(){
 			expect(trendDataHelper.groupKeywords(['dog', 'cat'])).to.deep.equal(['dog,cat']);
 		});
 		it('correctly groups an array greater limit of 5', function(){
-            expect(trendDataHelper.groupKeywords(['dog', 'cat', 'giraffe', 'bear', 'sloth', 'pig'])).to.deep.equal(['dog,cat,giraffe,bear,sloth', 'pig']);
-            expect(trendDataHelper.groupKeywords(['dog', 'cat', 'giraffe', 'bear', 'sloth', 'pig', 'donkey', 'horse', 'crane', 'wolf', 'lion'])).to.deep.equal(['dog,cat,giraffe,bear,sloth', 'pig,donkey,horse,crane,wolf', 'lion']);
+      expect(trendDataHelper.groupKeywords(['dog', 'cat', 'giraffe', 'bear', 'sloth', 'pig'])).to.deep.equal(['dog,cat,giraffe,bear,sloth', 'pig']);
+      expect(trendDataHelper.groupKeywords(['dog', 'cat', 'giraffe', 'bear', 'sloth', 'pig', 'donkey', 'horse', 'crane', 'wolf', 'lion'])).to.deep.equal(['dog,cat,giraffe,bear,sloth', 'pig,donkey,horse,crane,wolf', 'lion']);
 		});
 	});
 
