@@ -40,7 +40,7 @@ var util = require('util');
 
 /* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 2 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= topRelated =~=~=~=~=~=~=~=~=~=~ */
-// // Parameters: array of key words (required), country as a string (optional, 'US' is default)
+// // Parameters: array of key words (optional), country as a string (optional, 'US' is default)
 // // optionally as the first argument pass an object: {keywords: ['dog'], geo: 'US'}
 // googleTrends.topRelated({keywords: 'dog house'})
 // .then(function(topRelated){

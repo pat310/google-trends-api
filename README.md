@@ -127,7 +127,7 @@ The examples shown for each API method can be run by changing into the home `goo
 ### API Methods
 The following API methods are available:
 * [trendData](#trenddata): returns the historical trend data to a provided keyword or an array of keywords - optionally accepts a `timePeriod` object
-* [topRelated](#toprelated): returns the top related keywords to a provided keyword or an array of keywords along with it's percentage of correlation.
+* [topRelated](#toprelated): returns terms that are most frequently searched with the term(s) you entered in the same search session, within the chosen category and country (optional). If you didn't enter a search term, top searches overall are shown.
 * [hotTrends](#hottrends): returns the current top 20 trending searches for a given location.
 * [hotTrendsDetail](#hottrendsdetail): same as the [hotTrends](#hottrends) results except with more detail such as links, publication date, approximate traffic, etc.
 * [top30in30](#top30in30): returns the top 30 searches in the past 30 days
@@ -294,12 +294,12 @@ googleTrends.trendData({keywords: 'Oj Simpson', timePeriod: {type: 'day', value:
 <hr>
 
 #### topRelated()
-*Returns the top related keywords for a provided keyword or an array of keywords*
+*Returns terms that are most frequently searched with the term you entered in the same search session, within the chosen category (optional) and country (optional). If you didn't enter a search term, top searches overall are shown*
 
 #####Syntax
 `googleTrends.topRelated(['keywords'], 'country')`
 
-* `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  Entering a keyword is **required**.
+* `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  If no keyword is entered, top searches overall are shown
 
 * `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default
 
@@ -319,16 +319,16 @@ googleTrends.topRelated('dog house', 'US')
 
 ######Output
 ```js
-[ { 'dog house grill': 'Breakout',
-    'best house dog': '+170%',
-    'the dog house': '+140%',
-    'the house': '+130%',
-    'house of dog': '+100%',
-    'large dog house': '+90%',
-    'house train dog': '+80%',
-    'small dog house': '+80%',
-    'animal house': '+70%',
-    'big dog house': '+70%' } ];
+[ { 'the dog house': '100',
+    'the house': '100',
+    'house of dog': '50',
+    'dog house plans': '15',
+    'dog training': '15',
+    'dog house training': '15',
+    'house train dog': '15',
+    'build dog house': '10',
+    'best house dog': '10',
+    'dog houses': '10' } ]
 ```
 
 [back to top](#introduction)
