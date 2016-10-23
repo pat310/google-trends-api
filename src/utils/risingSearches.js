@@ -23,7 +23,7 @@ module.exports = function request(keywords, timePeriod, geo, cbFunc){
 
 function promiseArr(keywords, timePeriod, country){
 	return keywords.map(function(keyword){
-		return rp(`http://www.google.com/trends/fetchComponent?hl=en-US&q=${keyword}&geo=${country}&cid=TOP_QUERIES_0_0&${timePeriod}`)
+		return rp(`http://www.google.com/trends/fetchComponent?hl=en-US&q=${keyword}&geo=${country}&cid=RISING_QUERIES_0_0&${timePeriod}`)
 		.then(function(htmlStrings){
 			return parseHtml(htmlStrings);
 		});

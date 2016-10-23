@@ -16,7 +16,7 @@ Simple to use:
 var googleTrends = require('google-trends-api');
 
 var options = {
-	geo: 'country name',
+	geo: 'country code or name',
 	date: 'yyyymm',
 	keywords: ['some', 'list', 'of', 'keywords'],
 	category: 'some category',
@@ -44,6 +44,7 @@ googleTrends.apiMethod(options)
 	* [API Methods](#api-methods)
 		* [trendData](#trenddata)
 		* [topRelated](#toprelated)
+		* [risingSearches](#risingsearches)
 		* [hotTrends](#hottrends)
 		* [hotTrendsDetail](#hottrendsdetail)
 		* [top30in30](#top30in30)
@@ -77,57 +78,60 @@ You will now be able to access methods on `googleTrends`.  See the [API Methods 
 ### Promises
 By default, all the API's return a promise for the results.  Example:
 ```js
-googleTrends.topRelated({keywords: 'dog house'})
+googleTrends.topRelated('dog house')
 .then(function(results){
-	console.log("Here are the results!", results);
+  console.log(results);
 })
 .catch(function(err){
-	console.error('We have an error!', err);
-})
+  console.error(err);
+});
 ```
 
 Would console.log:
 ```js
-Here are the results! [ { 'dog house grill': 'Breakout',
-    'best house dog': '+170%',
-    'the dog house': '+140%',
-    'the house': '+130%',
-    'house of dog': '+100%',
-    'large dog house': '+90%',
-    'house train dog': '+80%',
-    'small dog house': '+80%',
-    'animal house': '+70%',
-    'big dog house': '+70%' } ];
+[ { 'the dog house': '100',
+    'the house': '100',
+    'house of dog': '50',
+    'dog house plans': '15',
+    'dog training': '15',
+    'dog house training': '15',
+    'house train dog': '15',
+    'build dog house': '10',
+    'best house dog': '10',
+    'dog houses': '10' } ]
 ```
 
 ### Callbacks
 All API methods can also take a callback function as the last input parameter.  For example:
 ```js
-googleTrends.topRelated({keywords: 'dog dreams'}, function(err, results){
+googleTrends.topRelated('dog house', function(err, results){
 	if(err) console.error('there was an error!', err);
-	else console.log('results', results);
+	else console.log(results);
 })
 ```
 
 Would console.log:
 ```js
-results [ { 'do dog dreams': 'Breakout',
-    'dog dream meaning': 'Breakout',
-    'dog dreams meaning': 'Breakout',
-    'dog in dreams': 'Breakout',
-    'dreams about dog': 'Breakout',
-    'dreams of dogs': 'Breakout',
-    'my dog dreams': 'Breakout',
-    'pet dreams': 'Breakout' } ]
+[ { 'the dog house': '100',
+    'the house': '100',
+    'house of dog': '50',
+    'dog house plans': '15',
+    'dog training': '15',
+    'dog house training': '15',
+    'house train dog': '15',
+    'build dog house': '10',
+    'best house dog': '10',
+    'dog houses': '10' } ]
 ```
 
 ### Examples
-The examples shown for each API method can be run by changing into the home `google-trends` directory and running `node examples.js`.  **Note:** Each example in [examples.js](/examples.js) need to be uncommented.
+There are examples available for each API method that can be run by changing into the home `google-trends` directory and running `node examples.js`.  **Note:** Each example in [examples.js](/examples.js) need to be uncommented.
 
 ### API Methods
 The following API methods are available:
 * [trendData](#trenddata): returns the historical trend data to a provided keyword or an array of keywords - optionally accepts a `timePeriod` object
-* [topRelated](#toprelated): returns the top related keywords to a provided keyword or an array of keywords along with it's percentage of correlation.
+* [topRelated](#toprelated): returns terms that are most frequently searched with the term(s) you entered in the same search session, within the chosen category (optional) and country (optional). If you didn't enter a search term, top searches overall are shown.
+* [risingSearches](#risingsearches): returns terms that were searched for with the term you entered (or overall, if no keyword was entered), which had the most significant growth in volume in the requested time period. For each rising search term, you’ll see a percentage of the term’s growth compared to the previous time period. If you see “Breakout” instead of a percentage, it means that the search term grew by more than 5000%.
 * [hotTrends](#hottrends): returns the current top 20 trending searches for a given location.
 * [hotTrendsDetail](#hottrendsdetail): same as the [hotTrends](#hottrends) results except with more detail such as links, publication date, approximate traffic, etc.
 * [top30in30](#top30in30): returns the top 30 searches in the past 30 days
@@ -140,6 +144,7 @@ For each of the API methods, rather than providing the parameters to the functio
 * `date`: 'date provided in format yyyymm as a string where January starts at 01,
 * `category`: 'a string for a specific category',
 * `keywords`: 'either an array of keywords as strings or a singular keyword as a string'
+* `timePeriod`: an object with keys `type` and `value` where `type`'s value is an enumerated string (either 'hour', 'day', 'month', or 'year') and `value`'s value is a number
 
 [back to top](#introduction)
 
@@ -152,7 +157,8 @@ For each of the API methods, rather than providing the parameters to the functio
 `googleTrends.trendData(['keywords'], {type: 'string', value: number})`
 
 * `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  Entering a keyword is **required**.
-* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default `trendData` will return all past trend data available.
+
+* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default all past trend data will be returned, otherwise trend data for the given time period will be returned.
 
 #####Example
 The following example provides the historical trend data for 'OJ Simpson'.  Optionally, the input could have been provided as `googleTrends.trendData({keywords: 'OJ Simpson'})`.
@@ -253,7 +259,6 @@ googleTrends.trendData({keywords: 'Oj Simpson', timePeriod: {type: 'day', value:
 ```
 
 ######Output
-**Note: Query was conducted on 10/22 so 5 days back leads to results starting at 10/17**
 ```js
 [ { query: 'oj simpson',
     values:
@@ -294,17 +299,19 @@ googleTrends.trendData({keywords: 'Oj Simpson', timePeriod: {type: 'day', value:
 <hr>
 
 #### topRelated()
-*Returns the top related keywords for a provided keyword or an array of keywords*
+*Returns terms that are most frequently searched with the term you entered in the same search session, within the chosen category (optional) and country (optional). If you didn't enter a search term, top searches overall are shown*
 
 #####Syntax
-`googleTrends.topRelated(['keywords'], 'country')`
+`googleTrends.topRelated(['keywords'], {type: 'string', value: number}, 'country')`
 
-* `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  Entering a keyword is **required**.
+* `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  If no keyword is entered, top searches overall are shown
+
+* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default all past data will be used
 
 * `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default
 
 #####Example
-The following example provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.topRelated({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter and any other keys provided in the object will be ignore.
+The following example provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.topRelated({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter.
 
 ######Input
 ```js
@@ -319,16 +326,59 @@ googleTrends.topRelated('dog house', 'US')
 
 ######Output
 ```js
-[ { 'dog house grill': 'Breakout',
-    'best house dog': '+170%',
-    'the dog house': '+140%',
-    'the house': '+130%',
-    'house of dog': '+100%',
+[ { 'the dog house': '100',
+    'the house': '100',
+    'house of dog': '50',
+    'dog house plans': '15',
+    'dog training': '15',
+    'dog house training': '15',
+    'house train dog': '15',
+    'build dog house': '10',
+    'best house dog': '10',
+    'dog houses': '10' } ]
+```
+
+[back to top](#introduction)
+
+<hr>
+
+#### risingSearches()
+*Returns terms that were searched for with the term you entered (or overall, if no keyword was entered), which had the most significant growth in volume in the requested time period. For each rising search term, you’ll see a percentage of the term’s growth compared to the previous time period. If you see “Breakout” instead of a percentage, it means that the search term grew by more than 5000%.*
+
+#####Syntax
+`googleTrends.risingSearches(['keywords'], {type: 'string', value: number}, 'country')`
+
+* `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  If no keyword is entered, top searches overall are shown
+
+* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default all past data will be used
+
+* `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default
+
+#####Example
+The following example provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.risingSearches({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter.
+
+######Input
+```js
+googleTrends.risingSearches('dog house', 'US')
+.then(function(results){
+  console.log(results);
+})
+.catch(function(err){
+  console.error(err);
+});
+```
+
+######Output
+```js
+[ { 'little dog house': '+250%',
+    'dog house grill': '+140%',
     'large dog house': '+90%',
-    'house train dog': '+80%',
-    'small dog house': '+80%',
-    'animal house': '+70%',
-    'big dog house': '+70%' } ];
+    'best house dog': '+80%',
+    'hot dog house': '+70%',
+    'the dog house': '+70%',
+    'the house': '+70%',
+    'house of dog': '+50%',
+    'house train dog': '+40%' } ]
 ```
 
 [back to top](#introduction)
@@ -386,7 +436,7 @@ googleTrends.hotTrends('US')
 <hr>
 
 #### hotTrendsDetail()
-*Returns the current top 20 trending searches for a given location*
+*Returns the current top 20 trending searches for a given location with more detail than the `hotTrends()` method*
 
 #####Syntax
 `googleTrends.hotTrendsDetail('country')`
@@ -570,7 +620,7 @@ googleTrends.top30in30()
 * `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default.
 
 #####Example
-The following example provides the top charts in January 2016 in the 'US'.  Optionally, the input could have been provided as `googleTrends.allTopCharts({geo: 'US', date: '201601'})`.  Order of the keys does not matter and any other keys provided in the object will be ignore.
+The following example provides the top charts in January 2016 in the 'US'.  Optionally, the input could have been provided as `googleTrends.allTopCharts({geo: 'US', date: '201601'})`.  Order of the keys does not matter.
 
 ######Input
 ```js
@@ -650,7 +700,7 @@ googleTrends.allTopCharts('201601', 'US')
 * `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default.
 
 #####Example
-The following example provides the top charts for actors in January 2016 in the 'US'.  Optionally, the input could have been provided as `googleTrends.categoryTopCharts({category: 'actors', geo: 'US', date: '201601'})`.  Order of the keys does not matter and any other keys provided in the object will be ignore.
+The following example provides the top charts for actors in January 2016 in the 'US'.  Optionally, the input could have been provided as `googleTrends.categoryTopCharts({category: 'actors', geo: 'US', date: '201601'})`.  Order of the keys does not matter.
 
 ######Input
 ```js

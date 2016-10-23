@@ -5,5 +5,6 @@ module.exports = {
 	hotTrendsDetail: require(__dirname + '/hotTrendsDetail.js'),
 	top30in30: require(__dirname + '/top30in30.js'),
 	allTopCharts: require(__dirname + '/allTopCharts.js'),
-	categoryTopCharts: require(__dirname + '/categoryTopCharts.js')
+	categoryTopCharts: require(__dirname + '/categoryTopCharts.js'),
+	risingSearches: require(__dirname + '/risingSearches.js'),
 };
