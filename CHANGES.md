@@ -3,7 +3,7 @@
 
 - `topRelated` now correctly using `TOP_QUERIES` rather than `RISING_QUERIES` ([#34])
 - `topRelated` now accepts an optional `timePeriod` object that will return trend data based on a provided time period ([#34])
-- Added `topRising` method which accepts `category`, `timePeriod` and `geo` ([#34])
+- Added `risingSearches` method which accepts `category`, `timePeriod` and `geo` ([#34])
 
 [#34]: https://github.com/pat310/google-trends-api/pull/34
 

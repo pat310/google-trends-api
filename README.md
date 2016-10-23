@@ -16,7 +16,7 @@ Simple to use:
 var googleTrends = require('google-trends-api');
 
 var options = {
-	geo: 'country name',
+	geo: 'country code or name',
 	date: 'yyyymm',
 	keywords: ['some', 'list', 'of', 'keywords'],
 	category: 'some category',
@@ -44,6 +44,7 @@ googleTrends.apiMethod(options)
 	* [API Methods](#api-methods)
 		* [trendData](#trenddata)
 		* [topRelated](#toprelated)
+		* [risingSearches](#risingsearches)
 		* [hotTrends](#hottrends)
 		* [hotTrendsDetail](#hottrendsdetail)
 		* [top30in30](#top30in30)
@@ -77,57 +78,59 @@ You will now be able to access methods on `googleTrends`.  See the [API Methods 
 ### Promises
 By default, all the API's return a promise for the results.  Example:
 ```js
-googleTrends.topRelated({keywords: 'dog house'})
+googleTrends.topRelated('dog house')
 .then(function(results){
-	console.log("Here are the results!", results);
+  console.log(results);
 })
 .catch(function(err){
-	console.error('We have an error!', err);
-})
+  console.error(err);
+});
 ```
 
 Would console.log:
 ```js
-Here are the results! [ { 'dog house grill': 'Breakout',
-    'best house dog': '+170%',
-    'the dog house': '+140%',
-    'the house': '+130%',
-    'house of dog': '+100%',
-    'large dog house': '+90%',
-    'house train dog': '+80%',
-    'small dog house': '+80%',
-    'animal house': '+70%',
-    'big dog house': '+70%' } ];
+[ { 'the dog house': '100',
+    'the house': '100',
+    'house of dog': '50',
+    'dog house plans': '15',
+    'dog training': '15',
+    'dog house training': '15',
+    'house train dog': '15',
+    'build dog house': '10',
+    'best house dog': '10',
+    'dog houses': '10' } ]
 ```
 
 ### Callbacks
 All API methods can also take a callback function as the last input parameter.  For example:
 ```js
-googleTrends.topRelated({keywords: 'dog dreams'}, function(err, results){
+googleTrends.topRelated('dog house', function(err, results){
 	if(err) console.error('there was an error!', err);
-	else console.log('results', results);
+	else console.log(results);
 })
 ```
 
 Would console.log:
 ```js
-results [ { 'do dog dreams': 'Breakout',
-    'dog dream meaning': 'Breakout',
-    'dog dreams meaning': 'Breakout',
-    'dog in dreams': 'Breakout',
-    'dreams about dog': 'Breakout',
-    'dreams of dogs': 'Breakout',
-    'my dog dreams': 'Breakout',
-    'pet dreams': 'Breakout' } ]
+[ { 'the dog house': '100',
+    'the house': '100',
+    'house of dog': '50',
+    'dog house plans': '15',
+    'dog training': '15',
+    'dog house training': '15',
+    'house train dog': '15',
+    'build dog house': '10',
+    'best house dog': '10',
+    'dog houses': '10' } ]
 ```
 
 ### Examples
-The examples shown for each API method can be run by changing into the home `google-trends` directory and running `node examples.js`.  **Note:** Each example in [examples.js](/examples.js) need to be uncommented.
+There are examples available for each API method that can be run by changing into the home `google-trends` directory and running `node examples.js`.  **Note:** Each example in [examples.js](/examples.js) need to be uncommented.
 
 ### API Methods
 The following API methods are available:
 * [trendData](#trenddata): returns the historical trend data to a provided keyword or an array of keywords - optionally accepts a `timePeriod` object
-* [topRelated](#toprelated): returns terms that are most frequently searched with the term(s) you entered in the same search session, within the chosen category and country (optional). If you didn't enter a search term, top searches overall are shown.
+* [topRelated](#toprelated): returns terms that are most frequently searched with the term(s) you entered in the same search session, within the chosen category (optional) and country (optional). If you didn't enter a search term, top searches overall are shown.
 * [risingSearches](#risingsearches): returns terms that were searched for with the term you entered (or overall, if no keyword was entered), which had the most significant growth in volume in the requested time period. For each rising search term, you’ll see a percentage of the term’s growth compared to the previous time period. If you see “Breakout” instead of a percentage, it means that the search term grew by more than 5000%.
 * [hotTrends](#hottrends): returns the current top 20 trending searches for a given location.
 * [hotTrendsDetail](#hottrendsdetail): same as the [hotTrends](#hottrends) results except with more detail such as links, publication date, approximate traffic, etc.
@@ -155,7 +158,7 @@ For each of the API methods, rather than providing the parameters to the functio
 
 * `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  Entering a keyword is **required**.
 
-* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default `trendData` will return all past trend data available.
+* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default all past trend data will be returned, otherwise trend data for the given time period will be returned.
 
 #####Example
 The following example provides the historical trend data for 'OJ Simpson'.  Optionally, the input could have been provided as `googleTrends.trendData({keywords: 'OJ Simpson'})`.
@@ -256,7 +259,6 @@ googleTrends.trendData({keywords: 'Oj Simpson', timePeriod: {type: 'day', value:
 ```
 
 ######Output
-**Note: Query was conducted on 10/22 so 5 days back leads to results starting at 10/17**
 ```js
 [ { query: 'oj simpson',
     values:
@@ -344,7 +346,7 @@ googleTrends.topRelated('dog house', 'US')
 *Returns terms that were searched for with the term you entered (or overall, if no keyword was entered), which had the most significant growth in volume in the requested time period. For each rising search term, you’ll see a percentage of the term’s growth compared to the previous time period. If you see “Breakout” instead of a percentage, it means that the search term grew by more than 5000%.*
 
 #####Syntax
-`googleTrends.risingSearches(['keywords'], {type: 'string', value: number} 'country')`
+`googleTrends.risingSearches(['keywords'], {type: 'string', value: number}, 'country')`
 
 * `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  If no keyword is entered, top searches overall are shown
 
@@ -434,7 +436,7 @@ googleTrends.hotTrends('US')
 <hr>
 
 #### hotTrendsDetail()
-*Returns the current top 20 trending searches for a given location*
+*Returns the current top 20 trending searches for a given location with more detail than the `hotTrends()` method*
 
 #####Syntax
 `googleTrends.hotTrendsDetail('country')`
