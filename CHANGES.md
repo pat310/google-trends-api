@@ -1,4 +1,4 @@
-## [v2.2.0]
+## [v3.0.0]
 > Oct 22, 2016
 
 - `topRelated` now correctly using `TOP_QUERIES` rather than `RISING_QUERIES` ([#34])
