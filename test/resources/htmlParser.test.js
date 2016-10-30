@@ -8,6 +8,7 @@ var expect = chai.expect;
 var assert = chai.assert;
 
 var exampleHtml = fs.readFileSync(__dirname + '/examples/exampleHtml.html', 'utf8');
+var exampleHtmlTopRelated = fs.readFileSync(__dirname + '/examples/exampleHtmlTopRelated.html', 'utf8');
 var exampleErrorHtml = fs.readFileSync(__dirname + '/examples/exampleErrorHtml.html', 'utf8');
 var exampleJSON = fs.readFileSync(__dirname + '/examples/exampleJSON.json', 'utf8');
 var exampleJSONTwoFields = fs.readFileSync(__dirname + '/examples/exampleJSONTwoFields.json', 'utf8');
@@ -23,11 +24,14 @@ module.exports =
             it('has method', function() {
                 assert.isFunction(htmlParser.parseHtml);
             });
-            it('correctly parses htmlstrings', function() {
-                expect(htmlParser.parseHtml(exampleHtml)).to.deep.equal(expectedHTMLOutput);
+            it('correctly parses htmlstrings for risingSearches', function() {
+                expect(htmlParser.parseHtml('risingSearches', exampleHtml)).to.deep.equal(expectedHTMLOutput);
+            });
+            it('correctly parses htmlstrings for topRelated', function() {
+                expect(htmlParser.parseHtml('topRelated', exampleHtmlTopRelated)).to.deep.equal(expectedHTMLOutputTopRelated);
             });
             it('returns an error when quota limit reached', function() {
-                expect(htmlParser.parseHtml(exampleErrorHtml)).to.be.an('error').and.have.property('message', 'Quota limit exceeded, try again later');
+                expect(htmlParser.parseHtml('risingSearches', exampleErrorHtml)).to.be.an('error').and.have.property('message', 'Quota limit exceeded, try again later');
             });
         });
 
@@ -76,4 +80,17 @@ var expectedHTMLOutput = {
     'small dog house': '+60%',
     'big dog house': '+40%',
     'build dog house': '+40%'
+};
+
+var expectedHTMLOutputTopRelated = {
+    'the dog house': '100',
+    'house of dog': '50',
+    'house plans': '15',
+    'dog house plans': '15',
+    'house training dog': '15',
+    'dog training': '15',
+    'house train dog': '15',
+    'dog houses': '10',
+    'best house dog': '10',
+    'white house dog': '10'
 };
