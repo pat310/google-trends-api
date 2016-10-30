@@ -7,7 +7,7 @@ chai.use(chaiAsPromised);
 var expect = chai.expect;
 var assert = chai.assert;
 
-var exampleHtml = fs.readFileSync(__dirname + '/examples/exampleHtml.html', 'utf8');
+var exampleHtmlRisingSearches = fs.readFileSync(__dirname + '/examples/exampleHtmlRisingSearches.html', 'utf8');
 var exampleHtmlTopRelated = fs.readFileSync(__dirname + '/examples/exampleHtmlTopRelated.html', 'utf8');
 var exampleErrorHtml = fs.readFileSync(__dirname + '/examples/exampleErrorHtml.html', 'utf8');
 var exampleJSON = fs.readFileSync(__dirname + '/examples/exampleJSON.json', 'utf8');
@@ -25,7 +25,7 @@ module.exports =
                 assert.isFunction(htmlParser.parseHtml);
             });
             it('correctly parses htmlstrings for risingSearches', function() {
-                expect(htmlParser.parseHtml('risingSearches', exampleHtml)).to.deep.equal(expectedHTMLOutput);
+                expect(htmlParser.parseHtml('risingSearches', exampleHtmlRisingSearches)).to.deep.equal(expectedHTMLOutputRisingSearches);
             });
             it('correctly parses htmlstrings for topRelated', function() {
                 expect(htmlParser.parseHtml('topRelated', exampleHtmlTopRelated)).to.deep.equal(expectedHTMLOutputTopRelated);
@@ -69,7 +69,7 @@ module.exports =
         });
     });
 
-var expectedHTMLOutput = {
+var expectedHTMLOutputRisingSearches = {
     'dog house grill': '+550%',
     'the dog house': '+160%',
     'large dog house': '+150%',
