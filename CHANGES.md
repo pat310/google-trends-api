@@ -1,3 +1,10 @@
+## [v3.0.1]
+> Oct 31, 2016
+
+- removing `cheerio` as a dependency by replacing it with regex ([#35])
+
+[#35]: https://github.com/pat310/google-trends-api/pull/35
+
 ## [v3.0.0]
 > Oct 22, 2016
 
