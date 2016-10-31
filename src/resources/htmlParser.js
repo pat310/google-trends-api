@@ -4,34 +4,26 @@ function parseHtml(searchType, htmlString) {
     var errorRegex = /errorTitle/;
     if(htmlString.match(errorRegex)) return new Error('Quota limit exceeded, try again later');
 
-    var listItemsRegex, barValuesRegex;
+    var listItemsRegex, barValuesRegex, listItemsRemoveRegex, barValuesRemoveRegex;
     if(searchType === 'topRelated'){
-        listItemsRegex = /\"trends\.PageTracker\.analyticsTrackEvent\(\'top keywords drilldown\'\)\;\"(\s)*\>(\s)*(.*?)\<\/a\>/gm;
-        barValuesRegex = /\<div class\=\"trends-hbars-value\"\>(\s)*(\S)*(.*?)\<\/div\>/gm;
+        listItemsRegex = /\"trends\.PageTracker\.analyticsTrackEvent\(\'top keywords drilldown\'\)\;\"(\s)*\>(\s)*(\n)*((\w|\s)*)?/gm;
+        barValuesRegex = /\<div class\=\"trends-hbars-value\"\>(\s)*(\d*)/gm;
+        listItemsRemoveRegex = /\"trends\.PageTracker\.analyticsTrackEvent\(\'top keywords drilldown\'\)\;\"(\s)*\>(\s)*/;
+        barValuesRemoveRegex = /\<div class\=\"trends-hbars-value\"\>(\s)*/;
     }else if(searchType === 'risingSearches'){
-        listItemsRegex = /\"trends\.PageTracker\.analyticsTrackEvent\(\'rising drilldown\'\)\;\"(\s)*\>(\s)*(.*?)\<\/a\>/gm;
+        listItemsRegex = /\"trends\.PageTracker\.analyticsTrackEvent\(\'rising drilldown\'\)\;\"(\s)*\>(\s)*(\n)*((\w|\s)*)?/gm;
         barValuesRegex = /\<td class\=\"trends-bar-chart-value-cell trends-bar-chart-row(-first|-last)?\"\>(\s)*(\S)*/gm;
+        listItemsRemoveRegex = /\"trends\.PageTracker\.analyticsTrackEvent\(\'rising drilldown\'\)\;\"(\s)*\>(\s)*/;
+        barValuesRemoveRegex = /\<td class\=\"trends-bar-chart-value-cell trends-bar-chart-row(-first|-last)?\"\>(\s)*/;
     }
 
-    var listItems = htmlString.match(listItemsRegex) || [];
-    var barValues = htmlString.match(barValuesRegex) || [];
+    var listItems = (htmlString.match(listItemsRegex) || []).map(function(val){
+        return val.replace(listItemsRemoveRegex, '');
+    });
 
-    if(searchType === 'topRelated'){    
-        listItems = listItems.map(function(val){
-            return val.replace(/\"trends\.PageTracker\.analyticsTrackEvent\(\'top keywords drilldown\'\)\;\"(\s)*\>(\s)*/, '').replace(/\<\/a\>/, '');
-        });
-
-        barValues = barValues.map(function(val){
-            return val.replace(/\<div class\=\"trends-hbars-value\"\>(\s)*/, '').replace(/\<\/div\>/, '');
-        });
-    }else if(searchType === 'risingSearches'){
-        listItems = listItems.map(function(val){
-            return val.replace(/\"trends\.PageTracker\.analyticsTrackEvent\(\'rising drilldown\'\)\;\"(\s)*\>(\s)*/, '').replace(/\<\/a\>/, '');
-        });
-        barValues = barValues.map(function(val){
-            return val.replace(/\<td class\=\"trends-bar-chart-value-cell trends-bar-chart-row(-first|-last)?\"\>(\s)*/, '').replace(/\<\/div\>/, '');
-        });
-    }
+    var barValues = (htmlString.match(barValuesRegex) || []).map(function(val){
+        return val.replace(barValuesRemoveRegex, '');
+    });
 
     if (listItems.length === barValues.length) {
         return listItems.reduce(function(acc, curr, index) {
