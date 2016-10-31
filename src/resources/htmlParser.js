@@ -1,16 +1,29 @@
 'use strict';
 
-var cheerio = require('cheerio');
+function parseHtml(searchType, htmlString) {
+    var errorRegex = /errorTitle/;
+    if(htmlString.match(errorRegex)) return new Error('Quota limit exceeded, try again later');
 
-function parseHtml(htmlString) {
-    var $ = cheerio.load(htmlString);
-    if ($('.errorTitle').text()) return new Error('Quota limit exceeded, try again later');
+    var listItemsRegex, barValuesRegex, listItemsRemoveRegex, barValuesRemoveRegex;
+    if(searchType === 'topRelated'){
+        listItemsRegex = /\"trends\.PageTracker\.analyticsTrackEvent\(\'top keywords drilldown\'\)\;\"(\s)*\>(\s)*(\n)*((\w|\s)*)?/gm;
+        barValuesRegex = /\<div class\=\"trends-hbars-value\"\>(\s)*(\d*)/gm;
+        listItemsRemoveRegex = /\"trends\.PageTracker\.analyticsTrackEvent\(\'top keywords drilldown\'\)\;\"(\s)*\>(\s)*/;
+        barValuesRemoveRegex = /\<div class\=\"trends-hbars-value\"\>(\s)*/;
+    }else if(searchType === 'risingSearches'){
+        listItemsRegex = /\"trends\.PageTracker\.analyticsTrackEvent\(\'rising drilldown\'\)\;\"(\s)*\>(\s)*(\n)*((\w|\s)*)?/gm;
+        barValuesRegex = /\<td class\=\"trends-bar-chart-value-cell trends-bar-chart-row(-first|-last)?\"\>(\s)*(\S)*/gm;
+        listItemsRemoveRegex = /\"trends\.PageTracker\.analyticsTrackEvent\(\'rising drilldown\'\)\;\"(\s)*\>(\s)*/;
+        barValuesRemoveRegex = /\<td class\=\"trends-bar-chart-value-cell trends-bar-chart-row(-first|-last)?\"\>(\s)*/;
+    }
 
-    var listItems = $('a').attr('onclick', "trends.PageTracker.analyticsTrackEvent('rising drilldown');").text();
-    var barValues = $('td.trends-bar-chart-value-cell').text();
+    var listItems = (htmlString.match(listItemsRegex) || []).map(function(val){
+        return val.replace(listItemsRemoveRegex, '');
+    });
 
-    listItems = removeWhiteSpace(listItems.replace(/\r?\n|\r/g, ",").split(','));
-    barValues = removeWhiteSpace(barValues.replace(/\r?\n|\r/g, "!").split('!'));
+    var barValues = (htmlString.match(barValuesRegex) || []).map(function(val){
+        return val.replace(barValuesRemoveRegex, '');
+    });
 
     if (listItems.length === barValues.length) {
         return listItems.reduce(function(acc, curr, index) {
@@ -23,12 +36,6 @@ function parseHtml(htmlString) {
 
 }
 
-function removeWhiteSpace(arr) {
-    return arr.reduce(function(acc, curr) {
-        if (curr.trim() !== "") acc.push(curr.trim());
-        return acc;
-    }, []);
-}
 
 function parseJSON(htmlString) {
     if (htmlString && htmlString.indexOf('errorTitle') !== -1)

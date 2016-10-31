@@ -3,7 +3,7 @@
 var rp = require('request-promise');
 var createObj = require(__dirname + '/../resources/callbacks.js');
 var checkErrors = require(__dirname + '/../resources/errorHandling.js');
-var parseHtml = require(__dirname + '/../resources/htmlParser.js').parseHtml;
+var parseHtml = require(__dirname + '/../resources/htmlParser.js').parseHtml.bind(null, 'risingSearches');
 
 module.exports = function request(keywords, timePeriod, geo, cbFunc){
 	var obj = createObj(arguments, request);
