@@ -14,7 +14,7 @@ function checkErrors(obj){
 
 	obj.geo = obj.geo || 'US';
 	if(obj.geo.length > 2) obj.geo = COUNTRY.getAbbreviation(obj.geo.toUpperCase());
-	if(!obj.geo || !COUNTRY.getCode(obj.geo)) return new Error('Could not locate country');
+	if(!obj.geo) return new Error('Could not locate country');
 
 	obj.countryDomain = COUNTRY.getDomain(obj.geo);
 	obj.countryCode = COUNTRY.getCode(obj.geo);
