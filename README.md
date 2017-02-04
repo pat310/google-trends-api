@@ -144,7 +144,7 @@ For each of the API methods, rather than providing the parameters to the functio
 * `date`: 'date provided in format yyyymm as a string where January starts at 01,
 * `category`: 'a string for a specific category',
 * `keywords`: 'either an array of keywords as strings or a singular keyword as a string'
-* `timePeriod`: an object with keys `type` and `value` where `type`'s value is an enumerated string (either 'hour', 'day', 'month', or 'year') and `value`'s value is a number
+* `timePeriod`: an object with keys `type` and `value` where `type`'s value is an enumerated string (either 'hour', 'day', 'month', or 'year') and `value`'s value is a number.  **Note:** this is the elapsed time up to the current time, for example `{type: 'hour', value: 5}` corresponds to data from 5 hours ago to now, or `{type: 'day', value: 2}` corresponds to data from 2 days ago to now
 
 [back to top](#introduction)
 
@@ -405,7 +405,7 @@ googleTrends.hotTrends('US')
 .catch(function(err){
 	console.log(err);
 });
-``` 
+```
 
 ######Output
 ```js
@@ -455,7 +455,7 @@ googleTrends.hotTrendsDetail('US')
 .catch(function(err){
 	console.log(err);
 });
-``` 
+```
 
 ######Output
 **Note:** Only showing some returned data for brevity
@@ -632,7 +632,7 @@ googleTrends.allTopCharts('201601', 'US')
 	console.log(err);
 });
 ```
- 
+
 
 ######Output
 **Note:** Only showing some returned data for brevity
@@ -711,7 +711,7 @@ googleTrends.categoryTopCharts('actors', '201601', 'US')
 .catch(function(err){
 	console.log(err);
 });
-``` 
+```
 
 ######Output
 **Note:** Only showing some returned data for brevity
