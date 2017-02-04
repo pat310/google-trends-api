@@ -1,7 +1,7 @@
 'use strict';
 
-const COUNTRY = require(__dirname + '/countryCodes.js');
-const DATE = require(__dirname + '/dateValidate.js');
+const COUNTRY = require('./countryCodes.js');
+const DATE = require('./dateValidate.js');
 
 function checkErrors(obj){
 	var keys = Object.keys(obj);

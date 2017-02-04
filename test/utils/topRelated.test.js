@@ -5,9 +5,9 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var should = chai.should();
 
-var topRelated = require(__dirname + '/../../lib/utils/topRelated.js');
+var topRelated = require('./../../lib/utils/topRelated.js');
 
-module.exports = 
+module.exports =
 describe('topRelated.js', function(){
 	it('should reject if country is invalid', function(){
 		return topRelated('dogs', {type: 'hour', value: 5}, 'ZZ').should.be.rejectedWith('Could not locate country');

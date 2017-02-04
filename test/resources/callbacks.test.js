@@ -6,9 +6,9 @@ chai.use(chaiAsPromised);
 var expect = chai.expect;
 var assert = chai.assert;
 
-var parseArguments = require(__dirname + '/../../lib/resources/callbacks.js');
+var parseArguments = require('./../../lib/resources/callbacks.js');
 
-module.exports = 
+module.exports =
 describe('callbacks.test.js', function(){
 	function testFunc(arg1, arg2, arg3){}
 

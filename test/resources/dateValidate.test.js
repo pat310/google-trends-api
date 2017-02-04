@@ -5,12 +5,12 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-var DATE = require(__dirname + '/../../lib/resources/dateValidate.js');
+var DATE = require('./../../lib/resources/dateValidate.js');
 
 module.exports =
 describe('dateValidate.test.js', function(){
 
-	describe('getToday method', function(){	
+	describe('getToday method', function(){
 		it('gets the correct default date (1 month behind) and formats it properly (yyyymm)', function(){
 			var today = new Date();
 			var month = today.getMonth();
@@ -19,7 +19,7 @@ describe('dateValidate.test.js', function(){
 			var date = "";
 
 			month = month - 1;
-			
+
 			if(month <= 0){
 				year -= 1;
 				month = month + 12;

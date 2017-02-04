@@ -5,9 +5,9 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var should = chai.should();
 
-var categoryTopCharts = require(__dirname + '/../../lib/utils/categoryTopCharts.js');
+var categoryTopCharts = require('./../../lib/utils/categoryTopCharts.js');
 
-module.exports = 
+module.exports =
 describe('categoryTopCharts.js', function(){
 	it('should reject if category is not provided', function(){
 		return categoryTopCharts().should.be.rejectedWith('Category must be provided');

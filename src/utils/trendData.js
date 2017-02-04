@@ -1,11 +1,11 @@
 'use strict';
 
 var rp = require('request-promise');
-var createObj = require(__dirname + '/../resources/callbacks.js');
-var checkErrors = require(__dirname + '/../resources/errorHandling.js');
-var parseJSON = require(__dirname + '/../resources/htmlParser.js').parseJSON;
-var groupKeywords = require(__dirname + '/../resources/trendDataHelper.js').groupKeywords;
-var reduceArrayDimensions = require(__dirname + '/../resources/trendDataHelper.js').reduceArrayDimensions;
+var createObj = require('./../resources/callbacks.js');
+var checkErrors = require('./../resources/errorHandling.js');
+var parseJSON = require('./../resources/htmlParser.js').parseJSON;
+var groupKeywords = require('./../resources/trendDataHelper.js').groupKeywords;
+var reduceArrayDimensions = require('./../resources/trendDataHelper.js').reduceArrayDimensions;
 
 module.exports = function request(keywords, timePeriod, cbFunc){
 	var obj = createObj(arguments, request);

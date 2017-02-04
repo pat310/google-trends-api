@@ -1,17 +1,15 @@
 'use strict';
-var fs = require('fs');
-
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 var assert = chai.assert;
 
-var trendDataHelper = require(__dirname + '/../../lib/resources/trendDataHelper.js');
+var trendDataHelper = require('./../../lib/resources/trendDataHelper.js');
 
-module.exports = 
+module.exports =
 describe('trendDataHelper.test.js', function(){
-	
+
 	describe('trendDataHelper.groupKeywords', function(){
 		it('has method', function(){
 			assert.isFunction(trendDataHelper.groupKeywords);

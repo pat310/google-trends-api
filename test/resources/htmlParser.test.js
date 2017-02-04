@@ -15,7 +15,7 @@ var exampleJSONTwoFields = fs.readFileSync(__dirname + '/examples/exampleJSONTwo
 var exampleJSONMultipleFields = fs.readFileSync(__dirname + '/examples/exampleJSONMultipleFields.json', 'utf8');
 var exampleJSONEmpty = fs.readFileSync(__dirname + '/examples/exampleJSONEmpty.json', 'utf8');
 
-var htmlParser = require(__dirname + '/../../lib/resources/htmlParser.js');
+var htmlParser = require('./../../lib/resources/htmlParser.js');
 
 module.exports =
     describe('htmlParser.test.js', function() {

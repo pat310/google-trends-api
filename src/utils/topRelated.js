@@ -1,9 +1,9 @@
 'use strict';
 
 var rp = require('request-promise');
-var createObj = require(__dirname + '/../resources/callbacks.js');
-var checkErrors = require(__dirname + '/../resources/errorHandling.js');
-var parseHtml = require(__dirname + '/../resources/htmlParser.js').parseHtml.bind(null, 'topRelated');
+var createObj = require('./../resources/callbacks.js');
+var checkErrors = require('./../resources/errorHandling.js');
+var parseHtml = require('./../resources/htmlParser.js').parseHtml.bind(null, 'topRelated');
 
 module.exports = function request(keywords, timePeriod, geo, cbFunc){
 	var obj = createObj(arguments, request);

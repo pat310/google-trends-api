@@ -1,11 +1,11 @@
 'use strict';
 
 module.exports = {
-	callbacks: require(__dirname + '/callbacks.test.js'),
-	countryCodes: require(__dirname + '/countryCodes.test.js'),
-	dateValidate: require(__dirname + '/dateValidate.test.js'),
-	errorHandling: require(__dirname + '/errorHandling.test.js'),
-	htmlParser: require(__dirname + '/htmlParser.test.js'),
-	trendDataHelper: require(__dirname + '/trendDataHelper.test.js'),
-	timePeriodConverter: require(__dirname + '/timePeriodConverter.test.js')
+	callbacks: require('./callbacks.test.js'),
+	countryCodes: require('./countryCodes.test.js'),
+	dateValidate: require('./dateValidate.test.js'),
+	errorHandling: require('./errorHandling.test.js'),
+	htmlParser: require('./htmlParser.test.js'),
+	trendDataHelper: require('./trendDataHelper.test.js'),
+	timePeriodConverter: require('./timePeriodConverter.test.js')
 };
