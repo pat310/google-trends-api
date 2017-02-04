@@ -5,9 +5,9 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var should = chai.should();
 
-var risingSearches = require(__dirname + '/../../lib/utils/risingSearches.js');
+var risingSearches = require('./../../lib/utils/risingSearches.js');
 
-module.exports = 
+module.exports =
 describe('risingSearches.js', function(){
 	it('should reject if country is invalid', function(){
 		return risingSearches('dogs', {type: 'hour', value: 5}, 'ZZ').should.be.rejectedWith('Could not locate country');

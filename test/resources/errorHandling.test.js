@@ -5,9 +5,9 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-var checkErrors = require(__dirname + '/../../lib/resources/errorHandling.js');
+var checkErrors = require('./../../lib/resources/errorHandling.js');
 
-module.exports = 
+module.exports =
 describe('errorHandling.test.js', function(){
 
 	var objNoCID = {

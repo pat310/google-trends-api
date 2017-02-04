@@ -1,6 +1,6 @@
 'use strict';
 
-var googleTrends = require(__dirname + '/');
+var googleTrends = require('./index.js');
 var util = require('util');
 
 //uncomment the code within each example to run it

@@ -7,15 +7,15 @@ chai.use(chaiAsPromised);
 var expect = chai.expect;
 var assert = chai.assert;
 
-var exampleHtmlRisingSearches = fs.readFileSync(__dirname + '/examples/exampleHtmlRisingSearches.html', 'utf8');
-var exampleHtmlTopRelated = fs.readFileSync(__dirname + '/examples/exampleHtmlTopRelated.html', 'utf8');
-var exampleErrorHtml = fs.readFileSync(__dirname + '/examples/exampleErrorHtml.html', 'utf8');
-var exampleJSON = fs.readFileSync(__dirname + '/examples/exampleJSON.json', 'utf8');
-var exampleJSONTwoFields = fs.readFileSync(__dirname + '/examples/exampleJSONTwoFields.json', 'utf8');
-var exampleJSONMultipleFields = fs.readFileSync(__dirname + '/examples/exampleJSONMultipleFields.json', 'utf8');
-var exampleJSONEmpty = fs.readFileSync(__dirname + '/examples/exampleJSONEmpty.json', 'utf8');
+var exampleHtmlRisingSearches = fs.readFileSync('./examples/exampleHtmlRisingSearches.html', 'utf8');
+var exampleHtmlTopRelated = fs.readFileSync('./examples/exampleHtmlTopRelated.html', 'utf8');
+var exampleErrorHtml = fs.readFileSync('./examples/exampleErrorHtml.html', 'utf8');
+var exampleJSON = fs.readFileSync('./examples/exampleJSON.json', 'utf8');
+var exampleJSONTwoFields = fs.readFileSync('./examples/exampleJSONTwoFields.json', 'utf8');
+var exampleJSONMultipleFields = fs.readFileSync('./examples/exampleJSONMultipleFields.json', 'utf8');
+var exampleJSONEmpty = fs.readFileSync('./examples/exampleJSONEmpty.json', 'utf8');
 
-var htmlParser = require(__dirname + '/../../lib/resources/htmlParser.js');
+var htmlParser = require('./../../lib/resources/htmlParser.js');
 
 module.exports =
     describe('htmlParser.test.js', function() {

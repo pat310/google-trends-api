@@ -5,9 +5,9 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-var COUNTRY = require(__dirname + '/../../lib/resources/countryCodes.js');
+var COUNTRY = require('./../../lib/resources/countryCodes.js');
 
-module.exports = 
+module.exports =
 describe('countryCodes.test.js', function(){
 	describe('getCountryCode method', function(){
 		it('returns the correct country code for US', function(){

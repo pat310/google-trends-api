@@ -7,11 +7,11 @@ chai.use(chaiAsPromised);
 var expect = chai.expect;
 var assert = chai.assert;
 
-var timePeriodConverter = require(__dirname + '/../../lib/resources/timePeriodConverter.js');
+var timePeriodConverter = require('./../../lib/resources/timePeriodConverter.js');
 
-module.exports = 
+module.exports =
 describe('timePeriodConverter.test.js', function(){
-	
+
 	describe('timePeriodConverter', function(){
 		it('exists', function(){
 			assert.isFunction(timePeriodConverter);

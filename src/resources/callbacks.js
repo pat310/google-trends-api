@@ -1,5 +1,5 @@
 'use strict';
-var timePeriodConverter = require(__dirname + '/../resources/timePeriodConverter.js');
+var timePeriodConverter = require('./../resources/timePeriodConverter.js');
 
 function generic(err, results){
 	if(err) return err;
@@ -31,7 +31,7 @@ function parseArguments(args, func){
 	returnObj.cbFunc = typeof returnObj.cbFunc === "function" ? returnObj.cbFunc : generic;
 
 	if(returnObj.keywords) returnObj.keywords = Array.isArray(returnObj.keywords) ? returnObj.keywords : [returnObj.keywords];
-	
+
 	returnObj.timePeriod = timePeriodConverter(returnObj.timePeriod);
 
 	return returnObj;
