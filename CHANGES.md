@@ -1,3 +1,10 @@
+## [v3.0.2]
+> Feb 3, 2016
+
+- removing node specific `__dirname` so library can be used in browser
+
+[#44]: https://github.com/pat310/google-trends-api/pull/44
+
 ## [v3.0.1]
 > Oct 31, 2016
 
