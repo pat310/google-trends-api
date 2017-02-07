@@ -1,5 +1,5 @@
 ## [v3.0.2]
-> Feb 3, 2016
+> Feb 3, 2017
 
 - removing node specific `__dirname` so library can be used in browser
 
