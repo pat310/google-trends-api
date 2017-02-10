@@ -1,8 +1,9 @@
 'use strict';
 
-var googleTrends = require('./index.js');
+var googleTrends = require('./lib/google-trends-api.js');
 var util = require('util');
 
+console.log('googleTrends', googleTrends);
 //uncomment the code within each example to run it
 /* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 1 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= trendData =~=~=~=~=~=~=~=~=~=~ */

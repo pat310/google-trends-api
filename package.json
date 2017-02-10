@@ -2,13 +2,16 @@
   "name": "google-trends-api",
   "version": "3.0.2",
   "description": "an API layer on top of google trends",
-  "main": "index.js",
+  "main": "lib/google-trends-api.min.js",
   "scripts": {
-    "test": "mocha --timeout 15000",
-    "compile": "./node_modules/.bin/babel --presets es2015 -d lib/ src/",
-    "test-cov": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./test/*",
-    "prepublish": "npm run compile",
-    "pretest": "npm run compile"
+    "build": "webpack --mode=build",
+    "dev": "webpack --progress --colors --watch --mode=dev",
+    "start": "npm run dev",
+    "test": "mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
+    "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
+    "cover": "nyc --reporter=lcov mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
+    "coveralls": "npm run cover && nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc mocha --compilers js:babel-core/register --colors ./test/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +22,8 @@
     "trends",
     "API",
     "keyword",
-    "search"
+    "search",
+    "google-trends"
   ],
   "author": "Patrick Trasborg <patrick.trasborg@gmail.com> (http://trasb.org)",
   "license": "MIT",
@@ -28,17 +32,27 @@
   },
   "homepage": "https://github.com/pat310/google-trends-api#readme",
   "dependencies": {
-    "request": "^2.73.0",
-    "request-promise": "^4.0.0",
-    "xml2js": "^0.4.16"
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
-    "babel-cli": "^6.6.4",
-    "babel-preset-es2015": "^6.6.0",
-    "chai": "^3.5.0",
-    "chai-as-promised": "^5.2.0",
-    "coveralls": "^2.11.8",
-    "istanbul": "^0.4.2",
-    "mocha": "^2.4.5"
+    "babel": "6.3.13",
+    "babel-core": "6.1.18",
+    "babel-eslint": "5.0.0",
+    "babel-loader": "6.1.0",
+    "babel-plugin-add-module-exports": "0.1.2",
+    "babel-preset-es2015": "6.3.13",
+    "chai": "3.4.1",
+    "coveralls": "^2.11.15",
+    "eslint": "1.7.2",
+    "eslint-loader": "1.1.0",
+    "istanbul": "^0.4.5",
+    "json-loader": "^0.5.4",
+    "mocha": "2.3.4",
+    "mocha-lcov-reporter": "^1.2.0",
+    "nyc": "^10.1.2",
+    "webpack": "1.12.9",
+    "yargs": "3.32.0"
   }
 }

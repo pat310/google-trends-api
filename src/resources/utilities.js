@@ -3,26 +3,26 @@ const rp = require('request-promise');
 
 exports.constructObj = function(obj) {
   return obj;
-}
+};
 
 exports.getResults = function(searchType, obj) {
   const map = {
     'interest over time': {
       uri: 'https://www.google.com/trends/api/widgetdata/multiline',
-      pos: 0
+      pos: 0,
     },
     'interest by region': {
       uri: 'https://www.google.com/trends/api/widgetdata/comparedgeo',
-      pos: 1
+      pos: 1,
     },
     'related topics': {
       uri: 'https://www.google.com/trends/api/widgetdata/relatedsearches',
-      pos: 2
+      pos: 2,
     },
     'related queries': {
       uri: 'https://www.google.com/trends/api/widgetdata/relatedsearches',
-      pos: 3
-    }
+      pos: 3,
+    },
   };
 
   const options = {
@@ -31,8 +31,8 @@ exports.getResults = function(searchType, obj) {
     qs: {
       hl: 'en-US',
       tz: 360,
-      req: JSON.stringify({comparisonItem: [obj], cat: 0})
-    }
+      req: JSON.stringify({comparisonItem: [obj], cat: 0}),
+    },
   };
 
   return rp(options)
@@ -46,13 +46,14 @@ exports.getResults = function(searchType, obj) {
       qs: {
         req,
         token,
-        tz: 360
-      }
-    }
+        tz: 360,
+      },
+    };
+
     return rp(nextOptions);
   })
   .then((res) => {
     return res.slice(5);
-  })
+  });
 
 }

@@ -1,0 +1,22 @@
+---
+engines:
+  # ... CONFIG CONTENT ...
+  eslint:
+    enabled: true
+    config:
+      languages:
+      - javascript
+    checks:
+      wrap-iife:
+        enabled: false
+      no-loop-func:
+        enabled: false
+      guard-for-in:
+        enabled: false
+  fixme:
+    enabled: true
+ratings:
+  paths:
+  - "**.js"
+  - "**.jsx"
+exclude_paths: ["test", "lib", "webpack.config.js"]
