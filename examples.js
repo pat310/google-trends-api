@@ -8,7 +8,7 @@ var util = require('util');
 /* ~=~=~=~=~=~=~=~=~=~= trendData =~=~=~=~=~=~=~=~=~=~ */
 // // Parameters: array of key words (required)
 // // optionally as the first argument pass an object instead: {keywords: ['dog']}
-// googleTrends.trendData({keywords: 'OJ Simpson'})
+googleTrends.trendData({keyword: 'Oj Simpson', time: 'today 5-y', geo: ''})
 // .then(function(trendData){
 // 	console.log('here are the results', util.inspect(trendData, {showHidden: false, depth: null}));
 // })
