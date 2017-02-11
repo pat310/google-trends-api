@@ -3,7 +3,7 @@
 var googleTrends = require('./lib/google-trends-api.js');
 var util = require('util');
 
-googleTrends.trendData({keyword: 'OJ Simpson'})
+googleTrends.trendData({keyword: 'OJ Simpson', time: '2017-02-10T12\\:46\\:00 2017-02-11T12\\:46\\:00', startTime: new Date('2017-02-05')})
 .then((res) => {
   console.log('this is res', res);
 })

@@ -1,15 +1,70 @@
 'use strict';
 const rp = require('request-promise');
 
-export function todaysDate() {
-  const d = new Date();
-  let month = (d.getMonth() + 1).toString();
+export function convertDateToString(d) {
+  let month = (d.getUTCMonth() + 1).toString();
 
   month = month.length < 2 ? '0' + month : month;
-  const day = d.getDate().toString();
-  const year = d.getFullYear().toString();
+  const day = d.getUTCDate().toString();
+  const year = d.getUTCFullYear().toString();
 
   return `${year}-${month}-${day}`;
+};
+
+export function convertDateToStringWithTime(d) {
+  let month = (d.getUTCMonth() + 1).toString();
+
+  month = month.length < 2 ? '0' + month : month;
+  const day = d.getUTCDate().toString();
+  const year = d.getUTCFullYear().toString();
+  const hour = d.getUTCHours();
+  const minute = d.getUTCMinutes();
+
+  return `${year}-${month}-${day}T${hour}\\:${minute}\\:00`;
+};
+
+export function formatTime(obj) {
+  if (obj.startTime && !(obj.startTime instanceof Date)) {
+    return new Error('startTime must be a Date object');
+  }
+  if (obj.endTime && !(obj.endTime instanceof Date)) {
+    return new Error('endTime must be a Date object');
+  }
+
+  if (obj.startTime && obj.endTime && obj.startTime > obj.endTime) {
+    const temp = obj.startTime;
+
+    obj.startTime = obj.endTime;
+    obj.endTime = temp;
+  }
+
+  function isLessThan7Days(date1, date2 = new Date()) {
+    return (Math.abs(date2 - date1) / (24 * 60 * 60 * 1000)) < 7;
+  }
+
+  if (!obj.endTime && obj.startTime) {
+    if (isLessThan7Days(obj.startTime)) {
+      obj.startTime = convertDateToStringWithTime(obj.startTime);
+      obj.endTime = convertDateToStringWithTime(new Date());
+    } else {
+      obj.startTime = convertDateToString(obj.startTime);
+      obj.endTime = convertDateToString(new Date());
+    }
+  } else if (!obj.startTime) {
+    obj.startTime = convertDateToString(new Date('2004-01-01'));
+    obj.endTime = convertDateToString(obj.endTime || new Date());
+  } else {
+    if (isLessThan7Days(obj.startTime, obj.endTime)) {
+      obj.startTime = convertDateToStringWithTime(obj.startTime);
+      obj.endTime = convertDateToStringWithTime(obj.endTime);
+    } else {
+      obj.startTime = convertDateToString(obj.startTime);
+      obj.endTime = convertDateToString(obj.endTime);
+    }
+  }
+
+  obj.time = `${obj.startTime} ${obj.endTime}`;
+  return obj;
 };
 
 export function constructObj(args) {
@@ -30,7 +85,7 @@ export function constructObj(args) {
 
   if (!obj) obj = new Error('Must supply an object');
   if (!obj.keyword) obj = new Error('Must have a keyword');
-  if (!obj.time) obj.time = `2004-01-01 ${todaysDate()}`;
+  obj = formatTime(obj);
 
   return {
     cbFunc,
