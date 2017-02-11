@@ -23,6 +23,10 @@ export function convertDateToStringWithTime(d) {
   return `${year}-${month}-${day}T${hour}\\:${minute}\\:00`;
 };
 
+export function isLessThan7Days(date1, date2 = new Date()) {
+  return (Math.abs(date2 - date1) / (24 * 60 * 60 * 1000)) < 7;
+}
+
 export function formatTime(obj) {
   if (obj.startTime && !(obj.startTime instanceof Date)) {
     return new Error('startTime must be a Date object');
@@ -38,29 +42,15 @@ export function formatTime(obj) {
     obj.endTime = temp;
   }
 
-  function isLessThan7Days(date1, date2 = new Date()) {
-    return (Math.abs(date2 - date1) / (24 * 60 * 60 * 1000)) < 7;
-  }
+  if (!obj.endTime) obj.endTime = new Date();
+  if (!obj.startTime) obj.startTime = new Date('2004-01-01');
 
-  if (!obj.endTime && obj.startTime) {
-    if (isLessThan7Days(obj.startTime)) {
-      obj.startTime = convertDateToStringWithTime(obj.startTime);
-      obj.endTime = convertDateToStringWithTime(new Date());
-    } else {
-      obj.startTime = convertDateToString(obj.startTime);
-      obj.endTime = convertDateToString(new Date());
-    }
-  } else if (!obj.startTime) {
-    obj.startTime = convertDateToString(new Date('2004-01-01'));
-    obj.endTime = convertDateToString(obj.endTime || new Date());
+  if (isLessThan7Days(obj.startTime, obj.endTime)) {
+    obj.startTime = convertDateToStringWithTime(obj.startTime);
+    obj.endTime = convertDateToStringWithTime(obj.endTime);
   } else {
-    if (isLessThan7Days(obj.startTime, obj.endTime)) {
-      obj.startTime = convertDateToStringWithTime(obj.startTime);
-      obj.endTime = convertDateToStringWithTime(obj.endTime);
-    } else {
-      obj.startTime = convertDateToString(obj.startTime);
-      obj.endTime = convertDateToString(obj.endTime);
-    }
+    obj.startTime = convertDateToString(obj.startTime);
+    obj.endTime = convertDateToString(obj.endTime);
   }
 
   obj.time = `${obj.startTime} ${obj.endTime}`;
