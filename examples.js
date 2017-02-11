@@ -3,13 +3,16 @@
 var googleTrends = require('./lib/google-trends-api.js');
 var util = require('util');
 
-googleTrends.trendData({keyword: 'OJ Simpson', time: '2017-02-10T12\\:46\\:00 2017-02-11T12\\:46\\:00', startTime: new Date('2017-02-01'), endTime: new Date('2017-02-06')})
+// must be an object, {keyword: 'SOME KEYWORD'}
+// object optionally contains {startTime: new Date()} and/or {endTime: new Date()}
+googleTrends.trendData({keyword: 'OJ Simpson', startTime: new Date('2017-02-01'), endTime: new Date('2017-02-06')})
 .then((res) => {
   console.log('this is res', res);
 })
 .catch((err) => {
   console.log('got the error', err);
 })
+
 //uncomment the code within each example to run it
 /* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 1 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= trendData =~=~=~=~=~=~=~=~=~=~ */
