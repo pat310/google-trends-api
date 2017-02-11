@@ -5,6 +5,7 @@ var util = require('util');
 
 // must be an object, {keyword: 'SOME KEYWORD'}
 // object optionally contains {startTime: new Date()} and/or {endTime: new Date()}
+// object optionally contains {geo: 'some geocode string'} geocode string example 'US' or 'US-CA'
 googleTrends.trendData({keyword: 'OJ Simpson', startTime: new Date('2017-02-01'), endTime: new Date('2017-02-06')})
 .then((res) => {
   console.log('this is res', res);

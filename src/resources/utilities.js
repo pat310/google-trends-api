@@ -63,7 +63,6 @@ export function constructObj(args) {
   }
 
   if (!cbFunc) {
-    console.log('creating callback!!!!!!!!!!!!!')
     cbFunc = (err, res) => {
       if (err) return err;
       return res;
