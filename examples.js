@@ -7,6 +7,9 @@ googleTrends.trendData({keyword: 'OJ Simpson'})
 .then((res) => {
   console.log('this is res', res);
 })
+.catch((err) => {
+  console.log('got the error', err);
+})
 //uncomment the code within each example to run it
 /* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 1 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= trendData =~=~=~=~=~=~=~=~=~=~ */

@@ -11,9 +11,11 @@ export default function request(...args) {
     obj,
   } = constructObj(args);
 
+  if (obj instanceof Error) return Promise.reject(cbFunc(obj));
+
   return getResults('interest over time', obj)
   .then(res => cbFunc(null, res))
-  .catch(err => cbFunc(err));
+  .catch(err => Promise.reject(cbFunc(err)));
 
   // return getResults('interest over time', constructObj(args))
   // .then((res) => {

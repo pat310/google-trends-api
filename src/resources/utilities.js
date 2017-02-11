@@ -21,15 +21,16 @@ export function constructObj(args) {
     else if (typeof args[i] === 'function') cbFunc = args[i];
   }
 
-  if (!obj) throw new Error('Must supply an object');
-  if (!obj.keyword) throw new Error('Must have a keyword');
-  if (!obj.time) obj.time = `2004-01-01 ${todaysDate()}`;
   if (!cbFunc) {
     cbFunc = (err, res) => {
       if (err) return err;
       return res;
     };
   }
+
+  if (!obj) obj = new Error('Must supply an object');
+  if (!obj.keyword) obj = new Error('Must have a keyword');
+  if (!obj.time) obj.time = `2004-01-01 ${todaysDate()}`;
 
   return {
     cbFunc,
