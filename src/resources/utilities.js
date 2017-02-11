@@ -1,11 +1,43 @@
 'use strict';
 const rp = require('request-promise');
 
-exports.constructObj = function(obj) {
-  return obj;
+export function todaysDate() {
+  const d = new Date();
+  let month = (d.getMonth() + 1).toString();
+
+  month = month.length < 2 ? '0' + month : month;
+  const day = d.getDate().toString();
+  const year = d.getFullYear().toString();
+
+  return `${year}-${month}-${day}`;
 };
 
-exports.getResults = function(searchType, obj) {
+export function constructObj(args) {
+  let cbFunc;
+  let obj;
+
+  for (let i = 0; i < args.length; i++) {
+    if (typeof args[i] === 'object') obj = args[i];
+    else if (typeof args[i] === 'function') cbFunc = args[i];
+  }
+
+  if (!obj) throw new Error('Must supply an object');
+  if (!obj.keyword) throw new Error('Must have a keyword');
+  if (!obj.time) obj.time = `2004-01-01 ${todaysDate()}`;
+  if (!cbFunc) {
+    cbFunc = (err, res) => {
+      if (err) return err;
+      return res;
+    };
+  }
+
+  return {
+    cbFunc,
+    obj,
+  };
+};
+
+export function getResults(searchType, obj) {
   const map = {
     'interest over time': {
       uri: 'https://www.google.com/trends/api/widgetdata/multiline',
@@ -30,8 +62,8 @@ exports.getResults = function(searchType, obj) {
     uri: 'https://www.google.com/trends/api/explore',
     qs: {
       hl: 'en-US',
-      tz: 360,
       req: JSON.stringify({comparisonItem: [obj], cat: 0}),
+      tz: 360,
     },
   };
 
@@ -56,4 +88,4 @@ exports.getResults = function(searchType, obj) {
     return res.slice(5);
   });
 
-}
+};

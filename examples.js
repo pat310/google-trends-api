@@ -3,13 +3,16 @@
 var googleTrends = require('./lib/google-trends-api.js');
 var util = require('util');
 
-console.log('googleTrends', googleTrends);
+googleTrends.trendData({keyword: 'OJ Simpson'})
+.then((res) => {
+  console.log('this is res', res);
+})
 //uncomment the code within each example to run it
 /* ~=~=~=~=~=~=~=~=~=~= EXAMPLE 1 =~=~=~=~=~=~=~=~=~=~ */
 /* ~=~=~=~=~=~=~=~=~=~= trendData =~=~=~=~=~=~=~=~=~=~ */
 // // Parameters: array of key words (required)
 // // optionally as the first argument pass an object instead: {keywords: ['dog']}
-googleTrends.trendData({keyword: 'Oj Simpson', time: 'today 5-y', geo: ''})
+// googleTrends.trendData({keyword: 'Oj Simpson', time: 'today 5-y', geo: ''})
 // .then(function(trendData){
 // 	console.log('here are the results', util.inspect(trendData, {showHidden: false, depth: null}));
 // })

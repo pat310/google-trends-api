@@ -5,12 +5,20 @@ const {
 	getResults,
 } = require('../resources/utilities');
 
-export default function request(obj) {
+export default function request(...args) {
+  const {
+    cbFunc,
+    obj,
+  } = constructObj(args);
 
-  return getResults('interest over time', constructObj(obj))
-  .then((res) => {
-    console.log('res!', res);
-  });
+  return getResults('interest over time', obj)
+  .then(res => cbFunc(null, res))
+  .catch(err => cbFunc(err));
+
+  // return getResults('interest over time', constructObj(args))
+  // .then((res) => {
+  //   console.log('res!', res);
+  // });
 
 	// var error = checkErrors(obj);
 	// if(error instanceof Error) return Promise.reject(obj.cbFunc(error));
