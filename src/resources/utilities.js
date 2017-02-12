@@ -103,22 +103,24 @@ export function getResults(searchType, obj) {
     qs: {
       hl: 'en-US',
       req: JSON.stringify({comparisonItem: [obj], cat: 0}),
-      tz: 360,
+      tz: 300,
     },
   };
+
+  const {pos, uri} = map[searchType];
 
   return rp(options)
   .then((results) => {
     const parsedResults = JSON.parse(results.slice(4)).widgets;
-    const req = JSON.stringify(parsedResults[map[searchType].pos].request);
-    const token = parsedResults[map[searchType].pos].token;
+    const req = JSON.stringify(parsedResults[pos].request);
+    const token = parsedResults[pos].token;
     const nextOptions = {
       method: 'GET',
-      uri: map[searchType].uri,
+      uri: uri,
       qs: {
         req,
         token,
-        tz: 360,
+        tz: 300,
       },
     };
 

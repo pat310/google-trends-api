@@ -32,25 +32,25 @@ rp(options)
 //   console.log('query string', `${options2.uri}?req=${options2.qs.req}&token=${options2.qs.token}&tz=${options2.qs.tz}`)
 //   return rp(options2);
 // })
-.then((moreResults) => {
-  /** Interest by region */
-  var results = JSON.parse(moreResults.slice(4)).widgets;
-  // console.log('this is results', results);
-  var options2 = {
-    method: 'GET',
-    uri: 'https://www.google.com/trends/api/widgetdata/comparedgeo',
-    qs: {
-      req: JSON.stringify(results[1].request),
-      token: results[1].token,
-      tz: 360
-    }
-  }
-/**
- * 'See in which location your term was most popular during the specified time frame. Values are calculated on a scale from 0 to 100, where 100 is the location with the most popularity as a fraction of total searches in that location, a value of 50 indicates a location which is half as popular, and a value of 0 indicates a location where the term was less than 1% as popular as the peak. <p><p> <b>Note:</b> A higher value means a higher proportion of all queries, not a higher absolute query count. So a tiny country where 80% of the queries are for "bananas" will get twice the score of a giant country where only 40% of the queries are for "bananas".'
-*/
-  console.log('query string', `${options2.uri}?req=${options2.qs.req}&token=${options2.qs.token}&tz=${options2.qs.tz}`)
-  return rp(options2);
-})
+// .then((moreResults) => {
+//   /** Interest by region */
+//   var results = JSON.parse(moreResults.slice(4)).widgets;
+//   // console.log('this is results', results);
+//   var options2 = {
+//     method: 'GET',
+//     uri: 'https://www.google.com/trends/api/widgetdata/comparedgeo',
+//     qs: {
+//       req: JSON.stringify(results[1].request),
+//       token: results[1].token,
+//       tz: 360
+//     }
+//   }
+// /**
+//  * 'See in which location your term was most popular during the specified time frame. Values are calculated on a scale from 0 to 100, where 100 is the location with the most popularity as a fraction of total searches in that location, a value of 50 indicates a location which is half as popular, and a value of 0 indicates a location where the term was less than 1% as popular as the peak. <p><p> <b>Note:</b> A higher value means a higher proportion of all queries, not a higher absolute query count. So a tiny country where 80% of the queries are for "bananas" will get twice the score of a giant country where only 40% of the queries are for "bananas".'
+// */
+//   console.log('query string', `${options2.uri}?req=${options2.qs.req}&token=${options2.qs.token}&tz=${options2.qs.tz}`)
+//   return rp(options2);
+// })
 // .then((moreResults) => {
 //   /** Related topics */
 //   var results = JSON.parse(moreResults.slice(4)).widgets;
@@ -69,24 +69,24 @@ rp(options)
 // */
 //   return rp(options2);
 // })
-// .then((moreResults) => {
-//   /** Related queries */
-//   var results = JSON.parse(moreResults.slice(4)).widgets;
-//   // console.log('this is results', results);
-//   var options2 = {
-//     method: 'GET',
-//     uri: 'https://www.google.com/trends/api/widgetdata/relatedsearches',
-//     qs: {
-//       req: JSON.stringify(results[3].request),
-//       token: results[3].token,
-//       tz: 360
-//     }
-//   }
-//  /**
-//   * 'Users searching for your term also searched for these queries. You can sort by the following metrics: <p>* <b>Top</b> - The most popular search queries. Scoring is on a relative scale where a value of 100 is the most commonly searched query, 50 is a query searched half as often, and a value of 0 is a query searched for less than 1% as often as the most popular query. <p>* <b>Rising</b> - Queries with the biggest increase in search frequency since the last time period. Results marked "Breakout" had a tremendous increase, probably because these queries are new and had few (if any) prior searches.'
-//  */
-//   return rp(options2);
-// })
+.then((moreResults) => {
+  /** Related queries */
+  var results = JSON.parse(moreResults.slice(4)).widgets;
+  // console.log('this is results', results);
+  var options2 = {
+    method: 'GET',
+    uri: 'https://www.google.com/trends/api/widgetdata/relatedsearches',
+    qs: {
+      req: JSON.stringify(results[3].request),
+      token: results[3].token,
+      tz: 360
+    }
+  }
+ /**
+  * 'Users searching for your term also searched for these queries. You can sort by the following metrics: <p>* <b>Top</b> - The most popular search queries. Scoring is on a relative scale where a value of 100 is the most commonly searched query, 50 is a query searched half as often, and a value of 0 is a query searched for less than 1% as often as the most popular query. <p>* <b>Rising</b> - Queries with the biggest increase in search frequency since the last time period. Results marked "Breakout" had a tremendous increase, probably because these queries are new and had few (if any) prior searches.'
+ */
+  return rp(options2);
+})
 .then((res) => {
   console.log('this is res', res.slice(5));
 })
