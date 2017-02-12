@@ -1,13 +1,10 @@
 'use strict';
 
-import comparedGeo from './utils/comparedGeo';
-import relatedQueries from './utils/relatedQueries';
-import relatedTopics from './utils/relatedTopics';
-import trendData from './utils/trendData';
+import api from './api';
 
-export {
-  comparedGeo,
-  relatedQueries,
-  relatedTopics,
-  trendData,
+export default {
+  comparedGeo: api('interest by region'),
+  relatedQueries: api('related queries'),
+  relatedTopics: api('related topics'),
+  trends: api('interest over time'),
 };

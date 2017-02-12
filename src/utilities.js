@@ -77,6 +77,18 @@ export function constructObj(args) {
   };
 };
 
+// resolutions: COUNTRY, REGION, CITY, DMA
+
+export function formatResolution(resolution) {
+  const resolutions = ['COUNTRY', 'REGION', 'CITY', 'DMA'];
+  const isResValid = resolutions.some((res) => {
+    return res === resolution.toUpperCase();
+  });
+
+  if (isResValid) return resolution.toUpperCase();
+  return '';
+}
+
 export function getResults(searchType, obj) {
   const map = {
     'interest over time': {
@@ -86,6 +98,7 @@ export function getResults(searchType, obj) {
     'interest by region': {
       uri: 'https://www.google.com/trends/api/widgetdata/comparedgeo',
       pos: 1,
+      resolution: formatResolution(obj.resolution),
     },
     'related topics': {
       uri: 'https://www.google.com/trends/api/widgetdata/relatedsearches',
@@ -107,12 +120,15 @@ export function getResults(searchType, obj) {
     },
   };
 
-  const {pos, uri} = map[searchType];
+  const {pos, uri, resolution} = map[searchType];
 
   return rp(options)
   .then((results) => {
     const parsedResults = JSON.parse(results.slice(4)).widgets;
-    const req = JSON.stringify(parsedResults[pos].request);
+    let req = parsedResults[pos].request;
+
+    if (resolution) req.resolution = resolution;
+    req = JSON.stringify(req);
     const token = parsedResults[pos].token;
     const nextOptions = {
       method: 'GET',

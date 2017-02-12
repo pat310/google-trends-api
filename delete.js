@@ -7,25 +7,25 @@ var options = {
   qs: {
     hl: 'en',
     tz: 300,
-    req: JSON.stringify({comparisonItem: [{keyword: 'Donald Trump', time: '2017-02-06 2017-02-10', geo: ''}], cat: 0})
+    req: JSON.stringify({comparisonItem: [{keyword: 'Donald Trump', time: '2017-02-01 2017-02-10', geo: 'US-CA'}], cat: 0})
   }
 }
 
 rp(options)
-// .then((moreResults) => {
-//   /** Interest over time */
-//   var results = JSON.parse(moreResults.slice(4)).widgets;
-//   console.log('results', results);
-//   var options2 = {
-//     method: 'GET',
-//     uri: 'https://www.google.com/trends/api/widgetdata/multiline',
-//     qs: {
-//       hl: 'en-US',
-//       tz: 300,
-//       req: JSON.stringify(results[0].request),
-//       token: results[0].token
-//     }
-//   }
+.then((moreResults) => {
+  /** Interest over time */
+  var results = JSON.parse(moreResults.slice(4)).widgets;
+  console.log('results', results);
+  var options2 = {
+    method: 'GET',
+    uri: 'https://www.google.com/trends/api/widgetdata/multiline',
+    qs: {
+      hl: 'en-US',
+      tz: 300,
+      req: JSON.stringify(results[0].request),
+      token: results[0].token
+    }
+  }
 // /**
 //  * 'Numbers represent search interest relative to the highest point on the chart for the given region and time. A value of 100 is the peak popularity for the term. A value of 50 means that the term is half as popular. Likewise a score of 0 means the term was less than 1% as popular as the peak.'
 // */
@@ -35,7 +35,8 @@ rp(options)
 // .then((moreResults) => {
 //   /** Interest by region */
 //   var results = JSON.parse(moreResults.slice(4)).widgets;
-//   // console.log('this is results', results);
+//   console.log('this is results', results);
+//   results[1].request.resolution = 'DMA';
 //   var options2 = {
 //     method: 'GET',
 //     uri: 'https://www.google.com/trends/api/widgetdata/comparedgeo',
@@ -69,19 +70,19 @@ rp(options)
 // */
 //   return rp(options2);
 // })
-.then((moreResults) => {
-  /** Related queries */
-  var results = JSON.parse(moreResults.slice(4)).widgets;
-  // console.log('this is results', results);
-  var options2 = {
-    method: 'GET',
-    uri: 'https://www.google.com/trends/api/widgetdata/relatedsearches',
-    qs: {
-      req: JSON.stringify(results[3].request),
-      token: results[3].token,
-      tz: 360
-    }
-  }
+// .then((moreResults) => {
+//   /** Related queries */
+//   var results = JSON.parse(moreResults.slice(4)).widgets;
+//   // console.log('this is results', results);
+//   var options2 = {
+//     method: 'GET',
+//     uri: 'https://www.google.com/trends/api/widgetdata/relatedsearches',
+//     qs: {
+//       req: JSON.stringify(results[3].request),
+//       token: results[3].token,
+//       tz: 360
+//     }
+//   }
  /**
   * 'Users searching for your term also searched for these queries. You can sort by the following metrics: <p>* <b>Top</b> - The most popular search queries. Scoring is on a relative scale where a value of 100 is the most commonly searched query, 50 is a query searched half as often, and a value of 0 is a query searched for less than 1% as often as the most popular query. <p>* <b>Rising</b> - Queries with the biggest increase in search frequency since the last time period. Results marked "Breakout" had a tremendous increase, probably because these queries are new and had few (if any) prior searches.'
  */

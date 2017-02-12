@@ -8,7 +8,7 @@ var util = require('util');
 // must be an object, {keyword: 'SOME KEYWORD'}
 // object optionally contains {startTime: new Date()} and/or {endTime: new Date()}
 // object optionally contains {geo: 'some geocode string'} geocode string example 'US' or 'US-CA-800'
-/*googleTrends.trendData({keyword: 'OJ Simpson', startTime: new Date('2017-02-01'), endTime: new Date('2017-02-06')})
+/*googleTrends.trends({keyword: 'OJ Simpson', startTime: new Date('2017-02-01'), endTime: new Date('2017-02-06')})
 .then((res) => {
   console.log('this is res', res);
 })
@@ -22,13 +22,14 @@ var util = require('util');
 // must be an object, {keyword: 'SOME KEYWORD'}
 // object optionally contains {startTime: new Date()} and/or {endTime: new Date()}
 // object optionally contains {geo: 'some geocode string'} geocode string example 'US' or 'US-CA' or 'US-CA-800'
-// googleTrends.comparedGeo({keyword: 'OJ Simpson', startTime: new Date('2017-02-01'), endTime: new Date('2017-02-06')})
-// .then((res) => {
-//   console.log('this is res', res);
-// })
-// .catch((err) => {
-//   console.log('got the error', err);
-// })
+// object optionally contains {resolution: enumerated string [COUNTRY, REGION, CITY, DMA]}
+googleTrends.comparedGeo({keyword: 'OJ Simpson', startTime: new Date('2017-02-01'), endTime: new Date('2017-02-06'), geo: 'US', resolution: 'dMa'})
+.then((res) => {
+  console.log('this is res', res);
+})
+.catch((err) => {
+  console.log('got the error', err);
+})
 
 
 // googleTrends.relatedTopics({keyword: 'Donald Trump', startTime: new Date('2017-02-06'), endTime: new Date('2017-02-10')})
@@ -39,13 +40,13 @@ var util = require('util');
 //   console.log('got the error', err);
 // })
 
-googleTrends.relatedQueries({keyword: 'Donald Trump', startTime: new Date('2017-02-06'), endTime: new Date('2017-02-10')})
-.then((res) => {
-  console.log('this is res', res);
-})
-.catch((err) => {
-  console.log('got the error', err);
-})
+// googleTrends.relatedQueries({keyword: 'Donald Trump', startTime: new Date('2017-02-06'), endTime: new Date('2017-02-10')})
+// .then((res) => {
+//   console.log('this is res', res);
+// })
+// .catch((err) => {
+//   console.log('got the error', err);
+// })
 
 
 //uncomment the code within each example to run it
