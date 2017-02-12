@@ -5,51 +5,52 @@ var options = {
   method: 'GET',
   uri: 'https://www.google.com/trends/api/explore',
   qs: {
-    hl: 'en-US',
+    hl: 'en',
     tz: 300,
-    req: JSON.stringify({comparisonItem: [{keyword: 'Oj Simpson', time: '2017-02-06 2017-02-10', geo: 'US-CA-800'}], cat: 0})
+    req: JSON.stringify({comparisonItem: [{keyword: 'Donald Trump', time: '2017-02-06 2017-02-10', geo: ''}], cat: 0})
   }
 }
 
 rp(options)
+// .then((moreResults) => {
+//   /** Interest over time */
+//   var results = JSON.parse(moreResults.slice(4)).widgets;
+//   console.log('results', results);
+//   var options2 = {
+//     method: 'GET',
+//     uri: 'https://www.google.com/trends/api/widgetdata/multiline',
+//     qs: {
+//       hl: 'en-US',
+//       tz: 300,
+//       req: JSON.stringify(results[0].request),
+//       token: results[0].token
+//     }
+//   }
+// /**
+//  * 'Numbers represent search interest relative to the highest point on the chart for the given region and time. A value of 100 is the peak popularity for the term. A value of 50 means that the term is half as popular. Likewise a score of 0 means the term was less than 1% as popular as the peak.'
+// */
+//   console.log('query string', `${options2.uri}?req=${options2.qs.req}&token=${options2.qs.token}&tz=${options2.qs.tz}`)
+//   return rp(options2);
+// })
 .then((moreResults) => {
-  /** Interest over time */
+  /** Interest by region */
   var results = JSON.parse(moreResults.slice(4)).widgets;
-  console.log('results', results);
+  // console.log('this is results', results);
   var options2 = {
     method: 'GET',
-    uri: 'https://www.google.com/trends/api/widgetdata/multiline',
+    uri: 'https://www.google.com/trends/api/widgetdata/comparedgeo',
     qs: {
-      hl: 'en-US',
-      tz: 300,
-      req: JSON.stringify(results[0].request),
-      token: results[0].token
+      req: JSON.stringify(results[1].request),
+      token: results[1].token,
+      tz: 360
     }
   }
 /**
- * 'Numbers represent search interest relative to the highest point on the chart for the given region and time. A value of 100 is the peak popularity for the term. A value of 50 means that the term is half as popular. Likewise a score of 0 means the term was less than 1% as popular as the peak.'
+ * 'See in which location your term was most popular during the specified time frame. Values are calculated on a scale from 0 to 100, where 100 is the location with the most popularity as a fraction of total searches in that location, a value of 50 indicates a location which is half as popular, and a value of 0 indicates a location where the term was less than 1% as popular as the peak. <p><p> <b>Note:</b> A higher value means a higher proportion of all queries, not a higher absolute query count. So a tiny country where 80% of the queries are for "bananas" will get twice the score of a giant country where only 40% of the queries are for "bananas".'
 */
   console.log('query string', `${options2.uri}?req=${options2.qs.req}&token=${options2.qs.token}&tz=${options2.qs.tz}`)
   return rp(options2);
 })
-// .then((moreResults) => {
-//   /** Interest by region */
-//   var results = JSON.parse(moreResults.slice(4)).widgets;
-//   // console.log('this is results', results);
-//   var options2 = {
-//     method: 'GET',
-//     uri: 'https://www.google.com/trends/api/widgetdata/comparedgeo',
-//     qs: {
-//       req: JSON.stringify(results[1].request),
-//       token: results[1].token,
-//       tz: 360
-//     }
-//   }
-// /**
-//  * 'See in which location your term was most popular during the specified time frame. Values are calculated on a scale from 0 to 100, where 100 is the location with the most popularity as a fraction of total searches in that location, a value of 50 indicates a location which is half as popular, and a value of 0 indicates a location where the term was less than 1% as popular as the peak. <p><p> <b>Note:</b> A higher value means a higher proportion of all queries, not a higher absolute query count. So a tiny country where 80% of the queries are for "bananas" will get twice the score of a giant country where only 40% of the queries are for "bananas".'
-// */
-//   return rp(options2);
-// })
 // .then((moreResults) => {
 //   /** Related topics */
 //   var results = JSON.parse(moreResults.slice(4)).widgets;
