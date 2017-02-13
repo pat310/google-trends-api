@@ -7,7 +7,7 @@ var options = {
   qs: {
     hl: 'en',
     tz: 300,
-    req: JSON.stringify({comparisonItem: [{keyword: 'Donald Trump', time: '2017-02-01 2017-02-10', geo: 'US-CA'}], cat: 0})
+    req: JSON.stringify({comparisonItem: [{keyword: 'Donald Trump', time: '2017-02-1 2017-02-10', geo: 'US-CA'}], cat: 0})
   }
 }
 

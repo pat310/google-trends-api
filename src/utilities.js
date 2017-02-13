@@ -48,15 +48,10 @@ export function formatTime(obj) {
   return obj;
 };
 
-export function constructObj(args) {
-
-  let obj = args[0];
-
+export function constructObj(obj, cbFunc) {
   if (!obj || !!obj && typeof obj !== 'object' || Array.isArray(obj)) {
     obj = new Error('Must supply an object');
   } else if (!obj.keyword) obj = new Error('Must have a keyword field');
-
-  let cbFunc = typeof args[0] === 'function' ? args[0] : args[1];
 
   if (!!cbFunc && typeof cbFunc !== 'function') {
     obj = new Error('Callback function must be a function');
@@ -76,8 +71,6 @@ export function constructObj(args) {
     obj,
   };
 };
-
-// resolutions: COUNTRY, REGION, CITY, DMA
 
 export function formatResolution(resolution) {
   const resolutions = ['COUNTRY', 'REGION', 'CITY', 'DMA'];

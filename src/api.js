@@ -3,11 +3,11 @@
 import { constructObj, getResults } from './utilities';
 
 export default (searchType) => {
-  return (...args) => {
+  return (reqObj, cb) => {
     const {
       cbFunc,
       obj,
-    } = constructObj(args);
+    } = constructObj(req, cb);
 
     if (obj instanceof Error) return Promise.reject(cbFunc(obj));
 

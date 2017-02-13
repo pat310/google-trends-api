@@ -16,40 +16,40 @@ Simple to use:
 var googleTrends = require('google-trends-api');
 
 var options = {
-  geo: 'country code or name',
-  date: 'yyyymm',
-  keywords: ['some', 'list', 'of', 'keywords'],
-  category: 'some category',
-  timePeriod: {
-    type: enumerated string 'hour', 'day', 'month', or 'year'
-    value: number
-  }
+	geo: 'country code or name',
+	date: 'yyyymm',
+	keywords: ['some', 'list', 'of', 'keywords'],
+	category: 'some category',
+	timePeriod: {
+		type: enumerated string 'hour', 'day', 'month', or 'year'
+		value: number
+	}
 }
 
 googleTrends.apiMethod(options)
 .then(function(results){
-  console.log("Here are your google trend results!", results);
+	console.log("Here are your google trend results!", results);
 })
 .catch(function(err){
-  console.log("there was an error :(", err);
+	console.log("there was an error :(", err);
 });
 ```
 
 ##Table of contents
 * [Installation](#installation)
 * [API](#api)
-  * [Promises](#promises)
-  * [Callbacks](#callbacks)
-  * [Examples](#examples)
-  * [API Methods](#api-methods)
-    * [trendData](#trenddata)
-    * [topRelated](#toprelated)
-    * [risingSearches](#risingsearches)
-    * [hotTrends](#hottrends)
-    * [hotTrendsDetail](#hottrendsdetail)
-    * [top30in30](#top30in30)
-    * [allTopCharts](#alltopcharts)
-    * [categoryTopCharts](#categorytopcharts)
+	* [Promises](#promises)
+	* [Callbacks](#callbacks)
+	* [Examples](#examples)
+	* [API Methods](#api-methods)
+		* [trendData](#trenddata)
+		* [topRelated](#toprelated)
+		* [risingSearches](#risingsearches)
+		* [hotTrends](#hottrends)
+		* [hotTrendsDetail](#hottrendsdetail)
+		* [top30in30](#top30in30)
+		* [allTopCharts](#alltopcharts)
+		* [categoryTopCharts](#categorytopcharts)
 * [Potential Errors](#potential-errors)
 
 <hr>
@@ -105,8 +105,8 @@ Would console.log:
 All API methods can also take a callback function as the last input parameter.  For example:
 ```js
 googleTrends.topRelated('dog house', function(err, results){
-  if(err) console.error('there was an error!', err);
-  else console.log(results);
+	if(err) console.error('there was an error!', err);
+	else console.log(results);
 })
 ```
 
@@ -167,10 +167,10 @@ The following example provides the historical trend data for 'OJ Simpson'.  Opti
 ```js
 googleTrends.trendData('OJ Simpson')
 .then(function(results){
-  console.log(results);
+	console.log(results);
 })
 .catch(function(err){
-  console.error(err);
+	console.error(err);
 });
 ```
 
@@ -400,10 +400,10 @@ The following example provides the top 20 trending searches in the 'US'.  Option
 ```js
 googleTrends.hotTrends('US')
 .then(function(results){
-  console.log(results);
+	console.log(results);
 })
 .catch(function(err){
-  console.log(err);
+	console.log(err);
 });
 ```
 
@@ -450,10 +450,10 @@ The following example provides the top 20 trending searches in the 'US'.  Option
 ```js
 googleTrends.hotTrendsDetail('US')
 .then(function(results){
-  console.log(results);
+	console.log(results);
 })
 .catch(function(err){
-  console.log(err);
+	console.log(err);
 });
 ```
 
@@ -514,10 +514,10 @@ The following example returns the top 30 searches in the past 30 days.
 ```js
 googleTrends.top30in30()
 .then(function(results){
-  console.log(results);
+	console.log(results);
 })
 .catch(function(err){
-  console.log(err);
+	console.log(err);
 });
 ```
 
@@ -626,10 +626,10 @@ The following example provides the top charts in January 2016 in the 'US'.  Opti
 ```js
 googleTrends.allTopCharts('201601', 'US')
 .then(function(results){
-  console.log(results);
+	console.log(results);
 })
 .catch(function(err){
-  console.log(err);
+	console.log(err);
 });
 ```
 
@@ -706,10 +706,10 @@ The following example provides the top charts for actors in January 2016 in the 
 ```js
 googleTrends.categoryTopCharts('actors', '201601', 'US')
 .then(function(results){
-  console.log(results);
+	console.log(results);
 })
 .catch(function(err){
-  console.log(err);
+	console.log(err);
 });
 ```
 

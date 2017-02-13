@@ -3,8 +3,8 @@
 import api from './api';
 
 export default {
-  comparedGeo: api('interest by region'),
+  interestByRegion: api('interest by region'),
+  interestOverTime: api('interest over time'),
   relatedQueries: api('related queries'),
   relatedTopics: api('related topics'),
-  trends: api('interest over time'),
 };

@@ -23,7 +23,7 @@ var util = require('util');
 // object optionally contains {startTime: new Date()} and/or {endTime: new Date()}
 // object optionally contains {geo: 'some geocode string'} geocode string example 'US' or 'US-CA' or 'US-CA-800'
 // object optionally contains {resolution: enumerated string [COUNTRY, REGION, CITY, DMA]}
-googleTrends.comparedGeo({keyword: 'OJ Simpson', startTime: new Date('2017-02-01'), endTime: new Date('2017-02-06'), geo: 'US', resolution: 'dMa'})
+googleTrends.interestByRegion({keyword: 'OJ Simpson', startTime: new Date('2017-02-01'), endTime: new Date('2017-02-06'), geo: 'US', resolution: 'dMa'})
 .then((res) => {
   console.log('this is res', res);
 })
