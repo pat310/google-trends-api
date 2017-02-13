@@ -49,6 +49,8 @@ export function formatTime(obj) {
 };
 
 export function constructObj(obj, cbFunc) {
+  if (typeof obj === 'function') cbFunc = obj;
+
   if (!obj || !!obj && typeof obj !== 'object' || Array.isArray(obj)) {
     obj = new Error('Must supply an object');
   } else if (!obj.keyword) obj = new Error('Must have a keyword field');
