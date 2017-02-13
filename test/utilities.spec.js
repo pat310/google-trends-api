@@ -4,6 +4,7 @@ import {
   convertDateToString,
   formatResolution,
   formatTime,
+  getResults,
   isLessThan7Days,
 } from '../src/utilities';
 
@@ -117,6 +118,24 @@ describe('utilities', () => {
 
     it('should capitalize a word on the list', () => {
       expect(formatResolution('country')).to.equal('COUNTRY');
+    });
+  });
+
+  describe('getResults', () => {
+    it('should eventually get results', (done) => {
+      const { obj } = constructObj({keyword: 'Brooklyn'});
+
+      getResults('interest over time', obj)
+      .then((res) => {
+        expect(res).to.exist;
+        expect(JSON.parse(res)).to.not.be.an('error');
+        done();
+      })
+      .catch((e) => {
+        expect(e).to.not.exist();
+        done();
+      });
+
     });
   });
 });

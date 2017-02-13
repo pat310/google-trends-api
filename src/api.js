@@ -7,7 +7,7 @@ export default (searchType) => {
     const {
       cbFunc,
       obj,
-    } = constructObj(req, cb);
+    } = constructObj(reqObj, cb);
 
     if (obj instanceof Error) return Promise.reject(cbFunc(obj));
 

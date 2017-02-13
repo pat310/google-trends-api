@@ -72,7 +72,7 @@ export function constructObj(obj, cbFunc) {
   };
 };
 
-export function formatResolution(resolution) {
+export function formatResolution(resolution = '') {
   const resolutions = ['COUNTRY', 'REGION', 'CITY', 'DMA'];
   const isResValid = resolutions.some((res) => {
     return res === resolution.toUpperCase();

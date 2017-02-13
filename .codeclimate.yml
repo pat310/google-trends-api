@@ -6,13 +6,6 @@ engines:
     config:
       languages:
       - javascript
-    checks:
-      wrap-iife:
-        enabled: false
-      no-loop-func:
-        enabled: false
-      guard-for-in:
-        enabled: false
   fixme:
     enabled: true
 ratings:
