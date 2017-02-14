@@ -128,6 +128,8 @@ Requires an `object` as the first parameter with the following keys:
 
 Optional callback `function` as the second parameter (otherwise returns a promise)
 
+The resolution of the search changes automatically depending on the search duration.  The wider the duration window, the worse the resolution (for example, a search duration with a `startTime` and `endTime` that ends years apart will return a resolution in months, while a search duration with a `startTime` and `endTime` a few hours apart will return a resolution in minutes).
+
 #####Example 1
 Returning the search interest over time for 'Valentines Day' (by default from 2004-01-01 to today)
 
@@ -150,11 +152,11 @@ googleTrends.interestOverTime({keyword: 'Valentines Day'})
 ```
 
 #####Example 2
-Returning the search interest over time for 'Valentines Day' from 2017-02-08 to 2017-02-14 with a callback function.  Note that the resolution is by hour since our query duration is shorter.
+Returning the search interest over time for 'Valentines Day' from the past four hours.  Note that the resolution is by minute since our query duration is shorter.
 
 ######Input
 ```js
-googleTrends.interestOverTime({keyword: 'Valentines Day', startTime: new Date('2017-02-08'), endTime: new Date('2017-02-14')}, function(err, results) {
+googleTrends.interestOverTime({keyword: 'Valentines Day', startTime: new Date(Date.now() - (4 * 60 * 60 * 1000))}, function(err, results) {
   if (err) console.log('oh no error!', err);
   else console.log(results);
 });
@@ -162,9 +164,9 @@ googleTrends.interestOverTime({keyword: 'Valentines Day', startTime: new Date('2
 
 ######Output
 ```js
-{"default":{"timelineData":[{"time":"1486512000","formattedTime":"Feb 7, 2017 at 7:00 PM","formattedAxisTime":"Feb 7 at 7:00 PM","value":[11],"formattedValue":["11"]},{"time":"1486515600","formattedTime":"Feb 7, 2017 at 8:00 PM","formattedAxisTime":"Feb 7 at 8:00 PM","value":[12],"formattedValue":["12"]},
+{"default":{"timelineData":[{"time":"1487026800","formattedTime":"Feb 13, 2017 at 6:00 PM","formattedAxisTime":"6:00 PM","value":[49],"formattedValue":["49"]},{"time":"1487026860","formattedTime":"Feb 13, 2017 at 6:01 PM","formattedAxisTime":"6:01 PM","value":[50],"formattedValue":["50"]},
 ...
-{"time":"1487026800","formattedTime":"Feb 13, 2017 at 6:00 PM","formattedAxisTime":"Feb 13 at 6:00 PM","value":[78],"formattedValue":["78"]},{"time":"1487030400","formattedTime":"Feb 13, 2017 at 7:00 PM","formattedAxisTime":"Feb 13 at 7:00 PM","value":[100],"formattedValue":["100"]}],"averages":[]}}
+{"time":"1487040180","formattedTime":"Feb 13, 2017 at 9:43 PM","formattedAxisTime":"9:43 PM","value":[88],"formattedValue":["88"]},{"time":"1487040240","formattedTime":"Feb 13, 2017 at 9:44 PM","formattedAxisTime":"9:44 PM","value":[81],"formattedValue":["81"]}],"averages":[]}}
 ```
 
 [back to top](#introduction)

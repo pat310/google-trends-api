@@ -16,7 +16,7 @@ var util = require('util');
 //   console.log('got the error', err);
 // })
 
-// googleTrends.interestOverTime({keyword: 'Valentines Day', startTime: new Date('2017-02-08'), endTime: new Date('2017-02-14')}, function(err, results) {
+// googleTrends.interestOverTime({keyword: 'Valentines Day', startTime: new Date(Date.now() - (4 * 60 * 60 * 1000))}, function(err, results) {
 //   if (err) console.log('oh no error!', err);
 //   else console.log(results);
 // });
