@@ -32,9 +32,9 @@ describe('utilities', () => {
     it('should be able to return a date formatted as YYYY-MM-DDTHH\\:MM\\:SS',
         () => {
           const d = new Date('2017', '01', '04', '12', '43');
-
+          const utcHour = d.getUTCHours();
           expect(convertDateToString(d, true)).to.equal(
-            '2017-02-4T17\\:43\\:00');
+            `2017-02-4T${utcHour}\\:43\\:00`);
         });
   });
 
