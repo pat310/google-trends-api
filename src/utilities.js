@@ -1,5 +1,5 @@
 'use strict';
-const rp = require('request-promise');
+import request from './request';
 
 export function isLessThan7Days(date1, date2) {
   return (Math.abs(date2 - date1) / (24 * 60 * 60 * 1000)) < 7;
@@ -87,27 +87,28 @@ export function formatResolution(resolution = '') {
 export function getResults(searchType, obj) {
   const map = {
     'interest over time': {
-      uri: 'https://www.google.com/trends/api/widgetdata/multiline',
+      path: '/trends/api/widgetdata/multiline',
       pos: 0,
     },
     'interest by region': {
-      uri: 'https://www.google.com/trends/api/widgetdata/comparedgeo',
+      path: '/trends/api/widgetdata/comparedgeo',
       pos: 1,
       resolution: formatResolution(obj.resolution),
     },
     'related topics': {
-      uri: 'https://www.google.com/trends/api/widgetdata/relatedsearches',
+      path: '/trends/api/widgetdata/relatedsearches',
       pos: 2,
     },
     'related queries': {
-      uri: 'https://www.google.com/trends/api/widgetdata/relatedsearches',
+      path: '/trends/api/widgetdata/relatedsearches',
       pos: 3,
     },
   };
 
   const options = {
     method: 'GET',
-    uri: 'https://www.google.com/trends/api/explore',
+    host: 'www.google.com',
+    path: '/trends/api/explore',
     qs: {
       hl: 'en-US',
       req: JSON.stringify({comparisonItem: [obj], cat: 0}),
@@ -115,9 +116,9 @@ export function getResults(searchType, obj) {
     },
   };
 
-  const {pos, uri, resolution} = map[searchType];
+  const {pos, path, resolution} = map[searchType];
 
-  return rp(options)
+  return request(options)
   .then((results) => {
     const parsedResults = JSON.parse(results.slice(4)).widgets;
     let req = parsedResults[pos].request;
@@ -126,8 +127,9 @@ export function getResults(searchType, obj) {
     req = JSON.stringify(req);
     const token = parsedResults[pos].token;
     const nextOptions = {
+      path,
       method: 'GET',
-      uri: uri,
+      host: 'www.google.com',
       qs: {
         req,
         token,
@@ -135,7 +137,7 @@ export function getResults(searchType, obj) {
       },
     };
 
-    return rp(nextOptions);
+    return request(nextOptions);
   })
   .then((res) => {
     return res.slice(5);

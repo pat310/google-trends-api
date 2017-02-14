@@ -31,10 +31,7 @@
     "url": "https://github.com/pat310/google-trends-api/issues"
   },
   "homepage": "https://github.com/pat310/google-trends-api#readme",
-  "dependencies": {
-    "request": "^2.79.0",
-    "request-promise": "^4.1.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel": "6.3.13",
     "babel-core": "6.1.18",
