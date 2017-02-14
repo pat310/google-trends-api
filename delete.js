@@ -13,19 +13,19 @@ var options = {
 
 rp(options)
 .then((moreResults) => {
-  /** Interest over time */
-  var results = JSON.parse(moreResults.slice(4)).widgets;
-  console.log('results', results);
-  var options2 = {
-    method: 'GET',
-    uri: 'https://www.google.com/trends/api/widgetdata/multiline',
-    qs: {
-      hl: 'en-US',
-      tz: 300,
-      req: JSON.stringify(results[0].request),
-      token: results[0].token
-    }
-  }
+  // /** Interest over time */
+  // var results = JSON.parse(moreResults.slice(4)).widgets;
+  // console.log('results', results);
+  // var options2 = {
+  //   method: 'GET',
+  //   uri: 'https://www.google.com/trends/api/widgetdata/multiline',
+  //   qs: {
+  //     hl: 'en-US',
+  //     tz: 300,
+  //     req: JSON.stringify(results[0].request),
+  //     token: results[0].token
+  //   }
+  // }
 // /**
 //  * 'Numbers represent search interest relative to the highest point on the chart for the given region and time. A value of 100 is the peak popularity for the term. A value of 50 means that the term is half as popular. Likewise a score of 0 means the term was less than 1% as popular as the peak.'
 // */
@@ -54,17 +54,17 @@ rp(options)
 // })
 // .then((moreResults) => {
 //   /** Related topics */
-//   var results = JSON.parse(moreResults.slice(4)).widgets;
-//   // console.log('this is results', results);
-//   var options2 = {
-//     method: 'GET',
-//     uri: 'https://www.google.com/trends/api/widgetdata/relatedsearches',
-//     qs: {
-//       req: JSON.stringify(results[2].request),
-//       token: results[2].token,
-//       tz: 360
-//     }
-//   }
+  // var results = JSON.parse(moreResults.slice(4)).widgets;
+  // // console.log('this is results', results);
+  // var options2 = {
+  //   method: 'GET',
+  //   uri: 'https://www.google.com/trends/api/widgetdata/relatedsearches',
+  //   qs: {
+  //     req: JSON.stringify(results[2].request),
+  //     token: results[2].token,
+  //     tz: 360
+  //   }
+  // }
 // /**
 //  * 'Users searching for your term also searched for these topics. You can view by the following metrics: <p>* <b>Top</b> - The most popular topics. Scoring is on a relative scale where a value of 100 is the most commonly searched topic, a value of 50 is a topic searched half as often, and a value of 0 is a topic searched for less than 1% as often as the most popular topic. <p>* <b>Rising</b> - Related topics with the biggest increase in search frequency since the last time period. Results marked "Breakout" had a tremendous increase, probably because these topics are new and had few (if any) prior searches.'
 // */

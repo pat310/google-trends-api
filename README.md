@@ -41,10 +41,10 @@ Optional callback function where the first parameter is an error and the second 
   * [Callbacks](#callbacks)
   * [Examples](#examples)
   * [API Methods](#api-methods)
-    * [interestOverTime](#interestOverTime)
-    * [interestByRegion](#interestByRegion)
-    * [relatedQueries](#relatedQueries)
-    * [relatedTopics](#relatedTopics)
+    * [interestOverTime](#interestovertime)
+    * [interestByRegion](#interestbyregion)
+    * [relatedQueries](#relatedqueries)
+    * [relatedTopics](#relatedtopics)
 * [Big Thanks](#big-thanks)
 
 <hr>
@@ -92,35 +92,47 @@ googleTrends.interestOverTime({keyword: 'Women\'s march'}, function(err, results
 ```
 
 ### Examples
-There are examples available for each API method in the root directory of the module.  **Note:** Each example in [examples.js](/examples.js) need to be uncommented.
+There are examples available for each API method in the root directory of the module.  **Note:** Each example in [examples.js](/examples.js) needs to be uncommented.
 
 ### API Methods
 The following API methods are available:
-* [trendData](#trenddata): returns the historical trend data to a provided keyword or an array of keywords - optionally accepts a `timePeriod` object
-* [topRelated](#toprelated): returns terms that are most frequently searched with the term(s) you entered in the same search session, within the chosen category (optional) and country (optional). If you didn't enter a search term, top searches overall are shown.
-* [risingSearches](#risingsearches): returns terms that were searched for with the term you entered (or overall, if no keyword was entered), which had the most significant growth in volume in the requested time period. For each rising search term, you’ll see a percentage of the term’s growth compared to the previous time period. If you see “Breakout” instead of a percentage, it means that the search term grew by more than 5000%.
-* [hotTrends](#hottrends): returns the current top 20 trending searches for a given location.
+* [interestOverTime](#interestovertime): Numbers represent search interest relative to the highest point on the chart for the given region and time. A value of 100 is the peak popularity for the term. A value of 50 means that the term is half as popular. Likewise a score of 0 means the term was less than 1% as popular as the peak.'
+
+* [interestByRegion](#interestbyregion): See in which location your term was most popular during the specified time frame. Values are calculated on a scale from 0 to 100, where 100 is the location with the most popularity as a fraction of total searches in that location, a value of 50 indicates a location which is half as popular, and a value of 0 indicates a location where the term was less than 1% as popular as the peak. <p><p> **Note:** A higher value means a higher proportion of all queries, not a higher absolute query count. So a tiny country where 80% of the queries are for "bananas" will get twice the score of a giant country where only 40% of the queries are for "bananas".
+
+
+* [relatedQueries](#relatedqueries): Users searching for your term also searched for these queries. The following metrics are returned:
+  * **Top** - The most popular search queries. Scoring is on a relative scale where a value of 100 is the most commonly searched query, 50 is a query searched half as often, and a value of 0 is a query searched for less than 1% as often as the most popular query.
+  * **Rising** - Queries with the biggest increase in search frequency since the last time period. Results marked "Breakout" had a tremendous increase, probably because these queries are new and had few (if any) prior searches.
+
+* [relatedTopics](#relatedtopics): Users searching for your term also searched for these topics. The following metrics are returned:
+  * **Top** - The most popular topics. Scoring is on a relative scale where a value of 100 is the most commonly searched topic, a value of 50 is a topic searched half as often, and a value of 0 is a topic searched for less than 1% as often as the most popular topic.
+  * **Rising** - Related topics with the biggest increase in search frequency since the last time period. Results marked "Breakout" had a tremendous increase, probably because these topics are new and had few (if any) prior searches.
 
 [back to top](#introduction)
 
 <hr>
 
-#### trendData()
-*Returns the historical trend data to a provided keyword or an array of keywords.*
+#### interestOverTime
+*Search interest relative to the highest point on the chart for the given region and time (100 is the peak popularity for the term)*
 
 #####Syntax
-`googleTrends.trendData(['keywords'], {type: 'string', value: number})`
+`googleTrends.interestOverTime({keyword: string, startTime: Date, endTime: Date}, cbFunc)`
 
-* `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  Entering a keyword is **required**.
+Requires an `object` as the first parameter with the following keys:
+* `keyword` - **required** - type `string` - the search term of interest
+* `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
+* `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
+* `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
 
-* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default all past trend data will be returned, otherwise trend data for the given time period will be returned.
+Optional callback `function` as the second parameter (otherwise returns a promise)
 
-#####Example
-The following example provides the historical trend data for 'OJ Simpson'.  Optionally, the input could have been provided as `googleTrends.trendData({keywords: 'OJ Simpson'})`.
+#####Example 1
+Returning the search interest over time for 'Valentines Day' (by default from 2004-01-01 to today)
 
 ######Input
 ```js
-googleTrends.trendData('OJ Simpson')
+googleTrends.interestOverTime({keyword: 'Valentines Day'})
 .then(function(results){
   console.log(results);
 })
@@ -131,122 +143,27 @@ googleTrends.trendData('OJ Simpson')
 
 ######Output
 ```js
-[ { query: 'oj simpson',
-    values:
-     [ { date: '2003-12-01T05:00:00.000Z', value: 4 },
-       { date: '2004-01-01T05:00:00.000Z', value: 4 },
-       { date: '2004-02-01T05:00:00.000Z', value: 3 },
-       { date: '2004-03-01T05:00:00.000Z', value: 4 },
-       { date: '2004-04-01T05:00:00.000Z', value: 5 },
-       { date: '2004-05-01T04:00:00.000Z', value: 7 },
-       { date: '2004-06-01T04:00:00.000Z', value: 2 },
-       { date: '2004-07-01T04:00:00.000Z', value: 2 },
-       { date: '2004-08-01T04:00:00.000Z', value: 2 },
-       { date: '2004-09-01T04:00:00.000Z', value: 4 },
-       { date: '2004-10-01T04:00:00.000Z', value: 4 },
-       { date: '2004-11-01T05:00:00.000Z', value: 3 },
-       { date: '2004-12-01T05:00:00.000Z', value: 3 },
-       ... more items ] } ]
+{"default":{"timelineData":[{"time":"1072915200","formattedTime":"Jan 2004","formattedAxisTime":"Jan 1, 2004","value":[26],"formattedValue":["26"]},{"time":"1075593600","formattedTime":"Feb 2004","formattedAxisTime":"Feb 1, 2004","value":[74],"formattedValue":["74"]},
+...
+{"time":"1483228800","formattedTime":"Jan 2017","formattedAxisTime":"Jan 1, 2017","value":[18],"formattedValue":["18"]},{"time":"1485907200","formattedTime":"Feb 2017","formattedAxisTime":"Feb 1, 2017","value":[72],"formattedValue":["72"]}],"averages":[]}}
 ```
 
-#####Example
-The following example provides the historical trend data for 'swimming' and the 'olympics'.  Optionally, the input could have been provided as `googleTrends.trendData({keywords: ['swimming', 'olympics']})`.
+#####Example 2
+Returning the search interest over time for 'Valentines Day' from 2017-02-08 to 2017-02-14 with a callback function.  Note that the resolution is by hour since our query duration is shorter.
 
 ######Input
 ```js
-googleTrends.trendData(['swimming', 'olympics'])
-.then(function(results){
-  console.log(results);
-})
-.catch(function(err){
-  console.error(err);
+googleTrends.interestOverTime({keyword: 'Valentines Day', startTime: new Date('2017-02-08'), endTime: new Date('2017-02-14')}, function(err, results) {
+  if (err) console.log('oh no error!', err);
+  else console.log(results);
 });
 ```
 
 ######Output
 ```js
-[ { query: 'swimming',
-    values:
-     [ { date: '2003-12-01T05:00:00.000Z', value: 7 },
-       { date: '2004-01-01T05:00:00.000Z', value: 7 },
-       { date: '2004-02-01T05:00:00.000Z', value: 7 },
-       { date: '2004-03-01T05:00:00.000Z', value: 7 },
-       { date: '2004-04-01T05:00:00.000Z', value: 8 },
-       { date: '2004-05-01T04:00:00.000Z', value: 9 },
-       { date: '2004-06-01T04:00:00.000Z', value: 10 },
-       { date: '2004-07-01T04:00:00.000Z', value: 11 },
-       { date: '2004-08-01T04:00:00.000Z', value: 7 },
-       { date: '2004-09-01T04:00:00.000Z', value: 6 },
-       { date: '2004-10-01T04:00:00.000Z', value: 5 },
-       { date: '2004-11-01T05:00:00.000Z', value: 4 },
-       { date: '2004-12-01T05:00:00.000Z', value: 6 },
-       { date: '2005-01-01T05:00:00.000Z', value: 6 },
-       { date: '2005-02-01T05:00:00.000Z', value: 6 },
-       ... more items ] },
-  { query: 'olympics',
-    values:
-     [ { date: '2003-12-01T05:00:00.000Z', value: 3 },
-       { date: '2004-01-01T05:00:00.000Z', value: 4 },
-       { date: '2004-02-01T05:00:00.000Z', value: 4 },
-       { date: '2004-03-01T05:00:00.000Z', value: 4 },
-       { date: '2004-04-01T05:00:00.000Z', value: 5 },
-       { date: '2004-05-01T04:00:00.000Z', value: 5 },
-       { date: '2004-06-01T04:00:00.000Z', value: 8 },
-       { date: '2004-07-01T04:00:00.000Z', value: 66 },
-       { date: '2004-08-01T04:00:00.000Z', value: 8 },
-       { date: '2004-09-01T04:00:00.000Z', value: 3 },
-       { date: '2004-10-01T04:00:00.000Z', value: 3 },
-       ... more items ] } ]
-```
-
-#####Example
-The following example provides the historical trend data for 'OJ Simpson' for the past 5 days.  Optionally, the input could have been provided as `googleTrends.trendData('OJ Simpson', {type: 'day', value: 5})`.
-
-######Input
-```js
-googleTrends.trendData({keywords: 'Oj Simpson', timePeriod: {type: 'day', value: 5}})
-.then(function(results){
-  console.log(results);
-})
-.catch(function(err){
-  console.error(err);
-});
-```
-
-######Output
-```js
-[ { query: 'oj simpson',
-    values:
-     [ { date: '2016-10-17T21:00:00.000Z', value: 20 },
-       { date: '2016-10-17T22:00:00.000Z', value: 18 },
-       { date: '2016-10-17T23:00:00.000Z', value: 17 },
-       { date: '2016-10-18T00:00:00.000Z', value: 23 },
-       { date: '2016-10-18T01:00:00.000Z', value: 20 },
-       { date: '2016-10-18T02:00:00.000Z', value: 22 },
-       { date: '2016-10-18T03:00:00.000Z', value: 19 },
-       { date: '2016-10-18T04:00:00.000Z', value: 15 },
-       { date: '2016-10-18T05:00:00.000Z', value: 11 },
-       { date: '2016-10-18T06:00:00.000Z', value: 8 },
-       { date: '2016-10-18T07:00:00.000Z', value: 7 },
-       { date: '2016-10-18T08:00:00.000Z', value: 7 },
-       { date: '2016-10-18T09:00:00.000Z', value: 6 },
-       { date: '2016-10-18T10:00:00.000Z', value: 7 },
-       { date: '2016-10-18T11:00:00.000Z', value: 7 },
-       { date: '2016-10-18T12:00:00.000Z', value: 10 },
-       { date: '2016-10-18T13:00:00.000Z', value: 10 },
-       { date: '2016-10-18T14:00:00.000Z', value: 10 },
-       { date: '2016-10-18T15:00:00.000Z', value: 11 },
-       { date: '2016-10-18T16:00:00.000Z', value: 13 },
-       { date: '2016-10-18T17:00:00.000Z', value: 13 },
-       { date: '2016-10-18T18:00:00.000Z', value: 18 },
-       { date: '2016-10-18T19:00:00.000Z', value: 16 },
-       { date: '2016-10-18T20:00:00.000Z', value: 16 },
-       { date: '2016-10-18T21:00:00.000Z', value: 19 },
-       { date: '2016-10-18T22:00:00.000Z', value: 33 },
-       { date: '2016-10-18T23:00:00.000Z', value: 81 },
-       { date: '2016-10-19T00:00:00.000Z', value: 100 },
-       { date: '2016-10-19T01:00:00.000Z', value: 30 },
-       ... more items ] } ]
+{"default":{"timelineData":[{"time":"1486512000","formattedTime":"Feb 7, 2017 at 7:00 PM","formattedAxisTime":"Feb 7 at 7:00 PM","value":[11],"formattedValue":["11"]},{"time":"1486515600","formattedTime":"Feb 7, 2017 at 8:00 PM","formattedAxisTime":"Feb 7 at 8:00 PM","value":[12],"formattedValue":["12"]},
+...
+{"time":"1487026800","formattedTime":"Feb 13, 2017 at 6:00 PM","formattedAxisTime":"Feb 13 at 6:00 PM","value":[78],"formattedValue":["78"]},{"time":"1487030400","formattedTime":"Feb 13, 2017 at 7:00 PM","formattedAxisTime":"Feb 13 at 7:00 PM","value":[100],"formattedValue":["100"]}],"averages":[]}}
 ```
 
 [back to top](#introduction)
