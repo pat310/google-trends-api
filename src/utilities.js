@@ -59,6 +59,8 @@ export function constructObj(obj, cbFunc) {
     obj = new Error('Callback function must be a function');
   }
 
+  if (!obj.hl) obj.hl = 'en-US';
+
   if (!cbFunc) {
     cbFunc = (err, res) => {
       if (err) return err;
@@ -110,7 +112,7 @@ export function getResults(searchType, obj) {
     host: 'www.google.com',
     path: '/trends/api/explore',
     qs: {
-      hl: 'en-US',
+      hl: obj.hl,
       req: JSON.stringify({comparisonItem: [obj], cat: 0}),
       tz: 300,
     },
@@ -131,6 +133,7 @@ export function getResults(searchType, obj) {
       method: 'GET',
       host: 'www.google.com',
       qs: {
+        hl: obj.hl,
         req,
         token,
         tz: 300,
