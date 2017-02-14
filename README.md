@@ -45,6 +45,7 @@ Optional callback function where the first parameter is an error and the second 
     * [interestByRegion](#interestbyregion)
     * [relatedQueries](#relatedqueries)
     * [relatedTopics](#relatedtopics)
+* [Geo help](#geo-help)
 * [Big Thanks](#big-thanks)
 
 <hr>
@@ -117,7 +118,7 @@ The following API methods are available:
 *Search interest relative to the highest point on the chart for the given region and time (100 is the peak popularity for the term)*
 
 #####Syntax
-`googleTrends.interestOverTime({keyword: string, startTime: Date, endTime: Date}, cbFunc)`
+`googleTrends.interestOverTime({keyword: string, startTime: Date, endTime: Date, geo: string}, cbFunc)`
 
 Requires an `object` as the first parameter with the following keys:
 * `keyword` - **required** - type `string` - the search term of interest
@@ -170,140 +171,153 @@ googleTrends.interestOverTime({keyword: 'Valentines Day', startTime: new Date('2
 
 <hr>
 
-#### topRelated()
-*Returns terms that are most frequently searched with the term you entered in the same search session, within the chosen category (optional) and country (optional). If you didn't enter a search term, top searches overall are shown*
+#### interestByRegion
+*See in which location your term was most popular during the specified time frame. Values are calculated on a scale from 0 to 100, where 100 is the location with the most popularity as a fraction of total searches in that location.*
 
 #####Syntax
-`googleTrends.topRelated(['keywords'], {type: 'string', value: number}, 'country')`
+`googleTrends.interestByRegion({keyword: string, startTime: Date, endTime: Date, geo: string, resolution: string}, cbFunc)`
 
-* `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  If no keyword is entered, top searches overall are shown
+Requires an `object` as the first parameter with the following keys:
+* `keyword` - **required** - type `string` - the search term of interest
+* `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
+* `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
+* `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
+* `resolution` - *optional* - type `enumerated string` either `COUNTRY`, `REGION`, `CITY` or `DMA`.  Resolution is selected by default otherwise.  Trying to select a resolution larger than a specified `geo` will return an error.
 
-* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default all past data will be used
+Optional callback `function` as the second parameter (otherwise returns a promise)
 
-* `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default
-
-#####Example
-The following example provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.topRelated({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter.
+#####Example 1
+Returning the search interest by cities around the world for 'Donald Trump' from February 01, 2017 to February 06, 2017.
 
 ######Input
 ```js
-googleTrends.topRelated('dog house', 'US')
-.then(function(results){
-  console.log(results);
+googleTrends.interestByRegion({keyword: 'Donald Trump', startTime: new Date('2017-02-01'), endTime: new Date('2017-02-06'), resolution: 'CITY'})
+.then((res) => {
+  console.log(res);
 })
-.catch(function(err){
-  console.error(err);
-});
-```
-
-######Output
-```js
-[ { 'the dog house': '100',
-    'the house': '100',
-    'house of dog': '50',
-    'dog house plans': '15',
-    'dog training': '15',
-    'dog house training': '15',
-    'house train dog': '15',
-    'build dog house': '10',
-    'best house dog': '10',
-    'dog houses': '10' } ]
-```
-
-[back to top](#introduction)
-
-<hr>
-
-#### risingSearches()
-*Returns terms that were searched for with the term you entered (or overall, if no keyword was entered), which had the most significant growth in volume in the requested time period. For each rising search term, you’ll see a percentage of the term’s growth compared to the previous time period. If you see “Breakout” instead of a percentage, it means that the search term grew by more than 5000%.*
-
-#####Syntax
-`googleTrends.risingSearches(['keywords'], {type: 'string', value: number}, 'country')`
-
-* `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  If no keyword is entered, top searches overall are shown
-
-* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default all past data will be used
-
-* `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default
-
-#####Example
-The following example provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.risingSearches({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter.
-
-######Input
-```js
-googleTrends.risingSearches('dog house', 'US')
-.then(function(results){
-  console.log(results);
-})
-.catch(function(err){
-  console.error(err);
-});
-```
-
-######Output
-```js
-[ { 'little dog house': '+250%',
-    'dog house grill': '+140%',
-    'large dog house': '+90%',
-    'best house dog': '+80%',
-    'hot dog house': '+70%',
-    'the dog house': '+70%',
-    'the house': '+70%',
-    'house of dog': '+50%',
-    'house train dog': '+40%' } ]
-```
-
-[back to top](#introduction)
-
-<hr>
-
-#### hotTrends()
-*Returns the current top 20 trending searches for a given location*
-
-#####Syntax
-`googleTrends.hotTrends('country')`
-
-* `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default.
-
-#####Example
-The following example provides the top 20 trending searches in the 'US'.  Optionally, the input could have been provided as `googleTrends.hotTrends({geo: 'US'})`.  Any other keys provided in the object will be ignore.
-
-######Input
-```js
-googleTrends.hotTrends('US')
-.then(function(results){
-  console.log(results);
-})
-.catch(function(err){
+.catch((err) => {
   console.log(err);
-});
+})
 ```
 
 ######Output
 ```js
-[ 'Donald Drumpf',
-  'Mark Ruffalo',
-  'Ashley Graham',
-  'Raspberry Pi 3',
-  'Oscars 2016',
-  'Why is there a leap day',
-  'Brie Larson',
-  'Alicia Vikander',
-  'Mark Rylance',
-  'Room',
-  'Stacey Dash',
-  'Mad Max Fury Road',
-  'merkin',
-  'Alejandro González Iñárritu',
-  'Sam Smith',
-  'The Big Short',
-  'The Hateful Eight',
-  'Jennifer Lawrence',
-  'Why Does Leap Year Have 366 Days',
-  'Inside Out' ];
+{"default":{"geoMapData":[{"coordinates":{"lat":18.594395,"lng":-72.3074326},"geoName":"Port-au-Prince","value":[100],"formattedValue":["100"],"maxValueIndex":0},{"coordinates":{"lat":43.467517,"lng":-79.6876659},"geoName":"Oakville","value":[90],"formattedValue":["90"],"maxValueIndex":0},
+...
+{"coordinates":{"lat":40.9312099,"lng":-73.8987469},"geoName":"Yonkers","value":[69],"formattedValue":["69"],"maxValueIndex":0}]}}
+```
+
+#####Example 2
+Returning the search interest by cities in California for 'Donald Trump' from February 01, 2017 to February 06, 2017.
+
+######Input
+```js
+googleTrends.interestByRegion({keyword: 'Donald Trump', startTime: new Date('2017-02-01'), endTime: new Date('2017-02-06'), geo: 'US-CA'})
+.then((res) => {
+  console.log(res);
+})
+.catch((err) => {
+  console.log(err);
+})
+```
+
+######Output
+```js
+{"default":{"geoMapData":[{"geoCode":"807","geoName":"San Francisco-Oakland-San Jose CA","value":[100],"formattedValue":["100"],"maxValueIndex":0},{"geoCode":"828","geoName":"Monterey-Salinas CA","value":[100],"formattedValue":["100"],"maxValueIndex":0},
+...
+{"geoCode":"811","geoName":"Reno NV","value":[12],"formattedValue":["12"],"maxValueIndex":0},{"geoCode":"813","geoName":"Medford-Klamath Falls OR","value":[4],"formattedValue":["4"],"maxValueIndex":0}]}}
 ```
 
 [back to top](#introduction)
+
+<hr>
+
+#### relatedQueries
+*Users searching for your term also searched for these queries.*
+
+#####Syntax
+`googleTrends.relatedQueries({keyword: string, startTime: Date, endTime: Date, geo: string}, cbFunc)`
+
+Requires an `object` as the first parameter with the following keys:
+* `keyword` - **required** - type `string` - the search term of interest
+* `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
+* `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
+* `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
+
+Optional callback `function` as the second parameter (otherwise returns a promise)
+
+#####Example
+Returning top related queries for 'Westminster Dog show' with default startTime, endTime, and geo categories
+
+######Input
+```js
+googleTrends.relatedQueries({keyword: 'Westminster Dog Show'})
+.then((res) => {
+  console.log(res);
+})
+.catch((err) => {
+  console.log(err);
+})
+```
+
+######Output
+```js
+{"default":{"rankedList":[{"rankedKeyword":[{"query":"dog show 2016","value":100,"formattedValue":"100","link":"/"},{"query":"2016 westminster dog show","value":95,"formattedValue":"95","link":"/"},
+...
+{"query":"dogs","value":20,"formattedValue":"20","link":"/"}]},{"rankedKeyword":[{"query":"dog show 2016","value":836500,"formattedValue":"Breakout","link":"/"},{"query":"2016 westminster dog show","value":811550,"formattedValue":"Breakout","link":"/"},
+...
+{"query":"who won the westminster dog show","value":59000,"formattedValue":"Breakout","link":"/"}]}]}}
+```
+
+[back to top](#introduction)
+
+<hr>
+
+#### relatedTopics
+*Users searching for your term also searched for these topics*
+
+#####Syntax
+`googleTrends.relatedTopics({keyword: string, startTime: Date, endTime: Date, geo: string}, cbFunc)`
+
+Requires an `object` as the first parameter with the following keys:
+* `keyword` - **required** - type `string` - the search term of interest
+* `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
+* `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
+* `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
+
+Optional callback `function` as the second parameter (otherwise returns a promise)
+
+#####Example
+Returning top related topics for 'Chipotle' from January 1st, 2015 to February 10th, 2017.
+
+######Input
+```js
+googleTrends.relatedTopics({keyword: 'Chipotle', startTime: new Date('2015-01-01'), endTime: new Date('2017-02-10')})
+.then((res) => {
+  console.log(res);
+})
+.catch((err) => {
+  console.log(err);
+})
+```
+
+######Output
+```js
+{"default":{"rankedList":[{"rankedKeyword":[{"topic":{"mid":"/m/01b566","title":"Chipotle Mexican Grill","type":"Restaurant company"},"value":100,"formattedValue":"100","link":"/"},{"topic":{"mid":"/m/02f217","title":"Chipotle","type":"Jalape\u00f1o"},"value":5,"formattedValue":"5","link":"/"},
+...
+{"topic":{"mid":"/m/01xg7s","title":"Chorizo","type":"Topic"},"value":0,"formattedValue":"0","link":"/"}]},{"rankedKeyword":[{"topic":{"mid":"/m/09_yl","title":"E. coli","type":"Bacteria"},"value":40700,"formattedValue":"Breakout","link":"/"},
+...
+{"topic":{"mid":"/m/0dqc4","title":"Caridea","type":"Animal"},"value":40,"formattedValue":"+40%","link":"/"}]}]}}
+```
+
+[back to top](#introduction)
+
+<hr>
+##Geo help
+Unfortunately support is not offered for zip codes at this time.  The user must enter a country code, region (or state) code, and/or DMA (Designated Market Area) code.
+
+* A list of country codes can be found here: [country code list](https://github.com/datasets/country-codes/blob/master/data/country-codes.csv)
+* A list of DMAs can be found here: [DMA list](https://support.google.com/richmedia/answer/2745487?hl=en)
 
 <hr>
 
