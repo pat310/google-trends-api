@@ -1,5 +1,5 @@
 ## [v4.0.0]
-> Feb TBD, 2017
+> Feb 13, 2017
 
 - removed all old api methods
 - added four new api methods:
@@ -14,7 +14,7 @@
 - adding eslint and following [airbnb](https://github.com/airbnb/javascript) style guide
 - updated README accordingly
 
-[TBD]: TBD
+[#47]: https://github.com/pat310/google-trends-api/pull/47
 
 ## [v3.0.2]
 > Feb 3, 2017
