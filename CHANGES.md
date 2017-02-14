@@ -1,3 +1,21 @@
+## [v4.0.0]
+> Feb 13, 2017
+
+- removed all old api methods
+- added four new api methods:
+  - `interestByRegion`
+  - `interestOverTime`
+  - `relatedQueries`
+  - `relatedTopics`
+- removed all dependencies
+- adding [codeclimate](https://codeclimate.com/github/pat310/google-trends-api)
+- fixing [coveralls](https://coveralls.io/github/pat310/google-trends-api)
+- removed old tests and added new tests for new methods
+- adding eslint and following [airbnb](https://github.com/airbnb/javascript) style guide
+- updated README accordingly
+
+[#47]: https://github.com/pat310/google-trends-api/pull/47
+
 ## [v3.0.2]
 > Feb 3, 2017
 

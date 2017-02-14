@@ -5,52 +5,49 @@
 [![npm version](https://badge.fury.io/js/google-trends-api.svg)](https://badge.fury.io/js/google-trends-api)
 [![Build status](https://img.shields.io/travis/pat310/google-trends-api.svg?style=flat-square)](https://travis-ci.org/pat310/google-trends-api/)
 [![Coverage Status](https://coveralls.io/repos/github/pat310/google-trends-api/badge.svg?branch=master)](https://coveralls.io/github/pat310/google-trends-api?branch=master)
+[![Code Climate](https://codeclimate.com/github/pat310/google-trends-api/badges/gpa.svg)](https://codeclimate.com/github/pat310/google-trends-api)
 [![Dependency Status](https://img.shields.io/david/pat310/google-trends-api.svg?style=flat-square)](https://david-dm.org/pat310/google-trends-api)
 [![Known Vulnerabilities](https://snyk.io/test/github/pat310/google-trends-api/badge.svg)](https://snyk.io/test/github/pat310/google-trends-api)
+
+##v3 to v4
+[Big changes](/CHANGES.md)!  The old google-trends endpoints are deprecated and are heavily throttled so this library has changed significantly.  You can choose to download the old version via `npm install google-trends-api@3.0.2` but it is discouraged.
 
 ##Introduction
 This library provides an API layer to [google trends](https://www.google.com/trends/) data.  It is constantly being expanded and improved so please check back frequently.  Also, please feel free to contribute to make the library even better! :dog:
 
-Simple to use:
+###Syntax
 ```js
-var googleTrends = require('google-trends-api');
+const googleTrends = require('google-trends-api');
 
-var options = {
-	geo: 'country code or name',
-	date: 'yyyymm',
-	keywords: ['some', 'list', 'of', 'keywords'],
-	category: 'some category',
-	timePeriod: {
-		type: enumerated string 'hour', 'day', 'month', or 'year'
-		value: number
-	}
-}
-
-googleTrends.apiMethod(options)
-.then(function(results){
-	console.log("Here are your google trend results!", results);
-})
-.catch(function(err){
-	console.log("there was an error :(", err);
-});
+googleTrends.apiMethod(optionsObject, [callback])
 ```
+
+####Parameters
+**optionsObject**
+An object with the following options keys:
+* **keyword** Target search term (string) **required**
+* **startTime** Start of time period of interest (`new Date()` object).  If `startTime` is not provided, a date of January 1, 2004 is assumed (this is the oldest available google trends data)
+* **endTime** End of time period of interest (`new Date()` object). If `endTime` is not provided, the current date is selected.
+* **geo** Location of interest (string).
+* **hl** Preferred language (defaults to english)
+* **resolution** Granularity of the geo search (enumerated string ['COUNTRY', 'REGION', 'CITY', 'DMA']).  `resolution` is specific to the [interestByRegion](#interestByRegion) method.
+
+**callback**
+Optional callback function where the first parameter is an error and the second parameter is the result.  If no callback is provided, then a promise is returned.
 
 ##Table of contents
 * [Installation](#installation)
 * [API](#api)
-	* [Promises](#promises)
-	* [Callbacks](#callbacks)
-	* [Examples](#examples)
-	* [API Methods](#api-methods)
-		* [trendData](#trenddata)
-		* [topRelated](#toprelated)
-		* [risingSearches](#risingsearches)
-		* [hotTrends](#hottrends)
-		* [hotTrendsDetail](#hottrendsdetail)
-		* [top30in30](#top30in30)
-		* [allTopCharts](#alltopcharts)
-		* [categoryTopCharts](#categorytopcharts)
-* [Potential Errors](#potential-errors)
+  * [Promises](#promises)
+  * [Callbacks](#callbacks)
+  * [Examples](#examples)
+  * [API Methods](#api-methods)
+    * [interestOverTime](#interestovertime)
+    * [interestByRegion](#interestbyregion)
+    * [relatedQueries](#relatedqueries)
+    * [relatedTopics](#relatedtopics)
+* [Geo help](#geo-help)
+* [Big Thanks](#big-thanks)
 
 <hr>
 
@@ -64,7 +61,7 @@ npm install google-trends-api
 Require google-trends-api in your script and give it a variable name:
 
 ```js
-var googleTrends = require('google-trends-api');
+const googleTrends = require('google-trends-api');
 ```
 
 You will now be able to access methods on `googleTrends`.  See the [API Methods section](#api-methods) below to see the methods available and their syntax.
@@ -78,128 +75,69 @@ You will now be able to access methods on `googleTrends`.  See the [API Methods 
 ### Promises
 By default, all the API's return a promise for the results.  Example:
 ```js
-googleTrends.topRelated('dog house')
+googleTrends.interestOverTime({keyword: 'Women\'s march'})
 .then(function(results){
-  console.log(results);
+  console.log('These results are awesome', results);
 })
 .catch(function(err){
-  console.error(err);
+  console.error('Oh no there was an error', err);
 });
-```
-
-Would console.log:
-```js
-[ { 'the dog house': '100',
-    'the house': '100',
-    'house of dog': '50',
-    'dog house plans': '15',
-    'dog training': '15',
-    'dog house training': '15',
-    'house train dog': '15',
-    'build dog house': '10',
-    'best house dog': '10',
-    'dog houses': '10' } ]
 ```
 
 ### Callbacks
-All API methods can also take a callback function as the last input parameter.  For example:
+All API methods can alternatively take a callback function as the second parameter.  For example:
 ```js
-googleTrends.topRelated('dog house', function(err, results){
-	if(err) console.error('there was an error!', err);
-	else console.log(results);
+googleTrends.interestOverTime({keyword: 'Women\'s march'}, function(err, results){
+  if(err) console.error('there was an error!', err);
+  else console.log('my sweet sweet results', results);
 })
-```
-
-Would console.log:
-```js
-[ { 'the dog house': '100',
-    'the house': '100',
-    'house of dog': '50',
-    'dog house plans': '15',
-    'dog training': '15',
-    'dog house training': '15',
-    'house train dog': '15',
-    'build dog house': '10',
-    'best house dog': '10',
-    'dog houses': '10' } ]
 ```
 
 ### Examples
-There are examples available for each API method that can be run by changing into the home `google-trends` directory and running `node examples.js`.  **Note:** Each example in [examples.js](/examples.js) need to be uncommented.
+There are examples available for each API method in the root directory of the module.  **Note:** Each example in [examples.js](/examples.js) needs to be uncommented.
 
 ### API Methods
 The following API methods are available:
-* [trendData](#trenddata): returns the historical trend data to a provided keyword or an array of keywords - optionally accepts a `timePeriod` object
-* [topRelated](#toprelated): returns terms that are most frequently searched with the term(s) you entered in the same search session, within the chosen category (optional) and country (optional). If you didn't enter a search term, top searches overall are shown.
-* [risingSearches](#risingsearches): returns terms that were searched for with the term you entered (or overall, if no keyword was entered), which had the most significant growth in volume in the requested time period. For each rising search term, you’ll see a percentage of the term’s growth compared to the previous time period. If you see “Breakout” instead of a percentage, it means that the search term grew by more than 5000%.
-* [hotTrends](#hottrends): returns the current top 20 trending searches for a given location.
-* [hotTrendsDetail](#hottrendsdetail): same as the [hotTrends](#hottrends) results except with more detail such as links, publication date, approximate traffic, etc.
-* [top30in30](#top30in30): returns the top 30 searches in the past 30 days
-* [allTopCharts](#alltopcharts): returns the top trending charts for a given date and location.  Charts contain information such as title, description, source, a jumpFactory, etc.
-* [categoryTopCharts](#categorytopcharts): returns the top trending charts for a given category, date, and location.
+* [interestOverTime](#interestovertime): Numbers represent search interest relative to the highest point on the chart for the given region and time. A value of 100 is the peak popularity for the term. A value of 50 means that the term is half as popular. Likewise a score of 0 means the term was less than 1% as popular as the peak.'
 
-For each of the API methods, rather than providing the parameters to the function in a specific order such as `googleTrends.topRelated('keyword', 'country')`, you can provide the function with an "options" object.  Keys that are not required for the method are simply ignored.  The available keys of the options object are as follows:
+* [interestByRegion](#interestbyregion): See in which location your term was most popular during the specified time frame. Values are calculated on a scale from 0 to 100, where 100 is the location with the most popularity as a fraction of total searches in that location, a value of 50 indicates a location which is half as popular, and a value of 0 indicates a location where the term was less than 1% as popular as the peak. <p><p> **Note:** A higher value means a higher proportion of all queries, not a higher absolute query count. So a tiny country where 80% of the queries are for "bananas" will get twice the score of a giant country where only 40% of the queries are for "bananas".
 
-* `geo`: 'country code provided as a string',
-* `date`: 'date provided in format yyyymm as a string where January starts at 01,
-* `category`: 'a string for a specific category',
-* `keywords`: 'either an array of keywords as strings or a singular keyword as a string'
-* `timePeriod`: an object with keys `type` and `value` where `type`'s value is an enumerated string (either 'hour', 'day', 'month', or 'year') and `value`'s value is a number.  **Note:** this is the elapsed time up to the current time, for example `{type: 'hour', value: 5}` corresponds to data from 5 hours ago to now, or `{type: 'day', value: 2}` corresponds to data from 2 days ago to now
+
+* [relatedQueries](#relatedqueries): Users searching for your term also searched for these queries. The following metrics are returned:
+  * **Top** - The most popular search queries. Scoring is on a relative scale where a value of 100 is the most commonly searched query, 50 is a query searched half as often, and a value of 0 is a query searched for less than 1% as often as the most popular query.
+  * **Rising** - Queries with the biggest increase in search frequency since the last time period. Results marked "Breakout" had a tremendous increase, probably because these queries are new and had few (if any) prior searches.
+
+* [relatedTopics](#relatedtopics): Users searching for your term also searched for these topics. The following metrics are returned:
+  * **Top** - The most popular topics. Scoring is on a relative scale where a value of 100 is the most commonly searched topic, a value of 50 is a topic searched half as often, and a value of 0 is a topic searched for less than 1% as often as the most popular topic.
+  * **Rising** - Related topics with the biggest increase in search frequency since the last time period. Results marked "Breakout" had a tremendous increase, probably because these topics are new and had few (if any) prior searches.
 
 [back to top](#introduction)
 
 <hr>
 
-#### trendData()
-*Returns the historical trend data to a provided keyword or an array of keywords.*
+#### interestOverTime
+*Search interest relative to the highest point on the chart for the given region and time (100 is the peak popularity for the term)*
 
 #####Syntax
-`googleTrends.trendData(['keywords'], {type: 'string', value: number})`
+`googleTrends.interestOverTime({keyword: string, startTime: Date, endTime: Date, geo: string}, cbFunc)`
 
-* `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  Entering a keyword is **required**.
+Requires an `object` as the first parameter with the following keys:
+* `keyword` - **required** - type `string` - the search term of interest
+* `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
+* `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
+* `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
+* `hl` - *optional* - type `string` - preferred language code for results (defaults to english)
 
-* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default all past trend data will be returned, otherwise trend data for the given time period will be returned.
+Optional callback `function` as the second parameter (otherwise returns a promise)
 
-#####Example
-The following example provides the historical trend data for 'OJ Simpson'.  Optionally, the input could have been provided as `googleTrends.trendData({keywords: 'OJ Simpson'})`.
+The resolution of the search changes automatically depending on the search duration.  The wider the duration window, the worse the resolution (for example, a search duration with a `startTime` and `endTime` that ends years apart will return a resolution in months, while a search duration with a `startTime` and `endTime` a few hours apart will return a resolution in minutes).
 
-######Input
-```js
-googleTrends.trendData('OJ Simpson')
-.then(function(results){
-	console.log(results);
-})
-.catch(function(err){
-	console.error(err);
-});
-```
-
-######Output
-```js
-[ { query: 'oj simpson',
-    values:
-     [ { date: '2003-12-01T05:00:00.000Z', value: 4 },
-       { date: '2004-01-01T05:00:00.000Z', value: 4 },
-       { date: '2004-02-01T05:00:00.000Z', value: 3 },
-       { date: '2004-03-01T05:00:00.000Z', value: 4 },
-       { date: '2004-04-01T05:00:00.000Z', value: 5 },
-       { date: '2004-05-01T04:00:00.000Z', value: 7 },
-       { date: '2004-06-01T04:00:00.000Z', value: 2 },
-       { date: '2004-07-01T04:00:00.000Z', value: 2 },
-       { date: '2004-08-01T04:00:00.000Z', value: 2 },
-       { date: '2004-09-01T04:00:00.000Z', value: 4 },
-       { date: '2004-10-01T04:00:00.000Z', value: 4 },
-       { date: '2004-11-01T05:00:00.000Z', value: 3 },
-       { date: '2004-12-01T05:00:00.000Z', value: 3 },
-       ... more items ] } ]
-```
-
-#####Example
-The following example provides the historical trend data for 'swimming' and the 'olympics'.  Optionally, the input could have been provided as `googleTrends.trendData({keywords: ['swimming', 'olympics']})`.
+#####Example 1
+Returning the search interest over time for 'Valentines Day' (by default from 2004-01-01 to today)
 
 ######Input
 ```js
-googleTrends.trendData(['swimming', 'olympics'])
+googleTrends.interestOverTime({keyword: 'Valentines Day'})
 .then(function(results){
   console.log(results);
 })
@@ -210,559 +148,188 @@ googleTrends.trendData(['swimming', 'olympics'])
 
 ######Output
 ```js
-[ { query: 'swimming',
-    values:
-     [ { date: '2003-12-01T05:00:00.000Z', value: 7 },
-       { date: '2004-01-01T05:00:00.000Z', value: 7 },
-       { date: '2004-02-01T05:00:00.000Z', value: 7 },
-       { date: '2004-03-01T05:00:00.000Z', value: 7 },
-       { date: '2004-04-01T05:00:00.000Z', value: 8 },
-       { date: '2004-05-01T04:00:00.000Z', value: 9 },
-       { date: '2004-06-01T04:00:00.000Z', value: 10 },
-       { date: '2004-07-01T04:00:00.000Z', value: 11 },
-       { date: '2004-08-01T04:00:00.000Z', value: 7 },
-       { date: '2004-09-01T04:00:00.000Z', value: 6 },
-       { date: '2004-10-01T04:00:00.000Z', value: 5 },
-       { date: '2004-11-01T05:00:00.000Z', value: 4 },
-       { date: '2004-12-01T05:00:00.000Z', value: 6 },
-       { date: '2005-01-01T05:00:00.000Z', value: 6 },
-       { date: '2005-02-01T05:00:00.000Z', value: 6 },
-       ... more items ] },
-  { query: 'olympics',
-    values:
-     [ { date: '2003-12-01T05:00:00.000Z', value: 3 },
-       { date: '2004-01-01T05:00:00.000Z', value: 4 },
-       { date: '2004-02-01T05:00:00.000Z', value: 4 },
-       { date: '2004-03-01T05:00:00.000Z', value: 4 },
-       { date: '2004-04-01T05:00:00.000Z', value: 5 },
-       { date: '2004-05-01T04:00:00.000Z', value: 5 },
-       { date: '2004-06-01T04:00:00.000Z', value: 8 },
-       { date: '2004-07-01T04:00:00.000Z', value: 66 },
-       { date: '2004-08-01T04:00:00.000Z', value: 8 },
-       { date: '2004-09-01T04:00:00.000Z', value: 3 },
-       { date: '2004-10-01T04:00:00.000Z', value: 3 },
-       ... more items ] } ]
+{"default":{"timelineData":[{"time":"1072915200","formattedTime":"Jan 2004","formattedAxisTime":"Jan 1, 2004","value":[26],"formattedValue":["26"]},{"time":"1075593600","formattedTime":"Feb 2004","formattedAxisTime":"Feb 1, 2004","value":[74],"formattedValue":["74"]},
+...
+{"time":"1483228800","formattedTime":"Jan 2017","formattedAxisTime":"Jan 1, 2017","value":[18],"formattedValue":["18"]},{"time":"1485907200","formattedTime":"Feb 2017","formattedAxisTime":"Feb 1, 2017","value":[72],"formattedValue":["72"]}],"averages":[]}}
 ```
 
-#####Example
-The following example provides the historical trend data for 'OJ Simpson' for the past 5 days.  Optionally, the input could have been provided as `googleTrends.trendData('OJ Simpson', {type: 'day', value: 5})`.
+#####Example 2
+Returning the search interest over time for 'Valentines Day' from the past four hours.  Note that the resolution is by minute since our query duration is shorter.
 
 ######Input
 ```js
-googleTrends.trendData({keywords: 'Oj Simpson', timePeriod: {type: 'day', value: 5}})
-.then(function(results){
-  console.log(results);
-})
-.catch(function(err){
-  console.error(err);
+googleTrends.interestOverTime({keyword: 'Valentines Day', startTime: new Date(Date.now() - (4 * 60 * 60 * 1000))}, function(err, results) {
+  if (err) console.log('oh no error!', err);
+  else console.log(results);
 });
 ```
 
 ######Output
 ```js
-[ { query: 'oj simpson',
-    values:
-     [ { date: '2016-10-17T21:00:00.000Z', value: 20 },
-       { date: '2016-10-17T22:00:00.000Z', value: 18 },
-       { date: '2016-10-17T23:00:00.000Z', value: 17 },
-       { date: '2016-10-18T00:00:00.000Z', value: 23 },
-       { date: '2016-10-18T01:00:00.000Z', value: 20 },
-       { date: '2016-10-18T02:00:00.000Z', value: 22 },
-       { date: '2016-10-18T03:00:00.000Z', value: 19 },
-       { date: '2016-10-18T04:00:00.000Z', value: 15 },
-       { date: '2016-10-18T05:00:00.000Z', value: 11 },
-       { date: '2016-10-18T06:00:00.000Z', value: 8 },
-       { date: '2016-10-18T07:00:00.000Z', value: 7 },
-       { date: '2016-10-18T08:00:00.000Z', value: 7 },
-       { date: '2016-10-18T09:00:00.000Z', value: 6 },
-       { date: '2016-10-18T10:00:00.000Z', value: 7 },
-       { date: '2016-10-18T11:00:00.000Z', value: 7 },
-       { date: '2016-10-18T12:00:00.000Z', value: 10 },
-       { date: '2016-10-18T13:00:00.000Z', value: 10 },
-       { date: '2016-10-18T14:00:00.000Z', value: 10 },
-       { date: '2016-10-18T15:00:00.000Z', value: 11 },
-       { date: '2016-10-18T16:00:00.000Z', value: 13 },
-       { date: '2016-10-18T17:00:00.000Z', value: 13 },
-       { date: '2016-10-18T18:00:00.000Z', value: 18 },
-       { date: '2016-10-18T19:00:00.000Z', value: 16 },
-       { date: '2016-10-18T20:00:00.000Z', value: 16 },
-       { date: '2016-10-18T21:00:00.000Z', value: 19 },
-       { date: '2016-10-18T22:00:00.000Z', value: 33 },
-       { date: '2016-10-18T23:00:00.000Z', value: 81 },
-       { date: '2016-10-19T00:00:00.000Z', value: 100 },
-       { date: '2016-10-19T01:00:00.000Z', value: 30 },
-       ... more items ] } ]
+{"default":{"timelineData":[{"time":"1487026800","formattedTime":"Feb 13, 2017 at 6:00 PM","formattedAxisTime":"6:00 PM","value":[49],"formattedValue":["49"]},{"time":"1487026860","formattedTime":"Feb 13, 2017 at 6:01 PM","formattedAxisTime":"6:01 PM","value":[50],"formattedValue":["50"]},
+...
+{"time":"1487040180","formattedTime":"Feb 13, 2017 at 9:43 PM","formattedAxisTime":"9:43 PM","value":[88],"formattedValue":["88"]},{"time":"1487040240","formattedTime":"Feb 13, 2017 at 9:44 PM","formattedAxisTime":"9:44 PM","value":[81],"formattedValue":["81"]}],"averages":[]}}
 ```
 
 [back to top](#introduction)
 
 <hr>
 
-#### topRelated()
-*Returns terms that are most frequently searched with the term you entered in the same search session, within the chosen category (optional) and country (optional). If you didn't enter a search term, top searches overall are shown*
+#### interestByRegion
+*See in which location your term was most popular during the specified time frame. Values are calculated on a scale from 0 to 100, where 100 is the location with the most popularity as a fraction of total searches in that location.*
 
 #####Syntax
-`googleTrends.topRelated(['keywords'], {type: 'string', value: number}, 'country')`
+`googleTrends.interestByRegion({keyword: string, startTime: Date, endTime: Date, geo: string, resolution: string}, cbFunc)`
 
-* `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  If no keyword is entered, top searches overall are shown
+Requires an `object` as the first parameter with the following keys:
+* `keyword` - **required** - type `string` - the search term of interest
+* `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
+* `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
+* `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
+* `resolution` - *optional* - type `enumerated string` either `COUNTRY`, `REGION`, `CITY` or `DMA`.  Resolution is selected by default otherwise.  Trying to select a resolution larger than a specified `geo` will return an error.
+* `hl` - *optional* - type `string` - preferred language code for results (defaults to english)
 
-* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default all past data will be used
+Optional callback `function` as the second parameter (otherwise returns a promise)
 
-* `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default
-
-#####Example
-The following example provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.topRelated({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter.
+#####Example 1
+Returning the search interest by cities around the world for 'Donald Trump' from February 01, 2017 to February 06, 2017.
 
 ######Input
 ```js
-googleTrends.topRelated('dog house', 'US')
-.then(function(results){
-  console.log(results);
+googleTrends.interestByRegion({keyword: 'Donald Trump', startTime: new Date('2017-02-01'), endTime: new Date('2017-02-06'), resolution: 'CITY'})
+.then((res) => {
+  console.log(res);
 })
-.catch(function(err){
-  console.error(err);
-});
+.catch((err) => {
+  console.log(err);
+})
 ```
 
 ######Output
 ```js
-[ { 'the dog house': '100',
-    'the house': '100',
-    'house of dog': '50',
-    'dog house plans': '15',
-    'dog training': '15',
-    'dog house training': '15',
-    'house train dog': '15',
-    'build dog house': '10',
-    'best house dog': '10',
-    'dog houses': '10' } ]
+{"default":{"geoMapData":[{"coordinates":{"lat":18.594395,"lng":-72.3074326},"geoName":"Port-au-Prince","value":[100],"formattedValue":["100"],"maxValueIndex":0},{"coordinates":{"lat":43.467517,"lng":-79.6876659},"geoName":"Oakville","value":[90],"formattedValue":["90"],"maxValueIndex":0},
+...
+{"coordinates":{"lat":40.9312099,"lng":-73.8987469},"geoName":"Yonkers","value":[69],"formattedValue":["69"],"maxValueIndex":0}]}}
+```
+
+#####Example 2
+Returning the search interest by cities in California for 'Donald Trump' from February 01, 2017 to February 06, 2017.
+
+######Input
+```js
+googleTrends.interestByRegion({keyword: 'Donald Trump', startTime: new Date('2017-02-01'), endTime: new Date('2017-02-06'), geo: 'US-CA'})
+.then((res) => {
+  console.log(res);
+})
+.catch((err) => {
+  console.log(err);
+})
+```
+
+######Output
+```js
+{"default":{"geoMapData":[{"geoCode":"807","geoName":"San Francisco-Oakland-San Jose CA","value":[100],"formattedValue":["100"],"maxValueIndex":0},{"geoCode":"828","geoName":"Monterey-Salinas CA","value":[100],"formattedValue":["100"],"maxValueIndex":0},
+...
+{"geoCode":"811","geoName":"Reno NV","value":[12],"formattedValue":["12"],"maxValueIndex":0},{"geoCode":"813","geoName":"Medford-Klamath Falls OR","value":[4],"formattedValue":["4"],"maxValueIndex":0}]}}
 ```
 
 [back to top](#introduction)
 
 <hr>
 
-#### risingSearches()
-*Returns terms that were searched for with the term you entered (or overall, if no keyword was entered), which had the most significant growth in volume in the requested time period. For each rising search term, you’ll see a percentage of the term’s growth compared to the previous time period. If you see “Breakout” instead of a percentage, it means that the search term grew by more than 5000%.*
+#### relatedQueries
+*Users searching for your term also searched for these queries.*
 
 #####Syntax
-`googleTrends.risingSearches(['keywords'], {type: 'string', value: number}, 'country')`
+`googleTrends.relatedQueries({keyword: string, startTime: Date, endTime: Date, geo: string}, cbFunc)`
 
-* `['keywords']` - either an array of keywords as strings or a string with one keyword.  If keywords is an array, the results will be returned in an array of the same order as the input.  If no keyword is entered, top searches overall are shown
+Requires an `object` as the first parameter with the following keys:
+* `keyword` - **required** - type `string` - the search term of interest
+* `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
+* `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
+* `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
+* `hl` - *optional* - type `string` - preferred language code for results (defaults to english)
 
-* `{type: 'string', value: number}` - the `timePeriod` object that must be formatted with keys `type` (which is an enumerated string of either 'hour', 'day', 'month', or 'year') and `value` (which is a number).  Entering a `timePeriod` is optional.  If no `timePeriod` object is provided, by default all past data will be used
-
-* `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default
+Optional callback `function` as the second parameter (otherwise returns a promise)
 
 #####Example
-The following example provides the top related keywords to 'dog house' in the 'US'.  Optionally, the input could have been provided as `googleTrends.risingSearches({keywords: 'dog house', geo: 'US'})`.  Order of the keys does not matter.
+Returning top related queries for 'Westminster Dog show' with default startTime, endTime, and geo categories
 
 ######Input
 ```js
-googleTrends.risingSearches('dog house', 'US')
-.then(function(results){
-  console.log(results);
+googleTrends.relatedQueries({keyword: 'Westminster Dog Show'})
+.then((res) => {
+  console.log(res);
 })
-.catch(function(err){
-  console.error(err);
-});
+.catch((err) => {
+  console.log(err);
+})
 ```
 
 ######Output
 ```js
-[ { 'little dog house': '+250%',
-    'dog house grill': '+140%',
-    'large dog house': '+90%',
-    'best house dog': '+80%',
-    'hot dog house': '+70%',
-    'the dog house': '+70%',
-    'the house': '+70%',
-    'house of dog': '+50%',
-    'house train dog': '+40%' } ]
+{"default":{"rankedList":[{"rankedKeyword":[{"query":"dog show 2016","value":100,"formattedValue":"100","link":"/"},{"query":"2016 westminster dog show","value":95,"formattedValue":"95","link":"/"},
+...
+{"query":"dogs","value":20,"formattedValue":"20","link":"/"}]},{"rankedKeyword":[{"query":"dog show 2016","value":836500,"formattedValue":"Breakout","link":"/"},{"query":"2016 westminster dog show","value":811550,"formattedValue":"Breakout","link":"/"},
+...
+{"query":"who won the westminster dog show","value":59000,"formattedValue":"Breakout","link":"/"}]}]}}
 ```
 
 [back to top](#introduction)
 
 <hr>
 
-#### hotTrends()
-*Returns the current top 20 trending searches for a given location*
+#### relatedTopics
+*Users searching for your term also searched for these topics*
 
 #####Syntax
-`googleTrends.hotTrends('country')`
+`googleTrends.relatedTopics({keyword: string, startTime: Date, endTime: Date, geo: string}, cbFunc)`
 
-* `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default.
+Requires an `object` as the first parameter with the following keys:
+* `keyword` - **required** - type `string` - the search term of interest
+* `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
+* `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
+* `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
+* `hl` - *optional* - type `string` - preferred language code for results (defaults to english)
+
+Optional callback `function` as the second parameter (otherwise returns a promise)
 
 #####Example
-The following example provides the top 20 trending searches in the 'US'.  Optionally, the input could have been provided as `googleTrends.hotTrends({geo: 'US'})`.  Any other keys provided in the object will be ignore.
+Returning top related topics for 'Chipotle' from January 1st, 2015 to February 10th, 2017.
 
 ######Input
 ```js
-googleTrends.hotTrends('US')
-.then(function(results){
-	console.log(results);
+googleTrends.relatedTopics({keyword: 'Chipotle', startTime: new Date('2015-01-01'), endTime: new Date('2017-02-10')})
+.then((res) => {
+  console.log(res);
 })
-.catch(function(err){
-	console.log(err);
-});
+.catch((err) => {
+  console.log(err);
+})
 ```
 
 ######Output
 ```js
-[ 'Donald Drumpf',
-  'Mark Ruffalo',
-  'Ashley Graham',
-  'Raspberry Pi 3',
-  'Oscars 2016',
-  'Why is there a leap day',
-  'Brie Larson',
-  'Alicia Vikander',
-  'Mark Rylance',
-  'Room',
-  'Stacey Dash',
-  'Mad Max Fury Road',
-  'merkin',
-  'Alejandro González Iñárritu',
-  'Sam Smith',
-  'The Big Short',
-  'The Hateful Eight',
-  'Jennifer Lawrence',
-  'Why Does Leap Year Have 366 Days',
-  'Inside Out' ];
+{"default":{"rankedList":[{"rankedKeyword":[{"topic":{"mid":"/m/01b566","title":"Chipotle Mexican Grill","type":"Restaurant company"},"value":100,"formattedValue":"100","link":"/"},{"topic":{"mid":"/m/02f217","title":"Chipotle","type":"Jalape\u00f1o"},"value":5,"formattedValue":"5","link":"/"},
+...
+{"topic":{"mid":"/m/01xg7s","title":"Chorizo","type":"Topic"},"value":0,"formattedValue":"0","link":"/"}]},{"rankedKeyword":[{"topic":{"mid":"/m/09_yl","title":"E. coli","type":"Bacteria"},"value":40700,"formattedValue":"Breakout","link":"/"},
+...
+{"topic":{"mid":"/m/0dqc4","title":"Caridea","type":"Animal"},"value":40,"formattedValue":"+40%","link":"/"}]}]}}
 ```
 
 [back to top](#introduction)
 
 <hr>
+##Geo help
+Unfortunately support is not offered for zip codes at this time.  The user must enter a country code, region (or state) code, and/or DMA (Designated Market Area) code.
 
-#### hotTrendsDetail()
-*Returns the current top 20 trending searches for a given location with more detail than the `hotTrends()` method*
-
-#####Syntax
-`googleTrends.hotTrendsDetail('country')`
-
-* `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default.
-
-#####Example
-The following example provides the top 20 trending searches in the 'US'.  Optionally, the input could have been provided as `googleTrends.hotTrendsDetail({geo: 'US'})`.  Any other keys provided in the object will be ignore.
-
-######Input
-```js
-googleTrends.hotTrendsDetail('US')
-.then(function(results){
-	console.log(results);
-})
-.catch(function(err){
-	console.log(err);
-});
-```
-
-######Output
-**Note:** Only showing some returned data for brevity
-
-```js
-{ rss:
-   { '$':
-      { version: '2.0',
-        'xmlns:ht': 'http://www.google.com/trends/hottrends',
-        'xmlns:atom': 'http://www.w3.org/2005/Atom' },
-     channel:
-      [ { title: [ 'Hot Trends' ],
-          link: [ 'http://www.google.us/trends/hottrends?pn=p1' ],
-          'atom:link':
-           [ { '$':
-                { href: 'http://www.google.us/trends/hottrends/atom/feed?pn=p1',
-                  rel: 'self',
-                  type: 'application/rss+xml' } } ],
-          description: [ 'Recent hot searches' ],
-          item:
-           [ { title: [ 'Melania Trump' ],
-               description: [ '' ],
-               link: [ 'http://www.google.us/trends/hottrends?pn=p1#a=20160301-Melania+Trump' ],
-               pubDate: [ 'Tue, 01 Mar 2016 01:00:00 -0800' ],
-               'ht:picture': [ '//t2.gstatic.com/images?q=tbn:ANd9GcT9MS12TcSh5cRqw6CGr7FXqTELrlqBPY-f6Nnpksa_Duy753wXe8jq1Q_fl9DVFRYqEHFW3BLA' ],
-               'ht:picture_source': [ 'Politico (blog)' ],
-               'ht:approx_traffic': [ '100,000+' ],
-               'ht:news_item':
-                [ { 'ht:news_item_title': [ '<b>Melania Trump</b> goes on the attack' ],
-                    'ht:news_item_snippet': [ '<b>Melania Trump</b> said Marco Rubio&#39;s campaign has taken a “desperate tone” toward Donald Trump, but the Republican front-runner&#39;s wife is unbothered. Rubio finally engaged Donald Trump at last Thursday&#39;s Republican debate and hasn&#39;t let up since,&nbsp;...' ],
-                    'ht:news_item_url': [ 'http://www.politico.com/blogs/2016-gop-primary-live-updates-and-results/2016/03/melania-trump-marco-rubio-220015' ],
-                    'ht:news_item_source': [ 'Politico (blog)' ] },
-                  { 'ht:news_item_title': [ '<b>Melania Trump</b>: &#39;Donald will change tone if he becomes president&#39;' ],
-                    'ht:news_item_snippet': [ 'Her comments came during a CNN interview with Anderson Cooper in which the host brought up the frequent insults fired between the Republican presidential candidates and the criticism Donald <b>Trump</b> has received for his tone on the campaign trail.' ],
-                    'ht:news_item_url': [ 'http://www.independent.co.uk/news/people/melania-trump-donald-will-change-tone-if-he-becomes-president-a6904786.html' ],
-                    'ht:news_item_source': [ 'The Independent' ] } ] },
-                    ...
-```
-
-[back to top](#introduction)
+* A list of country codes can be found here: [country code list](https://github.com/datasets/country-codes/blob/master/data/country-codes.csv)
+* A list of DMAs can be found here: [DMA list](https://support.google.com/richmedia/answer/2745487?hl=en)
+* A list of available languages can be found here: [language codes](https://sites.google.com/site/tomihasa/google-language-codes)
 
 <hr>
 
-#### top30in30()
-*Returns the top 30 searches in the past 30 days*
-
-#####Syntax
-`googleTrends.top30in30()`
-
-* `top30in30` does not take in parameters
-
-#####Example
-The following example returns the top 30 searches in the past 30 days.
-
-######Input
-```js
-googleTrends.top30in30()
-.then(function(results){
-	console.log(results);
-})
-.catch(function(err){
-	console.log(err);
-});
-```
-
-######Output
-**Note:** Only showing some returned data for brevity
-
-```js
-{
-  "summaryMessage": "Showing top 30 searches in past 30 days",
-  "dataUpdateTime": 1456776000,
-  "weekDaysList": [
-    {
-      "title": "Sun"
-    },
-    {
-      "title": "Mon"
-    },
-    {
-      "title": "Tue"
-    },
-    {
-      "title": "Wed"
-    },
-    {
-      "title": "Thu"
-    },
-    {
-      "title": "Fri"
-    },
-    {
-      "title": "Sat"
-    }
-  ],
-  "monthsList": [
-    {
-      "title": "January",
-      "height": 1
-    },
-    {
-      "title": "February",
-      "height": 4
-    }
-  ],
-  "weeksList": [
-    {
-      "daysList": [
-        {
-          "date": "20160131",
-          "formattedDate": "31",
-          "longFormattedDate": "January 31",
-          "data": {
-            "numOfAdditionalTrends": 19,
-            "trend": {
-              "title": "Frederick Douglass",
-              "titleLinkUrl": "/search?q=frederick+douglass",
-              "relatedSearchesList": [],
-              "formattedTraffic": "10,000,000+",
-              "trafficBucketLowerBound": 10000000,
-              "hotnessLevel": 5,
-              "hotnessColor": "#d04108",
-              "imgUrl": "//t0.gstatic.com/images?q=tbn:ANd9GcRCCrM-fy25_79vt3P5YBXG_nZyhK4zya6kP5oMDSyts5WRMMlhxdUBtTKKVnFLgu2C0qXL6iU",
-              "imgSource": "CNN International",
-              "imgLinkUrl": "http://www.cnn.com/2016/02/01/living/frederick-douglass-google-doodle-black-history-month-feat/index.html",
-              "newsArticlesList": [
-                {
-                  "title": "Who&#39;s <b>Frederick Douglass</b>? Learn more about civil rights leader and movement",
-                  "link": "http://www.cnn.com/2016/02/01/living/frederick-douglass-google-doodle-black-history-month-feat/index.html",
-                  "source": "CNN International",
-                  "snippet": "His autobiography &quot;Narrative of the Life of <b>Frederick Douglass</b>, An American&quot; is a good place to start. &quot;Ain&#39;t I a Woman?&quot; Former slave Sojourner Truth told of the horror as an African-American woman in slavery in &quot;Ain&#39;t I a Woman?&quot; the speech she gave <b>...</b>"
-                },
-                {
-                  "title": "<b>Frederick Douglass</b>: America&#39;s great abolitionist",
-                  "link": "http://www.csmonitor.com/USA/Society/2016/0201/Frederick-Douglass-America-s-great-abolitionist",
-                  "source": "Christian Science Monitor",
-                  "snippet": "<b>Frederick</b> Augustus Washington Bailey was born into slavery in Maryland early in the 19th century. After beginning his life on a plantation, <b>Douglass</b> was sent to Baltimore, where he was first exposed to the alphabet and literacy. Allowing slaves to <b>...</b>"
-                }
-              ],
-              "startTime": 1454302800,
-              "shareUrl": "https://www.google.com/trends/hottrends?stt=Frederick+Douglass&std=20160131&pn=p1#a=20160131-Frederick+Douglass",
-              "date": "20160131",
-              "exploreUrl": "/trends/explore#q=frederick+douglass&date=today+1-m&geo=US"
-            }
-          }
-        },
-        ...
-```
-
-[back to top](#introduction)
-
-<hr>
-
-#### allTopCharts()
-*Returns the top trending charts for a given date and location*
-
-#####Syntax
-`googleTrends.allTopCharts('date', 'country')`
-
-* `date` - an optional string provided as 'yyyymm'.  January === 01, December === 12.  Note that google does not aggregate the data for the current month, so the date provided must always be at least one month behind.  If no date is provided, the most recent date available is assumed.
-
-* `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default.
-
-#####Example
-The following example provides the top charts in January 2016 in the 'US'.  Optionally, the input could have been provided as `googleTrends.allTopCharts({geo: 'US', date: '201601'})`.  Order of the keys does not matter.
-
-######Input
-```js
-googleTrends.allTopCharts('201601', 'US')
-.then(function(results){
-	console.log(results);
-})
-.catch(function(err){
-	console.log(err);
-});
-```
-
-
-######Output
-**Note:** Only showing some returned data for brevity
-
-```js
-{
-  "summaryMessage": "Showing all charts",
-  "prevTimePeriod": "201512",
-  "nextTimePeriod": "",
-  "isMonthlyTimePeriod": true,
-  "data": {
-    "chartList": [
-      {
-        "trendingChart": {
-          "entityList": [
-            {
-              "title": "David Bowie",
-              "titleLength": 11,
-              "description": {
-                "description": "David Robert Jones, known as David Bowie, was an English singer, songwriter and musician, who also worked as an actor and record producer...",
-                "source": "Wikipedia",
-                "sourceUrl": "http://en.wikipedia.org/wiki/David_Bowie"
-              },
-              "shareUrl": "http://www.google.com/trends/topcharts?vm=trendingchart&cid=actors&date=201601&geo=US&cat&mid=/m/01vsy7t",
-              "twitterShareUrlTitle": "David Bowie #1 in Google Trends Actors trending chart",
-              "idForTracking": "David Bowie",
-              "exploreUrl": "/trends/explore#cmpt=q&q=/m/01vsy7t&date=1/2016+1m&geo=US",
-              "jumpFactorSummary": "+3,700%",
-              "topChartRank": 1,
-              "titleLinkUrl": "/search?q=David+Bowie"
-            },
-            {
-              "title": "Alan Rickman",
-              "titleLength": 12,
-              "description": {
-                "description": "Alan Sidney Patrick Rickman, was an English actor and director, known for playing a variety of roles on stage and screen...",
-                "source": "Wikipedia",
-                "sourceUrl": "http://en.wikipedia.org/wiki/Alan_Rickman"
-              },
-              "shareUrl": "http://www.google.com/trends/topcharts?vm=trendingchart&cid=actors&date=201601&geo=US&cat&mid=/m/09y20",
-              "twitterShareUrlTitle": "Alan Rickman #2 in Google Trends Actors trending chart",
-              "idForTracking": "Alan Rickman",
-              "exploreUrl": "/trends/explore#cmpt=q&q=/m/09y20&date=1/2016+1m&geo=US",
-              "jumpFactorSummary": "+7,500%",
-              "topChartRank": 2,
-              "titleLinkUrl": "/search?q=Alan+Rickman"
-            },
-            ...
-```
-
-[back to top](#introduction)
-
-<hr>
-
-#### categoryTopCharts()
-*Returns the top trending charts for a given category, date and location*
-
-#####Syntax
-`googleTrends.categoryTopCharts('category', 'date', 'country')`
-
-* `category` - a specific category provided as a string that you wish to search for.  `category` is a **required** parameter.
-
-* `date` - an optional string provided as 'yyyymm'.  January === 01, December === 12.  Note that google does not aggregate the data for the current month, so the date provided must always be at least one month behind.  If no date is provided, the most recent date available is assumed.
-
-* `country` - an optional string for the country.  Although the library can figure out the country from a formal name, it is preferred that the country is provided as a country code, for example, 'united states' should be provided as 'US', 'japan' should be provided as 'JP', etc.  If no country code is provided, 'US' is assumed by default.
-
-#####Example
-The following example provides the top charts for actors in January 2016 in the 'US'.  Optionally, the input could have been provided as `googleTrends.categoryTopCharts({category: 'actors', geo: 'US', date: '201601'})`.  Order of the keys does not matter.
-
-######Input
-```js
-googleTrends.categoryTopCharts('actors', '201601', 'US')
-.then(function(results){
-	console.log(results);
-})
-.catch(function(err){
-	console.log(err);
-});
-```
-
-######Output
-**Note:** Only showing some returned data for brevity
-
-```js
-{
-  "data": {
-    "entityList": [
-      {
-        "title": "David Bowie",
-        "titleLength": 11,
-        "description": {
-          "description": "David Robert Jones, known as David Bowie, was an English singer, songwriter and musician, who also worked as an actor and record producer...",
-          "source": "Wikipedia",
-          "sourceUrl": "http://en.wikipedia.org/wiki/David_Bowie"
-        },
-        "shareUrl": "http://www.google.com/trends/topcharts?vm=trendingchart&cid=actors&date=201601&geo=US&cat&mid=/m/01vsy7t",
-        "twitterShareUrlTitle": "David Bowie #1 in Google Trends Actors trending chart",
-        "idForTracking": "David Bowie",
-        "exploreUrl": "/trends/explore#cmpt=q&q=/m/01vsy7t&date=1/2016+1m&geo=US",
-        "jumpFactorSummary": "+3,700%",
-        "topChartRank": 1,
-        "titleLinkUrl": "/search?q=David+Bowie"
-      },
-      {
-        "title": "Alan Rickman",
-        "titleLength": 12,
-        "description": {
-          "description": "Alan Sidney Patrick Rickman, was an English actor and director, known for playing a variety of roles on stage and screen...",
-          "source": "Wikipedia",
-          "sourceUrl": "http://en.wikipedia.org/wiki/Alan_Rickman"
-        },
-        "shareUrl": "http://www.google.com/trends/topcharts?vm=trendingchart&cid=actors&date=201601&geo=US&cat&mid=/m/09y20",
-        "twitterShareUrlTitle": "Alan Rickman #2 in Google Trends Actors trending chart",
-        "idForTracking": "Alan Rickman",
-        "exploreUrl": "/trends/explore#cmpt=q&q=/m/09y20&date=1/2016+1m&geo=US",
-        "jumpFactorSummary": "+7,500%",
-        "topChartRank": 2,
-        "titleLinkUrl": "/search?q=Alan+Rickman"
-      },
-      ...
-```
-
-[back to top](#introduction)
-
-<hr>
-
-##Potential errors
-* Entering an incorrect or invalid country code will result in the following error: `'Could not locate country'`
-* Entering an invalid date will result in the following error: `'Date is invalid'`
-* If a required field is not provided, the following error will be returned: `FIELD must be provided`
-* Exceeding the quota limits from google will result in the following error: `'Quota limit exceeded, try again later'`
+##Big Thanks
+* To [dreyco676](https://github.com/dreyco676) for the heads up on the deprecated routes and new end points.  Checkout the [python google trends](https://github.com/GeneralMills/pytrends)
 
 [back to top](#introduction)
