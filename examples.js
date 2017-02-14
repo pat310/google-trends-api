@@ -1,6 +1,6 @@
 'use strict';
 
-var googleTrends = require('./lib/google-trends-api.js');
+var googleTrends = require('./lib/google-trends-api.min.js');
 var util = require('util');
 
 /******************** Interest over time **************************/
