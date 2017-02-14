@@ -11,7 +11,8 @@
     "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
     "cover": "nyc --reporter=lcov mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
     "coveralls": "npm run cover && nyc report --reporter=text-lcov | coveralls",
-    "coverage": "nyc mocha --compilers js:babel-core/register --colors ./test/*.spec.js"
+    "coverage": "nyc mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
+    "preversion": "npm run build"
   },
   "repository": {
     "type": "git",

@@ -1,3 +1,8 @@
+## [v4.0.1]
+> Feb 13, 2017
+- actually building before committing
+- added a preversion script to ensure build occurs
+
 ## [v4.0.0]
 > Feb 13, 2017
 
