@@ -32,7 +32,9 @@
     "url": "https://github.com/pat310/google-trends-api/issues"
   },
   "homepage": "https://github.com/pat310/google-trends-api#readme",
-  "dependencies": {},
+  "dependencies": {
+    "cheerio": "^0.22.0"
+  },
   "devDependencies": {
     "babel": "6.3.13",
     "babel-core": "6.1.18",

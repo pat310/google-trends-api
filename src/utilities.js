@@ -1,4 +1,5 @@
 'use strict';
+import cheerio from 'cheerio';
 import request from './request';
 
 export function isLessThan7Days(date1, date2) {
@@ -88,28 +89,28 @@ export function formatResolution(resolution = '') {
 
 export function getResults(searchType, obj) {
   const map = {
-    'interest over time': {
+    'interestByRegion': {
       path: '/trends/api/widgetdata/multiline',
       pos: 0,
     },
-    'interest by region': {
+    'interestOverTime': {
       path: '/trends/api/widgetdata/comparedgeo',
       pos: 1,
       resolution: formatResolution(obj.resolution),
     },
-    'related topics': {
+    'relatedQueries': {
       path: '/trends/api/widgetdata/relatedsearches',
       pos: 2,
     },
-    'related queries': {
+    'relatedTopics': {
       path: '/trends/api/widgetdata/relatedsearches',
       pos: 3,
     },
   };
 
   const options = {
-    method: 'GET',
     host: 'www.google.com',
+    method: 'GET',
     path: '/trends/api/explore',
     qs: {
       hl: obj.hl,
@@ -146,4 +147,29 @@ export function getResults(searchType, obj) {
     return res.slice(5);
   });
 
+};
+
+export function login(email, password) {
+  const options = {
+    host: 'accounts.google.com',
+    method: 'GET',
+    path: '/ServiceLogin',
+  };
+
+  const authOptions = {
+    host: 'accounts.google.com',
+    method: 'POST',
+    path: '/ServiceLoginAuth',
+  };
+
+  request(options)
+  .then((results) => {
+    const $ = cheerio.load(results);
+
+    console.log($('form').serializeArray());
+    // console.log('these are the results', results);
+  });
+
+  // "https://accounts.google.com/ServiceLogin"
+  // "https://accounts.google.com/ServiceLoginAuth"
 };
