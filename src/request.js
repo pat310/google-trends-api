@@ -2,12 +2,15 @@
 import https from 'https';
 import querystring from 'querystring';
 
-export default function request({method, host, path, qs}) {
+export default function request({method, host, path, qs, cookie}) {
   const options = {
+    cookie,
     host,
     method,
     path: `${path}?${querystring.stringify(qs)}`,
   };
+
+  console.log('here are options', options);
 
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {

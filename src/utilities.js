@@ -1,5 +1,4 @@
 'use strict';
-import cheerio from 'cheerio';
 import request from './request';
 
 export function isLessThan7Days(date1, date2) {
@@ -87,30 +86,30 @@ export function formatResolution(resolution = '') {
   return '';
 }
 
-export function getResults(searchType, obj) {
+export function getResults(searchType, obj, cookie) {
   const map = {
-    'interestByRegion': {
+    'interest over time': {
       path: '/trends/api/widgetdata/multiline',
       pos: 0,
     },
-    'interestOverTime': {
+    'interest by region': {
       path: '/trends/api/widgetdata/comparedgeo',
       pos: 1,
       resolution: formatResolution(obj.resolution),
     },
-    'relatedQueries': {
+    'related topics': {
       path: '/trends/api/widgetdata/relatedsearches',
       pos: 2,
     },
-    'relatedTopics': {
+    'related queries': {
       path: '/trends/api/widgetdata/relatedsearches',
       pos: 3,
     },
   };
 
   const options = {
-    host: 'www.google.com',
     method: 'GET',
+    host: 'www.google.com',
     path: '/trends/api/explore',
     qs: {
       hl: obj.hl,
@@ -119,6 +118,7 @@ export function getResults(searchType, obj) {
     },
   };
 
+  if (cookie) options.cookie = cookie;
   const {pos, path, resolution} = map[searchType];
 
   return request(options)
@@ -141,35 +141,12 @@ export function getResults(searchType, obj) {
       },
     };
 
+    if (cookie) nextOptions.cookie = cookie;
+
     return request(nextOptions);
   })
   .then((res) => {
     return res.slice(5);
   });
 
-};
-
-export function login(email, password) {
-  const options = {
-    host: 'accounts.google.com',
-    method: 'GET',
-    path: '/ServiceLogin',
-  };
-
-  const authOptions = {
-    host: 'accounts.google.com',
-    method: 'POST',
-    path: '/ServiceLoginAuth',
-  };
-
-  request(options)
-  .then((results) => {
-    const $ = cheerio.load(results);
-
-    console.log($('form').serializeArray());
-    // console.log('these are the results', results);
-  });
-
-  // "https://accounts.google.com/ServiceLogin"
-  // "https://accounts.google.com/ServiceLoginAuth"
 };

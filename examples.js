@@ -1,10 +1,7 @@
 'use strict';
 
-var GoogleTrends = require('./lib/google-trends-api.js');
+var googleTrends = require('./lib/google-trends-api.min.js');
 var util = require('util');
-
-var googleTrends = new GoogleTrends({email: 'test@gmail.com', password: 'password'});
-
 
 /******************** Interest over time **************************/
 
