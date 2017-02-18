@@ -34,6 +34,7 @@
   "homepage": "https://github.com/pat310/google-trends-api#readme",
   "dependencies": {
     "cheerio": "^0.22.0",
+    "random-words": "0.0.1",
     "request": "^2.79.0",
     "request-promise": "^4.1.1"
   },
