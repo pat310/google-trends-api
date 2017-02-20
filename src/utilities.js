@@ -109,7 +109,7 @@ export function getResults(searchType, obj) {
 
   const options = {
     method: 'GET',
-    host: 'www.google.com',
+    host: 'trends.google.com',
     path: '/trends/api/explore',
     qs: {
       hl: obj.hl,
@@ -131,7 +131,7 @@ export function getResults(searchType, obj) {
     const nextOptions = {
       path,
       method: 'GET',
-      host: 'www.google.com',
+      host: 'trends.google.com',
       qs: {
         hl: obj.hl,
         req,
