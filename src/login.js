@@ -1,6 +1,5 @@
 'use strict';
 import https from 'https';
-import cheerio from 'cheerio';
 import querystring from 'querystring';
 
 export default function request({method, host, path, qs, form, headers}) {
@@ -48,9 +47,6 @@ export function login({email, password}) {
     host: 'accounts.google.com',
     method: 'GET',
     path: '/ServiceLogin',
-    // headers: {
-    //   'User-Agent': 'PyTrends'
-    // }
   };
 
   const authOptions = {
@@ -61,10 +57,12 @@ export function login({email, password}) {
 
   return request(options)
   .then((results) => {
-    const $ = cheerio.load(results.data);
-
-    const form = $('form').serializeArray().reduce((acc, curr) => {
-      acc[curr.name] = curr.value;
+    const inputs = results.match(/<input\b[^>]*>(.*?)/g);
+    const form = inputs.reduce((acc, curr) => {
+      if (curr.match(/name="(.*?)"/g)) {
+        acc[curr.match(/name="(.*?)"/g)[0].split('"')[1]] =
+          curr.match(/value="(.*?)"/g)[0].split('"')[1];
+      }
       return acc;
     }, {});
 

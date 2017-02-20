@@ -107,8 +107,6 @@ export function getResults(searchType, obj, cookie) {
     },
   };
 
-// 'https://trends.google.com/trends/api/explore?hl=en-US&amp;req={"comparisonItem":[{"keyword":"pig","startTime":"2017-02-06T00:00:00.000Z","endTime":"2017-02-07T00:00:00.000Z","hl":"en-US","time":"2017-02-6T0\\:0\\:00 2017-02-7T0\\:0\\:00"}],"cat":0}&amp;tz=300'
-
   const options = {
     method: 'GET',
     host: 'trends.google.com',
