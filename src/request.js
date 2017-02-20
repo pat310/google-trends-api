@@ -21,7 +21,7 @@ export default function request({method, host, path, qs, cookie}) {
       });
 
       res.on('end', () => {
-        // console.log('this is chunk', chunk)
+        console.log('this is chunk', chunk)
         resolve(chunk.toString('utf8'));
       });
     });
