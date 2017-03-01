@@ -111,7 +111,7 @@ export function getResults(searchType, obj) {
   var comparisonItems = [];
 
   // If we are requesting an array of keywords for comparison
-  if ( typeof obj.keyword === 'object' && obj.keyword.length ) {
+  if (typeof obj.keyword === 'object' && obj.keyword.length) {
     // Map the keywords to the items array
     obj.keyword.map((keyword) => {
 
@@ -124,9 +124,8 @@ export function getResults(searchType, obj) {
       // Add the keyword to the array
       comparisonItems.push(obj2);
     });
-  }
-  else {
-      comparisonItems = [obj];
+  } else {
+    comparisonItems = [obj];
   }
 
   const options = {
