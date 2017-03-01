@@ -107,13 +107,35 @@ export function getResults(searchType, obj) {
     },
   };
 
+  // Create array of items to query
+  var comparisonItems = [];
+
+  // If we are requesting an array of keywords for comparison
+  if ( typeof obj.keyword === 'object' && obj.keyword.length ) {
+    // Map the keywords to the items array
+    obj.keyword.map((keyword) => {
+
+      // Clone the original obj to keep the dates etc
+      let obj2 = JSON.parse(JSON.stringify(obj));
+
+      // Set the new keyword
+      obj2.keyword = keyword;
+
+      // Add the keyword to the array
+      comparisonItems.push(obj2);
+    });
+  }
+  else {
+      comparisonItems = [obj];
+  }
+
   const options = {
     method: 'GET',
     host: 'trends.google.com',
     path: '/trends/api/explore',
     qs: {
       hl: obj.hl,
-      req: JSON.stringify({comparisonItem: [obj], cat: 0}),
+      req: JSON.stringify({comparisonItem: comparisonItems, cat: 0}),
       tz: 300,
     },
   };
