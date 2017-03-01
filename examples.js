@@ -1,18 +1,27 @@
 'use strict';
 
-var googleTrends = require('./lib/google-trends-api.min.js');
+var googleTrends = require('./lib/google-trends-api.js');
 var util = require('util');
 
+// For rate limit testing add more to this list
+var keywords = ['toast' , 'strawberry', 'Valentine\'s Day', 'barack obama'];
+
 /******************** Interest over time **************************/
+var G = new googleTrends;
+G.login({ email:'yourUsername', password: 'yourPassword' })
 
-// googleTrends.interestOverTime({keyword: 'Valentines Day'})
-// .then((res) => {
-//   console.log('this is res', res);
-// })
-// .catch((err) => {
-//   console.log('got the error', err);
-// })
-
+    .then(function(){
+        for ( let i = 0; i < keywords.length; ++i ) {
+            G.interestOverTime({keyword: keywords[i]})
+            .then((res) => {
+                console.log("SUCCESS - " + keywords[i] + `(${res.length})`);
+              // console.log('this is res', res);
+            })
+            .catch((err) => {
+              console.log('got the error', err);
+          });
+      }
+});
 // googleTrends.interestOverTime({keyword: 'Valentines Day', startTime: new Date(Date.now() - (4 * 60 * 60 * 1000))}, function(err, results) {
 //   if (err) console.log('oh no error!', err);
 //   else console.log(results);

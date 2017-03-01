@@ -14,7 +14,7 @@ import { login } from './login';
 
 export default class GoogleTrends {
   constructor() {
-    this.cookie = null;
+    this.cookie = [];
     this.login = login;
     this.interestByRegion = api('interest by region');
     this.relatedQueries = api('related queries');
@@ -26,4 +26,4 @@ export default class GoogleTrends {
     console.log('calling this function?????????????', this.cookie);
     return api('interest over time', this.cookie)(reqObj, cb);
   }
-};
+}

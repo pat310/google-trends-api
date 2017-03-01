@@ -1,6 +1,7 @@
 'use strict';
 import https from 'https';
 import querystring from 'querystring';
+var r = require('./../node_modules/request');
 
 export default function request({method, host, path, qs, form, headers}) {
   const options = {
@@ -8,56 +9,81 @@ export default function request({method, host, path, qs, form, headers}) {
     host,
     method,
     path: `${path}?${querystring.stringify(qs)}`,
+    followRedirect: true,
+    followAllRedirects: true,
+    followOriginalHttpMethod: true
   };
 
-  console.log('path', options.path)
-  console.log('form', form);
+  // console.log('path', options.path)
+  // console.log('form', form);
 
   return new Promise((resolve, reject) => {
-    const req = https.request(options, (res) => {
-      let chunk = '';
+    const req = r({
+        method: method,
+        url: host + `${path}?${querystring.stringify(qs)}`,
+        followAllRedirects: true,
+        // headers: headers,
+        //form: `data=${querystring.stringify(form)}`
+    }, function(error, res, body) {
+        // console.log(error);
+        // console.log(response);
 
-      const setCookie = res.headers['set-cookie'];
-
-      console.log('did i set the cookie?', setCookie);
-      res.on('data', (data) => {
-        chunk += data;
-      });
-
-      res.on('end', () => {
+        const setCookie = res.headers['set-cookie'];
         resolve({
-          data: chunk.toString('utf8'),
-          cookies: setCookie,
-        });
-      });
-    });
+              data: body,
+              cookies: setCookie,
+            });
 
-    req.on('error', (e) => {
-      reject(e);
-    });
+    })
 
-    console.log('check queryString', `data=${querystring.stringify(form)}`)
-    if (form) req.write(`data=${querystring.stringify(form)}`);
-    req.end();
+    // const req = https.request(options, (res) => {
+    //   let chunk = '';
+    //
+    //   const setCookie = res.headers['set-cookie'];
+    //   if ( path == '/ServiceLoginAuth' ) {
+    //       console.log("HEADERS", res);
+    //   }
+    //
+    //   console.log('did i set the cookie?', setCookie);
+    //   res.on('data', (data) => {
+    //     chunk += data;
+    //   });
+    //
+    //   res.on('end', () => {
+    //     resolve({
+    //       data: chunk.toString('utf8'),
+    //       cookies: setCookie,
+    //     });
+    //   });
+    // });
+    //
+    // req.on('error', (e) => {
+    //   reject(e);
+    // });
+    //
+    // // console.log('check queryString', `data=${querystring.stringify(form)}`)
+    // if (form) req.write(`data=${querystring.stringify(form)}`);
+    // req.end();
   });
 };
 
 export function login({email, password}) {
   const options = {
-    host: 'accounts.google.com',
+    host: 'https://accounts.google.com',
     method: 'GET',
     path: '/ServiceLogin',
   };
 
   const authOptions = {
-    host: 'accounts.google.com',
+    host: 'https://accounts.google.com',
     method: 'POST',
     path: '/ServiceLoginAuth',
   };
 
   return request(options)
   .then((results) => {
-    const inputs = results.match(/<input\b[^>]*>(.*?)/g);
+
+    const inputs = results.data.match(/<input\b[^>]*>(.*?)/g);
     const form = inputs.reduce((acc, curr) => {
       if (curr.match(/name="(.*?)"/g)) {
         acc[curr.match(/name="(.*?)"/g)[0].split('"')[1]] =
@@ -70,6 +96,7 @@ export function login({email, password}) {
     form.Passwd = password;
     authOptions.form = form;
 
+
     // const cookies = results.cookies.map((cookie) => {
     //   return cookie.split(';').reduce((acc, curr) => {
     //     acc[curr.split('=')[0]] = curr.split('=')[1];
@@ -80,17 +107,29 @@ export function login({email, password}) {
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Content-Length': Buffer.byteLength(form),
-      // 'cookie': `${results.cookies[0].split(';')[0]}; ${results.cookies[1].split(';')[0]}`
+      'cookie': `${results.cookies[0].split(';')[0]}; ${results.cookies[1].split(';')[0]}`
     };
+    this.cookie = results.cookies;
 
     authOptions.headers = headers;
 
-    console.log('cookie', headers['cookie'])
-    return request(authOptions);
+
+    return request(authOptions).then((results) => {
+        console.log("Auth Request Complete");
+
+        if ( results.cookies ) {
+            this.cookie.push.apply(this.cookie,results.cookies);
+
+        }
+        else {
+        }
+    }).catch( (err) => {
+        console.log("FAILED AUTH");
+        console.log(err);
+    });
   })
-  .then((results) => {
-    console.log('rejecting?', results.cookies[0].split(';')[0]);
-    this.cookie = results.cookies[0].split(';')[0];
+  .catch((err) => {
+      console.log("REJECT", err);
   });
 
 };
