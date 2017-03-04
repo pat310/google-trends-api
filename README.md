@@ -13,7 +13,7 @@
 [Big changes](/CHANGES.md)!  The old google-trends endpoints are deprecated and are heavily throttled so this library has changed significantly.  You can choose to download the old version via `npm install google-trends-api@3.0.2` but it is discouraged.
 
 ##Introduction
-This library provides an API layer to [google trends](https://www.google.com/trends/) data.  It is constantly being expanded and improved so please check back frequently.  Also, please feel free to contribute to make the library even better! :dog:
+This library provides an API layer to [google trends](https://www.google.com/trends/) data.  Due to CORS restrictions, this library is intended to be used in node.  It is constantly being expanded and improved so please check back frequently.  Also, please feel free to contribute to make the library even better! :dog:
 
 ###Syntax
 ```js
