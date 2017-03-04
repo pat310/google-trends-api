@@ -86,7 +86,7 @@ export function formatResolution(resolution = '') {
   return '';
 }
 
-export function getResults(searchType, obj) {
+export function getResults(searchType, obj, cookie) {
   const map = {
     'interest over time': {
       path: '/trends/api/widgetdata/multiline',
@@ -118,6 +118,7 @@ export function getResults(searchType, obj) {
     },
   };
 
+  if (cookie) options.cookie = cookie;
   const {pos, path, resolution} = map[searchType];
 
   return request(options)
@@ -139,6 +140,8 @@ export function getResults(searchType, obj) {
         tz: 300,
       },
     };
+
+    if (cookie) nextOptions.cookie = cookie;
 
     return request(nextOptions);
   })

@@ -28,3 +28,4 @@ build/Release
 node_modules
 
 testFile.js
+login.html
