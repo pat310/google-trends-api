@@ -86,6 +86,26 @@ export function formatResolution(resolution = '') {
   return '';
 }
 
+export function formatKeywords(obj) {
+  var comparisonItems = obj;
+
+  // If we are requesting an array of keywords for comparison
+  if (Array.isArray(obj.keyword)) {
+    comparisonItems = []; // Reset to empty
+
+    // Map the keywords to the items array
+    obj.keyword.reduce((arr, keyword) => {
+      // Add the keyword to the array
+      arr.push({...obj,keyword});
+
+      return arr;
+    }, comparisonItems);
+
+  }
+
+  return comparisonItems;
+}
+
 export function getResults(searchType, obj) {
   const map = {
     'interest over time': {
@@ -107,26 +127,10 @@ export function getResults(searchType, obj) {
     },
   };
 
-  // Create array of items to query
-  var comparisonItems = [];
-
-  // If we are requesting an array of keywords for comparison
-  if (typeof obj.keyword === 'object' && obj.keyword.length) {
-    // Map the keywords to the items array
-    obj.keyword.map((keyword) => {
-
-      // Clone the original obj to keep the dates etc
-      let obj2 = JSON.parse(JSON.stringify(obj));
-
-      // Set the new keyword
-      obj2.keyword = keyword;
-
-      // Add the keyword to the array
-      comparisonItems.push(obj2);
-    });
-  } else {
-    comparisonItems = [obj];
-  }
+  // Create an array of keywords to query
+  let comparisonItem = formatKeywords(obj);
+ console.log("FORMAT KEYWORDS");
+  console.log(comparisonItem);
 
   const options = {
     method: 'GET',
@@ -134,7 +138,7 @@ export function getResults(searchType, obj) {
     path: '/trends/api/explore',
     qs: {
       hl: obj.hl,
-      req: JSON.stringify({comparisonItem: comparisonItems, cat: 0}),
+      req: JSON.stringify({comparisonItem, cat: 0}),
       tz: 300,
     },
   };

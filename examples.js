@@ -5,13 +5,13 @@ var util = require('util');
 
 /******************** Interest over time **************************/
 
-// googleTrends.interestOverTime({keyword: 'Valentines Day'})
-// .then((res) => {
-//   console.log('this is res', res);
-// })
-// .catch((err) => {
-//   console.log('got the error', err);
-// })
+googleTrends.interestOverTime({keyword: ['Valentines Day', 'Christmas Day']})
+.then((res) => {
+  console.log('this is res', res);
+})
+.catch((err) => {
+  console.log('got the error', err);
+})
 
 // googleTrends.interestOverTime({keyword: 'Valentines Day', startTime: new Date(Date.now() - (4 * 60 * 60 * 1000))}, function(err, results) {
 //   if (err) console.log('oh no error!', err);
