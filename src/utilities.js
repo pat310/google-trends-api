@@ -129,9 +129,7 @@ export function getResults(searchType, obj) {
 
   // Create an array of keywords to query
   let comparisonItem = formatKeywords(obj);
- console.log("FORMAT KEYWORDS");
-  console.log(comparisonItem);
-
+  
   const options = {
     method: 'GET',
     host: 'trends.google.com',
