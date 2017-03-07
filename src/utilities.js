@@ -122,6 +122,16 @@ export function getResults(searchType, obj) {
 
   return request(options)
   .then((results) => {
+
+    // If this fails, you've hit the rate limit or Google has changed something
+    try {
+      JSON.parse(results.slice(4));
+    } catch (e) {
+      // Throw the JSON error - This should perhaps throw an object with the
+      // body of the request so the actual issue can be determined
+      throw e;
+    }
+
     const parsedResults = JSON.parse(results.slice(4)).widgets;
     let req = parsedResults[pos].request;
 
