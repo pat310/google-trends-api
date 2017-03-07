@@ -5,7 +5,7 @@ var util = require('util');
 
 /******************** Interest over time **************************/
 
-// googleTrends.interestOverTime({keyword: 'Valentines Day'})
+// googleTrends.interestOverTime({keyword: 'bread'})
 // .then((res) => {
 //   console.log('this is res', res);
 // })

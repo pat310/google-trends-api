@@ -82,14 +82,14 @@ describe('utilities', () => {
   });
 
   describe('formatKeywords', () => {
-    it('should return ', () => {
+    it('should return single comparisonItem', () => {
       let keywords = formatKeywords({ keyword: 'test' });
-      expect(keywords.keyword).to.equal([{ keyword: 'test' }]);
-  });
+      expect(keywords).to.equal([{ keyword: 'test' }]);
+    });
 
-    it('should return an array', () => {
+    it('should return an array of comparisonItems', () => {
       let keywords = formatKeywords({ keyword: ['test', 'test2'], startDate: '2017-01-01' });
-      expect(keywords.keyword).to.equal([{ keyword: 'test', startDate: '2017-01-01' }, { keyword: 'test2', startDate: '2017-01-01' }]);
+      expect(keywords).to.equal([{ keyword: 'test', startDate: '2017-01-01' }, { keyword: 'test2', startDate: '2017-01-01' }]);
     })
   });
 

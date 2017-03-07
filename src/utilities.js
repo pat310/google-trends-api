@@ -87,7 +87,7 @@ export function formatResolution(resolution = '') {
 }
 
 export function formatKeywords(obj) {
-  var comparisonItems = obj;
+  var comparisonItems = [obj];
 
   // If we are requesting an array of keywords for comparison
   if (Array.isArray(obj.keyword)) {
@@ -96,7 +96,7 @@ export function formatKeywords(obj) {
     // Map the keywords to the items array
     obj.keyword.reduce((arr, keyword) => {
       // Add the keyword to the array
-      arr.push({...obj,keyword});
+      arr.push({ ...obj, keyword });
 
       return arr;
     }, comparisonItems);
@@ -129,7 +129,6 @@ export function getResults(searchType, obj) {
 
   // Create an array of keywords to query
   let comparisonItem = formatKeywords(obj);
-  
   const options = {
     method: 'GET',
     host: 'trends.google.com',
