@@ -6,11 +6,13 @@ import {
   formatTime,
   getResults,
   isLessThan7Days,
+  parseResults,
 } from '../src/utilities';
 
 const expect = chai.expect;
 
 describe('utilities', () => {
+
   describe('isLessThan7Days', () => {
     it('should return true if difference is less than 7 days', () => {
       const d1 = new Date('2017-02-04');
@@ -138,4 +140,18 @@ describe('utilities', () => {
 
     });
   });
+
+
+  describe('parseResults', () => {
+
+      it('should return a javascript object', () => {
+         // The 'abcd' is because of the 4 characters that are returned by the request before the json
+         expect( parseResults('abcd{"some": "valid json", "widgets": ["a","b","c"]}')).to.deep.equal(["a","b","c"]);
+      });
+
+      it('should throw an error on invalid JSON', () => {
+          expect(() => parseResults('<!DOCTYPE html><html>...</html>')).to.throw(Error);
+      });
+  });
+
 });

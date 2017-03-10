@@ -86,6 +86,26 @@ export function formatResolution(resolution = '') {
   return '';
 }
 
+/**
+ * Parse the result of the google api as JSON
+ * Throws an Error if the JSON is invalid
+ * @param  {[type]} results [description]
+ * @return {[type]}         [description]
+ */
+export function parseResults(results) {
+  // If this fails, you've hit the rate limit or Google has changed something
+  try {
+    return JSON.parse(results.slice(4)).widgets;
+  } catch (e) {
+    // Throw the JSON error e.g.
+    // { message: 'Unexpected token C in JSON at position 0',
+    //   requestBody: '<!DOCTYPE html><html>...'}
+    e.requestBody = results;
+    throw e;
+  }
+
+}
+
 export function getResults(searchType, obj) {
   const map = {
     'interest over time': {
@@ -122,20 +142,7 @@ export function getResults(searchType, obj) {
 
   return request(options)
   .then((results) => {
-    let parsedResults;
-
-    // If this fails, you've hit the rate limit or Google has changed something
-    try {
-      parsedResults = JSON.parse(results.slice(4)).widgets;
-
-    } catch (e) {
-      // Throw the JSON error e.g.
-      // { message: 'Unexpected token C in JSON at position 0',
-      //   requestBody: '<!DOCTYPE html><html>...'}
-      e.requestBody = results;
-
-      throw e;
-    }
+    let parsedResults = parseResults(results);
 
     let req = parsedResults[pos].request;
 
