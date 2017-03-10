@@ -5,7 +5,7 @@ var util = require('util');
 
 /******************** Interest over time **************************/
 
-// googleTrends.interestOverTime({keyword: 'bread'})
+// googleTrends.interestOverTime({keyword: 'Valentines Day'})
 // .then((res) => {
 //   console.log('this is res', res);
 // })
@@ -17,6 +17,16 @@ var util = require('util');
 //   if (err) console.log('oh no error!', err);
 //   else console.log(results);
 // });
+
+
+/******* Interest over time - Comparing multiple keywords *********/
+// googleTrends.interestOverTime({keyword: ['Valentines Day', 'Christmas Day']})
+// .then((res) => {
+//   console.log('this is res', res);
+// })
+// .catch((err) => {
+//   console.log('got the error', err);
+// })
 
 
 /******************** Interest by region **************************/

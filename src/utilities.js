@@ -87,23 +87,21 @@ export function formatResolution(resolution = '') {
 }
 
 export function formatKeywords(obj) {
-  var comparisonItems = [obj];
 
   // If we are requesting an array of keywords for comparison
   if (Array.isArray(obj.keyword)) {
-    comparisonItems = []; // Reset to empty
 
     // Map the keywords to the items array
-    obj.keyword.reduce((arr, keyword) => {
+    return obj.keyword.reduce((arr, keyword) => {
       // Add the keyword to the array
       arr.push({ ...obj, keyword });
 
       return arr;
-    }, comparisonItems);
+    }, []);
 
   }
 
-  return comparisonItems;
+  return [obj];
 }
 
 export function getResults(searchType, obj) {
@@ -127,15 +125,13 @@ export function getResults(searchType, obj) {
     },
   };
 
-  // Create an array of keywords to query
-  let comparisonItem = formatKeywords(obj);
   const options = {
     method: 'GET',
     host: 'trends.google.com',
     path: '/trends/api/explore',
     qs: {
       hl: obj.hl,
-      req: JSON.stringify({comparisonItem, cat: 0}),
+      req: JSON.stringify({comparisonItem: formatKeywords(obj), cat: 0}),
       tz: 300,
     },
   };
