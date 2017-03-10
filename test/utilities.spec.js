@@ -4,6 +4,7 @@ import {
   convertDateToString,
   formatResolution,
   formatTime,
+  formatKeywords,
   getResults,
   isLessThan7Days,
 } from '../src/utilities';
@@ -78,6 +79,21 @@ describe('utilities', () => {
         startTime: startTime2,
       }).time)).to.be.false;
     });
+  });
+
+  describe('formatKeywords', () => {
+    it('should return single comparisonItem', () => {
+      let keywords = formatKeywords({ keyword: 'test' });
+
+      expect(keywords).to.deep.equal([{ keyword: 'test' }]);
+    });
+
+    it('should return an array of comparisonItems', () => {
+      let keywords = formatKeywords({ keyword: ['test', 'test2'], startDate: '2017-01-01' });
+
+      expect(keywords).to.deep.equal([{ keyword: 'test', startDate: '2017-01-01' }, { keyword: 'test2', startDate: '2017-01-01' }]);
+    });
+
   });
 
   describe('constructObj', () => {

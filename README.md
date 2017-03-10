@@ -25,7 +25,7 @@ googleTrends.apiMethod(optionsObject, [callback])
 ####Parameters
 **optionsObject**
 An object with the following options keys:
-* **keyword** Target search term (string) **required**
+* **keyword** Target search term(s) `string` or `array` **required**
 * **startTime** Start of time period of interest (`new Date()` object).  If `startTime` is not provided, a date of January 1, 2004 is assumed (this is the oldest available google trends data)
 * **endTime** End of time period of interest (`new Date()` object). If `endTime` is not provided, the current date is selected.
 * **geo** Location of interest (string).
@@ -93,6 +93,20 @@ googleTrends.interestOverTime({keyword: 'Women\'s march'}, function(err, results
 })
 ```
 
+
+### Multiple Keywords
+Compare multiple keywords with any of the api methods by supplying an `array` instead of a single `string`
+```js
+googleTrends.interestOverTime({keyword: ['Women\'s march', 'Trump Inauguration']})
+.then(function(results){
+  console.log('These results are awesome', results);
+})
+.catch(function(err){
+  console.error('Oh no there was an error', err);
+});
+```
+
+
 ### Examples
 There are examples available for each API method in the root directory of the module.  **Note:** Each example in [examples.js](/examples.js) needs to be uncommented.
 
@@ -122,7 +136,7 @@ The following API methods are available:
 `googleTrends.interestOverTime({keyword: string, startTime: Date, endTime: Date, geo: string}, cbFunc)`
 
 Requires an `object` as the first parameter with the following keys:
-* `keyword` - **required** - type `string` - the search term of interest
+* `keyword` - **required** - type `string` or `array` - the search term(s) of interest
 * `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
 * `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
 * `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
@@ -182,7 +196,7 @@ googleTrends.interestOverTime({keyword: 'Valentines Day', startTime: new Date(Da
 `googleTrends.interestByRegion({keyword: string, startTime: Date, endTime: Date, geo: string, resolution: string}, cbFunc)`
 
 Requires an `object` as the first parameter with the following keys:
-* `keyword` - **required** - type `string` - the search term of interest
+* `keyword` - **required** - type `string` or `array` - the search term(s) of interest
 * `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
 * `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
 * `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
@@ -244,7 +258,7 @@ googleTrends.interestByRegion({keyword: 'Donald Trump', startTime: new Date('201
 `googleTrends.relatedQueries({keyword: string, startTime: Date, endTime: Date, geo: string}, cbFunc)`
 
 Requires an `object` as the first parameter with the following keys:
-* `keyword` - **required** - type `string` - the search term of interest
+* `keyword` - **required** - type `string` or `array` - the search term(s) of interest
 * `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
 * `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
 * `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
@@ -286,7 +300,7 @@ googleTrends.relatedQueries({keyword: 'Westminster Dog Show'})
 `googleTrends.relatedTopics({keyword: string, startTime: Date, endTime: Date, geo: string}, cbFunc)`
 
 Requires an `object` as the first parameter with the following keys:
-* `keyword` - **required** - type `string` - the search term of interest
+* `keyword` - **required** - type `string` or `array` - the search term(s) of interest
 * `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
 * `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
 * `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
