@@ -4,6 +4,7 @@ import {
   convertDateToString,
   formatResolution,
   formatTime,
+  formatKeywords,
   getResults,
   isLessThan7Days,
   parseResults,
@@ -35,6 +36,7 @@ describe('utilities', () => {
         () => {
           const d = new Date('2017', '01', '04', '12', '43');
           const utcHour = d.getUTCHours();
+
           expect(convertDateToString(d, true)).to.equal(
             `2017-02-4T${utcHour}\\:43\\:00`);
         });
@@ -80,6 +82,37 @@ describe('utilities', () => {
         startTime: startTime2,
       }).time)).to.be.false;
     });
+
+    it('should switch startTime and endTime if startTime is after endTime',
+        () => {
+          const endTime = new Date();
+          const startTime = new Date(Date.now() + (5 * 24 * 60 * 60 * 1000));
+          const result = formatTime({startTime, endTime});
+
+          expect(result.startTime).to.equal(endTime);
+          expect(result.endTime).to.equal(startTime);
+        });
+  });
+
+  describe('formatKeywords', () => {
+    it('should return single comparisonItem', () => {
+      let keywords = formatKeywords({ keyword: 'test' });
+
+      expect(keywords).to.deep.equal([{ keyword: 'test' }]);
+    });
+
+    it('should return an array of comparisonItems', () => {
+      let keywords = formatKeywords({
+        keyword: ['test', 'test2'],
+        startDate: '2017-01-01',
+      });
+
+      expect(keywords).to.deep.equal([
+        {keyword: 'test', startDate: '2017-01-01'},
+        {keyword: 'test2', startDate: '2017-01-01'},
+      ]);
+    });
+
   });
 
   describe('constructObj', () => {
