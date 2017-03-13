@@ -29,5 +29,10 @@ node_modules
 
 testFile.js
 
-# ignore built files
-lib
+test
+src
+webpack.config.js
+.travis.yml
+.codeclimate.yml
+.eslintrc
+.babelrc
