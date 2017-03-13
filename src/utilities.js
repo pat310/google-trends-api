@@ -86,6 +86,24 @@ export function formatResolution(resolution = '') {
   return '';
 }
 
+export function formatKeywords(obj) {
+
+  // If we are requesting an array of keywords for comparison
+  if (Array.isArray(obj.keyword)) {
+
+    // Map the keywords to the items array
+    return obj.keyword.reduce((arr, keyword) => {
+      // Add the keyword to the array
+      arr.push({ ...obj, keyword });
+
+      return arr;
+    }, []);
+
+  }
+
+  return [obj];
+}
+
 export function getResults(searchType, obj) {
   const map = {
     'interest over time': {
@@ -113,7 +131,7 @@ export function getResults(searchType, obj) {
     path: '/trends/api/explore',
     qs: {
       hl: obj.hl,
-      req: JSON.stringify({comparisonItem: [obj], cat: 0}),
+      req: JSON.stringify({comparisonItem: formatKeywords(obj), cat: 0}),
       tz: 300,
     },
   };

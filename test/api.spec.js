@@ -5,6 +5,7 @@ const expect = chai.expect;
 
 describe('api', () => {
   const newFunc = api('interest over time');
+
   it('should return a function', () => {
     expect(newFunc).to.be.a('function');
   });
