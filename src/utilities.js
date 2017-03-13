@@ -89,8 +89,8 @@ export function formatResolution(resolution = '') {
 /**
  * Parse the result of the google api as JSON
  * Throws an Error if the JSON is invalid
- * @param  {[type]} results [description]
- * @return {[type]}         [description]
+ * @param  {String} results
+ * @return {Object}
  */
 export function parseResults(results) {
   // If this fails, you've hit the rate limit or Google has changed something
@@ -105,6 +105,11 @@ export function parseResults(results) {
   }
 }
 
+/**
+ * Create the array of keywords (comparisonItems) to be used
+ * @param  {Object} obj The query obj with .keyword property
+ * @return {Array}     Returns an array of comparisonItems
+ */
 export function formatKeywords(obj) {
 
   // If we are requesting an array of keywords for comparison
