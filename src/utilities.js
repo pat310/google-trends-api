@@ -164,8 +164,7 @@ export function getResults(searchType, obj) {
 
   return request(options)
   .then((results) => {
-    let parsedResults = parseResults(results);
-
+    const parsedResults = parseResults(results);
     let req = parsedResults[pos].request;
 
     if (resolution) req.resolution = resolution;
