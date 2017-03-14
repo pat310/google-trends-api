@@ -28,3 +28,6 @@ build/Release
 node_modules
 
 testFile.js
+
+# ignore built files
+lib
