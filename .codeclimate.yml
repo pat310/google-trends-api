@@ -12,4 +12,4 @@ ratings:
   paths:
   - "**.js"
   - "**.jsx"
-exclude_paths: ["test", "lib", "webpack.config.js", "examples.js"]
+exclude_paths: ["lib", "webpack.config.js", "examples.js"]
