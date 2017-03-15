@@ -177,12 +177,12 @@ describe('utilities', () => {
   describe('parseResults', () => {
     it('should return a javascript object', () => {
       // The 'abcd' is the 4 characters that are returned by the request
-      let validJSON = parseResults('abcd{\
-          "some": "valid json",\
-          "widgets": ["a", "b", "c"]\
-      }');
+      let validJSON = parseResults('abcd{' +
+          '"some": "valid json",'  +
+          '"widgets": ["a", "b", "c"]' +
+      '}');
 
-      expect( validJSON ).to.deep.equal(['a', 'b', 'c']);
+      expect(validJSON).to.deep.equal(['a', 'b', 'c']);
     });
 
     it('should throw an error on invalid JSON', () => {
