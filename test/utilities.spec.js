@@ -174,17 +174,20 @@ describe('utilities', () => {
     });
   });
 
-
   describe('parseResults', () => {
+    it('should return a javascript object', () => {
+      // The 'abcd' is the 4 characters that are returned by the request
+      let validJSON = parseResults('abcd{\
+          "some": "valid json",\
+          "widgets": ["a", "b", "c"]\
+      }');
 
-      it('should return a javascript object', () => {
-         // The 'abcd' is because of the 4 characters that are returned by the request before the json
-         expect( parseResults('abcd{"some": "valid json", "widgets": ["a","b","c"]}')).to.deep.equal(["a","b","c"]);
-      });
+      expect( validJSON ).to.deep.equal(['a', 'b', 'c']);
+    });
 
-      it('should throw an error on invalid JSON', () => {
-          expect(() => parseResults('<!DOCTYPE html><html>...</html>')).to.throw(Error);
-      });
+    it('should throw an error on invalid JSON', () => {
+      expect(() => parseResults('<!DOCTYPE html><html</html>')).to.throw(Error);
+    });
   });
 
 });
