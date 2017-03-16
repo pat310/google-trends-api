@@ -1,3 +1,11 @@
+## [v4.1.0]
+> Mar 16, 2017
+- Added ability to search trends across [multiple keywords](https://github.com/pat310/google-trends-api#multiple-keywords)
+- Catching errors on failed JSON.parse
+
+[#54]: https://github.com/pat310/google-trends-api/pull/54
+[#58]: https://github.com/pat310/google-trends-api/pull/58
+
 ## [v4.0.1]
 > Feb 13, 2017
 - actually building before committing
