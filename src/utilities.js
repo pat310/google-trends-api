@@ -86,6 +86,30 @@ export function formatResolution(resolution = '') {
   return '';
 }
 
+/**
+ * Parse the result of the google api as JSON
+ * Throws an Error if the JSON is invalid
+ * @param  {String} results
+ * @return {Object}
+ */
+export function parseResults(results) {
+  // If this fails, you've hit the rate limit or Google has changed something
+  try {
+    return JSON.parse(results.slice(4)).widgets;
+  } catch (e) {
+    // Throw the JSON error e.g.
+    // { message: 'Unexpected token C in JSON at position 0',
+    //   requestBody: '<!DOCTYPE html><html>...'}
+    e.requestBody = results;
+    throw e;
+  }
+}
+
+/**
+ * Create the array of keywords (comparisonItems) to be used
+ * @param  {Object} obj The query obj with .keyword property
+ * @return {Array}     Returns an array of comparisonItems
+ */
 export function formatKeywords(obj) {
 
   // If we are requesting an array of keywords for comparison
@@ -140,7 +164,7 @@ export function getResults(searchType, obj) {
 
   return request(options)
   .then((results) => {
-    const parsedResults = JSON.parse(results.slice(4)).widgets;
+    const parsedResults = parseResults(results);
     let req = parsedResults[pos].request;
 
     if (resolution) req.resolution = resolution;
