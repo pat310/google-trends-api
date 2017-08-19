@@ -12,8 +12,14 @@
     "cover": "nyc --reporter=lcov mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
     "coveralls": "npm run cover && nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
-    "preversion": "npm run build"
+    "preversion": "npm run build",
+    "lint:eslint": "eslint src, test",
+    "lint:staged": "lint-staged"
   },
+  "lint-staged": {
+    "*.js": "lint:eslint"
+  },
+  "pre-commit": "lint:staged",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pat310/google-trends-api.git"
@@ -48,9 +54,11 @@
     "eslint-loader": "1.1.0",
     "istanbul": "^0.4.5",
     "json-loader": "^0.5.4",
+    "lint-staged": "^4.0.3",
     "mocha": "2.3.4",
     "mocha-lcov-reporter": "^1.2.0",
     "nyc": "^10.1.2",
+    "pre-commit": "^1.2.2",
     "webpack": "1.12.9",
     "yargs": "3.32.0"
   }
