@@ -136,6 +136,14 @@ describe('utilities', () => {
     it('should create a callback if one is not provided', () => {
       expect(constructObj({keyword: 'Brooklyn'}).cbFunc).to.be.a('function');
     });
+
+    it('should add default hl to english if not provided', () => {
+      expect(constructObj({keyword: 'Brooklyn'}).obj.hl).to.equal('en-US');
+    });
+
+    it('should add default category to 0 if not provided', () => {
+      expect(constructObj({keyword: 'Brooklyn'}).obj.category).to.equal(0);
+    });
   });
 
   describe('formatResolution', () => {
