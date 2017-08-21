@@ -28,10 +28,10 @@ An object with the following options keys:
 * **keyword** Target search term(s) `string` or `array` **required**
 * **startTime** Start of time period of interest (`new Date()` object).  If `startTime` is not provided, a date of January 1, 2004 is assumed (this is the oldest available google trends data)
 * **endTime** End of time period of interest (`new Date()` object). If `endTime` is not provided, the current date is selected.
-* **geo** Location of interest (string).
-* **hl** Preferred language (defaults to english)
-* **category** Category to search within (defaults to [all categories](https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories))
-* **resolution** Granularity of the geo search (enumerated string ['COUNTRY', 'REGION', 'CITY', 'DMA']).  `resolution` is specific to the [interestByRegion](#interestByRegion) method.
+* **geo** Location of interest (`string`).
+* **hl** Preferred language (`string` defaults to english)
+* **category** Category to search within (`number` defaults to [all categories](https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories))
+* **resolution** Granularity of the geo search (enumerated `string` ['COUNTRY', 'REGION', 'CITY', 'DMA']).  `resolution` is specific to the [interestByRegion](#interestByRegion) method.
 
 **callback**
 Optional callback function where the first parameter is an error and the second parameter is the result.  If no callback is provided, then a promise is returned.
@@ -49,6 +49,7 @@ Optional callback function where the first parameter is an error and the second 
     * [relatedQueries](#relatedqueries)
     * [relatedTopics](#relatedtopics)
 * [Geo help](#geo-help)
+* [List of categories](https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories)
 * [Big Thanks](#big-thanks)
 
 <hr>
@@ -379,6 +380,7 @@ googleTrends.relatedTopics({keyword: 'Chipotle', startTime: new Date('2015-01-01
 [back to top](#introduction)
 
 <hr>
+
 ## Geo help
 Unfortunately support is not offered for zip codes at this time.  The user must enter a country code, region (or state) code, and/or DMA (Designated Market Area) code.
 
