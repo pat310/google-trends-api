@@ -29,7 +29,7 @@ An object with the following options keys:
 * **startTime** Start of time period of interest (`new Date()` object).  If `startTime` is not provided, a date of January 1, 2004 is assumed (this is the oldest available google trends data)
 * **endTime** End of time period of interest (`new Date()` object). If `endTime` is not provided, the current date is selected.
 * **geo** Location of interest (`string`).
-* **hl** Preferred language (`string` defaults to english)
+* **hl** Preferred language (`string` [defaults to english](https://sites.google.com/site/tomihasa/google-language-codes))
 * **category** Category to search within (`number` defaults to [all categories](https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories))
 * **resolution** Granularity of the geo search (enumerated `string` ['COUNTRY', 'REGION', 'CITY', 'DMA']).  `resolution` is specific to the [interestByRegion](#interestByRegion) method.
 
