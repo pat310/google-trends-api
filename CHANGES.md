@@ -1,3 +1,11 @@
+## [v4.2.0]
+> Aug 21, 2017
+- Added a new api method which returns the results from the "add a search term" input box in the UI: `autoComplete`
+- Added a new optional parameter to include in the search query: `category`. Category is input as a [number](https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories)
+
+[#70]: https://github.com/pat310/google-trends-api/pull/70
+[#72]: https://github.com/pat310/google-trends-api/pull/72
+
 ## [v4.1.0]
 > Mar 16, 2017
 - Added ability to search trends across [multiple keywords](https://github.com/pat310/google-trends-api#multiple-keywords)
