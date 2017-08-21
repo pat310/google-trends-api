@@ -5,6 +5,11 @@ const expect = chai.expect;
 
 describe('index', () => {
   describe('should have the following methods:', () => {
+    it('autoComplete', () => {
+      expect(google.autoComplete).to.exist;
+      expect(google.autoComplete).to.be.a('function');
+    });
+
     it('interestByRegion', () => {
       expect(google.interestByRegion).to.exist;
       expect(google.interestByRegion).to.be.a('function');
