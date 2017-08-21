@@ -28,6 +28,7 @@ build/Release
 node_modules
 
 testFile.js
+allCategories.txt
 
 test
 src

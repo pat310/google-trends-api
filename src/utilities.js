@@ -60,6 +60,7 @@ export function constructObj(obj, cbFunc) {
   }
 
   if (!obj.hl) obj.hl = 'en-US';
+  if (!obj.category) obj.category = 0;
 
   if (!cbFunc) {
     cbFunc = (err, res) => {
@@ -159,7 +160,11 @@ export function getResults(searchType, obj) {
     path: '/trends/api/explore',
     qs: {
       hl: obj.hl,
-      req: JSON.stringify({comparisonItem: formatKeywords(obj), cat: 0}),
+      req: JSON.stringify({
+        comparisonItem: formatKeywords(obj),
+        category: obj.category,
+        property: '',
+      }),
       tz: 300,
     },
   };
@@ -172,7 +177,10 @@ export function getResults(searchType, obj) {
     let req = parsedResults[pos].request;
 
     if (resolution) req.resolution = resolution;
+    req.requestOptions.category = obj.category;
+    req.requestOptions.property = '';
     req = JSON.stringify(req);
+
     const token = parsedResults[pos].token;
     const nextOptions = {
       path,
