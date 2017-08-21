@@ -43,6 +43,7 @@ Optional callback function where the first parameter is an error and the second 
   * [Callbacks](#callbacks)
   * [Examples](#examples)
   * [API Methods](#api-methods)
+    * [autoComplete](#autocomplete)
     * [interestOverTime](#interestovertime)
     * [interestByRegion](#interestbyregion)
     * [relatedQueries](#relatedqueries)
@@ -113,6 +114,8 @@ There are examples available for each API method in the root directory of the mo
 
 ### API Methods
 The following API methods are available:
+* [autoComplete](#autocomplete): Returns the results from the "Add a search term" input box in the google trends UI. These results can then be used in the other API methods.
+
 * [interestOverTime](#interestovertime): Numbers represent search interest relative to the highest point on the chart for the given region and time. A value of 100 is the peak popularity for the term. A value of 50 means that the term is half as popular. Likewise a score of 0 means the term was less than 1% as popular as the peak.'
 
 * [interestByRegion](#interestbyregion): See in which location your term was most popular during the specified time frame. Values are calculated on a scale from 0 to 100, where 100 is the location with the most popularity as a fraction of total searches in that location, a value of 50 indicates a location which is half as popular, and a value of 0 indicates a location where the term was less than 1% as popular as the peak. <p><p> **Note:** A higher value means a higher proportion of all queries, not a higher absolute query count. So a tiny country where 80% of the queries are for "bananas" will get twice the score of a giant country where only 40% of the queries are for "bananas".
@@ -125,6 +128,43 @@ The following API methods are available:
 * [relatedTopics](#relatedtopics): Users searching for your term also searched for these topics. The following metrics are returned:
   * **Top** - The most popular topics. Scoring is on a relative scale where a value of 100 is the most commonly searched topic, a value of 50 is a topic searched half as often, and a value of 0 is a topic searched for less than 1% as often as the most popular topic.
   * **Rising** - Related topics with the biggest increase in search frequency since the last time period. Results marked "Breakout" had a tremendous increase, probably because these topics are new and had few (if any) prior searches.
+
+[back to top](#introduction)
+
+<hr>
+
+#### autoComplete
+* Results from the "add a search term" input box in the google trends UI*
+
+#### Syntax
+`googleTrends.autoComplete({keyword: string}, cbFunc)`
+
+Requires an `object` as the first parameter with the following keys:
+* `keyword` - **required** - type `string` - the search term of interest
+* `hl` - *optional* - type `string` - preferred language code for results (defaults to english)
+
+Optional callback `function` as the second parameter (otherwise returns a promise)
+
+##### Example
+Returning the auto-complete results for 'Back to School'
+
+###### Input
+```js
+googleTrends.autoComplete({keyword: 'Back to School'})
+.then(function(results) {
+  console.log(results);
+})
+.catch(function(err) {
+  console.error(err);
+})
+```
+
+###### Output
+```js
+{"default":{"topics":[{"mid":"/m/0414j6","title":"Back to School","type":"1986 film"},{"mid":"/m/068pw8","title":"Back to school","type":"Topic"},{"mid":"/m/04vwgn","title":"Fight Back to School","type":"1991 film"},{"mid":"/m/05357_","title":"Tax holiday","type":"Holiday"},{"mid":"/m/02pb6kt","title":"Fight Back to School II","type":"1992 film"}]}}
+```
+**Note:** You can then use these results in the other API methods. For example, if you wanted `interestOverTime` for 'Back to School' where the type is 'Topic', you would then use:
+`googleTrends.interestOverTime({keyword: '/m/068pw8'})`
 
 [back to top](#introduction)
 

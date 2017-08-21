@@ -2,6 +2,18 @@
 
 // var googleTrends = require('./lib/google-trends-api.min.js');
 
+/* ******************* Autocomplete **************************/
+
+// googleTrends.autoComplete({keyword: 'Back to school'})
+// .then((res) => {
+//   console.log('this is res', res);
+// })
+// .catch((err) => {
+//   console.log('got the error', err);
+//   console.log('error message', err.message);
+//   console.log('request body',  err.requestBody);
+// });
+
 /* ******************* Interest over time **************************/
 
 // googleTrends.interestOverTime({keyword: 'Valentines Day'})

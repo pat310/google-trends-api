@@ -131,6 +131,10 @@ export function formatKeywords(obj) {
 
 export function getResults(searchType, obj) {
   const map = {
+    'auto complete': {
+      path: `/trends/api/autocomplete/${encodeURIComponent(obj.keyword)}`,
+      pos: 0,
+    },
     'interest over time': {
       path: '/trends/api/widgetdata/multiline',
       pos: 0,
