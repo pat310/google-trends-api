@@ -1,10 +1,35 @@
+'use strict';
 import chai from 'chai';
 import api from '../src/api';
 
 const expect = chai.expect;
 
 describe('api', () => {
-  const newFunc = api('interest over time');
+  let count = 0;
+
+  function request(counter) {
+    return new Promise((resolve, reject) => {
+      const fakeReqObj = {
+        widgets: [{
+          request: {
+            requestOptions: {},
+          },
+          token: 'dogman',
+        }],
+      };
+
+      setTimeout(() => {
+        if (count === 0) {
+          count += 1;
+          resolve(`1234${JSON.stringify(fakeReqObj)}`);
+        } else {
+          resolve(`12345${JSON.stringify(fakeReqObj)}`);
+        }
+      }, 0);
+    });
+  }
+
+  const newFunc = api(request, 'interest over time');
 
   it('should return a function', () => {
     expect(newFunc).to.be.a('function');
@@ -23,6 +48,9 @@ describe('api', () => {
   });
 
   it('should work without a callback function', (done) => {
+    /** reset counter */
+    count = 0;
+
     newFunc({keyword: 'Brooklyn'})
     .then((res) => {
       expect(res).to.exist;
@@ -36,6 +64,9 @@ describe('api', () => {
   });
 
   it('should accept a callback function', (done) => {
+    /** reset counter */
+    count = 0;
+
     newFunc({keyword: 'Brooklyn'}, (err, res) => {
       expect(err).to.not.exist;
       expect(res).to.exist;
@@ -44,6 +75,23 @@ describe('api', () => {
         expect(err).to.exist;
         done();
       });
+    });
+  });
+
+  it('should be able to catch an error in catch block', (done) => {
+    function errorPromise() {
+      return Promise.reject('error on purpose');
+    }
+    const errorFunc = api(errorPromise, 'interest over time');
+
+    errorFunc({keyword: 'Brooklyn'})
+    .then((e) => {
+      expect(e).to.not.exist;
+      done();
+    })
+    .catch((e) => {
+      expect(e).to.exist;
+      done();
     });
   });
 });

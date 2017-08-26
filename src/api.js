@@ -1,8 +1,9 @@
 'use strict';
-
 import { constructObj, getResults } from './utilities';
 
-export default (searchType) => {
+export default (request, searchType) => {
+  const resultsPromise = getResults(request);
+
   return (reqObj, cb) => {
     const {
       cbFunc,
@@ -11,7 +12,7 @@ export default (searchType) => {
 
     if (obj instanceof Error) return Promise.reject(cbFunc(obj));
 
-    return getResults(searchType, obj)
+    return resultsPromise(searchType, obj)
     .then(res => cbFunc(null, res))
     .catch(err => Promise.reject(cbFunc(err)));
   };

@@ -1,11 +1,13 @@
 'use strict';
-
 import api from './api';
+import request from './request';
+
+const apiRequest = api.bind(this, request);
 
 export default {
-  autoComplete: api('auto complete'),
-  interestByRegion: api('interest by region'),
-  interestOverTime: api('interest over time'),
-  relatedQueries: api('related queries'),
-  relatedTopics: api('related topics'),
+  autoComplete: apiRequest('auto complete'),
+  interestByRegion: apiRequest('interest by region'),
+  interestOverTime: apiRequest('interest over time'),
+  relatedQueries: apiRequest('related queries'),
+  relatedTopics: apiRequest('related topics'),
 };
