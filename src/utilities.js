@@ -197,7 +197,13 @@ export function getResults(searchType, obj) {
     return request(nextOptions);
   })
   .then((res) => {
-    return res.slice(5);
+    try {
+      const results = JSON.stringify(JSON.parse(res.slice(5)));
+
+      return results;
+    } catch (e) {
+      return res;
+    }
   });
 
 };
