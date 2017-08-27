@@ -31,3 +31,6 @@ testFile.js
 
 # ignore built files
 lib
+
+# ignore mac files
+.DS_Store

@@ -37,3 +37,6 @@ webpack.config.js
 .codeclimate.yml
 .eslintrc
 .babelrc
+
+# ignore mac files
+.DS_Store

@@ -1,3 +1,4 @@
+'use strict';
 import chai from 'chai';
 import google from '../src';
 

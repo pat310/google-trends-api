@@ -1,6 +1,4 @@
 'use strict';
-import request from './request';
-
 export function isLessThan7Days(date1, date2) {
   return (Math.abs(date2 - date1) / (24 * 60 * 60 * 1000)) < 7;
 };
@@ -129,75 +127,84 @@ export function formatKeywords(obj) {
   return [obj];
 }
 
-export function getResults(searchType, obj) {
-  const map = {
-    'auto complete': {
-      path: `/trends/api/autocomplete/${encodeURIComponent(obj.keyword)}`,
-      pos: 0,
-    },
-    'interest over time': {
-      path: '/trends/api/widgetdata/multiline',
-      pos: 0,
-    },
-    'interest by region': {
-      path: '/trends/api/widgetdata/comparedgeo',
-      pos: 1,
-      resolution: formatResolution(obj.resolution),
-    },
-    'related topics': {
-      path: '/trends/api/widgetdata/relatedsearches',
-      pos: 2,
-    },
-    'related queries': {
-      path: '/trends/api/widgetdata/relatedsearches',
-      pos: 3,
-    },
-  };
+export function getResults(request) {
+  return (searchType, obj) => {
+    const map = {
+      'auto complete': {
+        path: `/trends/api/autocomplete/${encodeURIComponent(obj.keyword)}`,
+        pos: 0,
+      },
+      'interest over time': {
+        path: '/trends/api/widgetdata/multiline',
+        pos: 0,
+      },
+      'interest by region': {
+        path: '/trends/api/widgetdata/comparedgeo',
+        pos: 1,
+        resolution: formatResolution(obj.resolution),
+      },
+      'related topics': {
+        path: '/trends/api/widgetdata/relatedsearches',
+        pos: 2,
+      },
+      'related queries': {
+        path: '/trends/api/widgetdata/relatedsearches',
+        pos: 3,
+      },
+    };
 
-  const options = {
-    method: 'GET',
-    host: 'trends.google.com',
-    path: '/trends/api/explore',
-    qs: {
-      hl: obj.hl,
-      req: JSON.stringify({
-        comparisonItem: formatKeywords(obj),
-        category: obj.category,
-        property: '',
-      }),
-      tz: 300,
-    },
-  };
-
-  const {pos, path, resolution} = map[searchType];
-
-  return request(options)
-  .then((results) => {
-    const parsedResults = parseResults(results);
-    let req = parsedResults[pos].request;
-
-    if (resolution) req.resolution = resolution;
-    req.requestOptions.category = obj.category;
-    req.requestOptions.property = '';
-    req = JSON.stringify(req);
-
-    const token = parsedResults[pos].token;
-    const nextOptions = {
-      path,
+    const options = {
       method: 'GET',
       host: 'trends.google.com',
+      path: '/trends/api/explore',
       qs: {
         hl: obj.hl,
-        req,
-        token,
+        req: JSON.stringify({
+          comparisonItem: formatKeywords(obj),
+          category: obj.category,
+          property: '',
+        }),
         tz: 300,
       },
     };
 
-    return request(nextOptions);
-  })
-  .then((res) => {
-    return res.slice(5);
-  });
+    const {pos, path, resolution} = map[searchType];
 
+    return request(options)
+    .then((results) => {
+      const parsedResults = parseResults(results);
+      let req = parsedResults[pos].request;
+
+      if (resolution) req.resolution = resolution;
+      req.requestOptions.category = obj.category;
+      req.requestOptions.property = '';
+      req = JSON.stringify(req);
+
+      const token = parsedResults[pos].token;
+      const nextOptions = {
+        path,
+        method: 'GET',
+        host: 'trends.google.com',
+        qs: {
+          hl: obj.hl,
+          req,
+          token,
+          tz: 300,
+        },
+      };
+
+      return request(nextOptions);
+    })
+    .then((res) => {
+      try {
+        /** JSON.parse will decode unicode */
+        const results = JSON.stringify(JSON.parse(res.slice(5)));
+
+        return results;
+      } catch (e) {
+        /** throws if not valid JSON, so just return unaltered res string */
+        return res;
+      }
+    });
+  };
 };

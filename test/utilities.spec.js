@@ -1,3 +1,4 @@
+'use strict';
 import chai from 'chai';
 import {
   constructObj,
@@ -9,6 +10,7 @@ import {
   isLessThan7Days,
   parseResults,
 } from '../src/utilities';
+import request from '../src/request';
 
 const expect = chai.expect;
 
@@ -165,10 +167,17 @@ describe('utilities', () => {
   });
 
   describe('getResults', () => {
-    it('should eventually get results', (done) => {
+    it('should return a function', () => {
+      const resultsFunc = getResults();
+
+      expect(resultsFunc).to.be.a('function');
+    });
+
+    it('should eventually return', (done) => {
+      const resultsFunc = getResults(request);
       const { obj } = constructObj({keyword: 'Brooklyn'});
 
-      getResults('interest over time', obj)
+      resultsFunc('interest over time', obj)
       .then((res) => {
         expect(res).to.exist;
         expect(JSON.parse(res)).to.not.be.an('error');
@@ -178,7 +187,47 @@ describe('utilities', () => {
         expect(e).to.not.exist();
         done();
       });
+    });
 
+    it('should eventually error if JSON is not valid', (done) => {
+      let count = 0;
+      const expectedFailureMsg = 'not valid json';
+
+      function promiseFunc() {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (count === 0) {
+              count += 1;
+
+              const fakeReqObj = {
+                widgets: [{
+                  request: {
+                    requestOptions: {},
+                  },
+                  token: 'dogman',
+                }],
+              };
+
+              resolve(`1234${JSON.stringify(fakeReqObj)}`);
+            } else {
+              resolve(expectedFailureMsg);
+            }
+          }, 500);
+        });
+      }
+
+      const resultsFunc = getResults(promiseFunc);
+      const { obj } = constructObj({keyword: 'Brooklyn'});
+
+      resultsFunc('interest over time', obj)
+      .then((res) => {
+        expect(res).to.exist;
+        expect(res).to.equal(expectedFailureMsg);
+        done();
+      })
+      .catch((e) => {
+        done();
+      });
     });
   });
 
