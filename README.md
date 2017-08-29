@@ -25,7 +25,7 @@ googleTrends.apiMethod(optionsObject, [callback])
 #### Parameters
 **optionsObject**
 An object with the following options keys:
-* **keyword** Target search term(s) `string` or `array` **required**
+* **keyword** Target search term(s) `string` or `array` if you wish to compare search terms **required**
 * **startTime** Start of time period of interest (`new Date()` object).  If `startTime` is not provided, a date of January 1, 2004 is assumed (this is the oldest available google trends data)
 * **endTime** End of time period of interest (`new Date()` object). If `endTime` is not provided, the current date is selected.
 * **geo** Location of interest (`string`).
@@ -115,7 +115,7 @@ There are examples available for each API method in the root directory of the mo
 
 ### API Methods
 The following API methods are available:
-* [autoComplete](#autocomplete): Returns the results from the "Add a search term" input box in the google trends UI. These results can then be used in the other API methods.
+* [autoComplete](#autocomplete): Returns the results from the "Add a search term" input box in the google trends UI. These results (Topics) can then be used in the other API methods. **Note**: Search terms and Topics are measured differently, so `relatedTopics` will not work with comparisons that contain both Search terms and Topics.
 
 * [interestOverTime](#interestovertime): Numbers represent search interest relative to the highest point on the chart for the given region and time. A value of 100 is the peak popularity for the term. A value of 50 means that the term is half as popular. Likewise a score of 0 means the term was less than 1% as popular as the peak.'
 

@@ -177,7 +177,7 @@ describe('utilities', () => {
       const resultsFunc = getResults(request);
       const { obj } = constructObj({keyword: 'Brooklyn'});
 
-      resultsFunc('interest over time', obj)
+      resultsFunc('Interest over time', obj)
       .then((res) => {
         expect(res).to.exist;
         expect(JSON.parse(res)).to.not.be.an('error');
@@ -205,6 +205,7 @@ describe('utilities', () => {
                     requestOptions: {},
                   },
                   token: 'dogman',
+                  title: 'Interest over time',
                 }],
               };
 
@@ -219,7 +220,7 @@ describe('utilities', () => {
       const resultsFunc = getResults(promiseFunc);
       const { obj } = constructObj({keyword: 'Brooklyn'});
 
-      resultsFunc('interest over time', obj)
+      resultsFunc('Interest over time', obj)
       .then((res) => {
         expect(res).to.exist;
         expect(res).to.equal(expectedFailureMsg);

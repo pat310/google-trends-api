@@ -5,9 +5,9 @@ import request from './request';
 const apiRequest = api.bind(this, request);
 
 export default {
-  autoComplete: apiRequest('auto complete'),
-  interestByRegion: apiRequest('interest by region'),
-  interestOverTime: apiRequest('interest over time'),
-  relatedQueries: apiRequest('related queries'),
-  relatedTopics: apiRequest('related topics'),
+  autoComplete: apiRequest('Auto complete'),
+  interestByRegion: apiRequest('Interest by region'),
+  interestOverTime: apiRequest('Interest over time'),
+  relatedQueries: apiRequest('Related queries'),
+  relatedTopics: apiRequest('Related topics'),
 };
