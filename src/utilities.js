@@ -130,26 +130,21 @@ export function formatKeywords(obj) {
 export function getResults(request) {
   return (searchType, obj) => {
     const map = {
-      'auto complete': {
+      'Auto complete': {
         path: `/trends/api/autocomplete/${encodeURIComponent(obj.keyword)}`,
-        pos: 0,
       },
-      'interest over time': {
+      'Interest over time': {
         path: '/trends/api/widgetdata/multiline',
-        pos: 0,
       },
-      'interest by region': {
+      'Interest by region': {
         path: '/trends/api/widgetdata/comparedgeo',
-        pos: 1,
         resolution: formatResolution(obj.resolution),
       },
-      'related topics': {
+      'Related topics': {
         path: '/trends/api/widgetdata/relatedsearches',
-        pos: 2,
       },
-      'related queries': {
+      'Related queries': {
         path: '/trends/api/widgetdata/relatedsearches',
-        pos: 3,
       },
     };
 
@@ -168,19 +163,38 @@ export function getResults(request) {
       },
     };
 
-    const {pos, path, resolution} = map[searchType];
+    const { path, resolution } = map[searchType];
 
     return request(options)
     .then((results) => {
       const parsedResults = parseResults(results);
-      let req = parsedResults[pos].request;
+      /**
+       * Search for the title that matches the search result
+       * Auto complete does not have results on initial query
+       * so just pass the first available result with request
+      */
+      const resultObj = parsedResults.find(({ title, request }) => {
+        return title === searchType ||
+          (searchType === 'Auto complete' && request);
+      });
+
+      if (!resultObj) {
+        const errObj = {
+          message: 'Available widgets does not contain selected api type',
+          requestBody: results,
+        };
+
+        throw errObj;
+      }
+
+      let req = resultObj.request;
+      const token = resultObj.token;
 
       if (resolution) req.resolution = resolution;
       req.requestOptions.category = obj.category;
       req.requestOptions.property = '';
       req = JSON.stringify(req);
 
-      const token = parsedResults[pos].token;
       const nextOptions = {
         path,
         method: 'GET',

@@ -14,6 +14,7 @@ describe('api', () => {
           request: {
             requestOptions: {},
           },
+          title: 'Interest over time',
           token: 'dogman',
         }],
       };
@@ -29,7 +30,7 @@ describe('api', () => {
     });
   }
 
-  const newFunc = api(request, 'interest over time');
+  const newFunc = api(request, 'Interest over time');
 
   it('should return a function', () => {
     expect(newFunc).to.be.a('function');
@@ -82,7 +83,7 @@ describe('api', () => {
     function errorPromise() {
       return Promise.reject('error on purpose');
     }
-    const errorFunc = api(errorPromise, 'interest over time');
+    const errorFunc = api(errorPromise, 'Interest over time');
 
     errorFunc({keyword: 'Brooklyn'})
     .then((e) => {

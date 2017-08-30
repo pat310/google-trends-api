@@ -177,7 +177,7 @@ describe('utilities', () => {
       const resultsFunc = getResults(request);
       const { obj } = constructObj({keyword: 'Brooklyn'});
 
-      resultsFunc('interest over time', obj)
+      resultsFunc('Interest over time', obj)
       .then((res) => {
         expect(res).to.exist;
         expect(JSON.parse(res)).to.not.be.an('error');
@@ -189,7 +189,38 @@ describe('utilities', () => {
       });
     });
 
-    it('should eventually error if JSON is not valid', (done) => {
+    it('should error if widgets do not contain selected api type', (done) => {
+      function promiseFunc() {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            const fakeReqObj = {
+              widgets: [{
+                request: {
+                  requestOptions: {},
+                },
+                token: 'dogman',
+                title: 'Related topics',
+              }],
+            };
+
+            resolve(`1234${JSON.stringify(fakeReqObj)}`);
+          }, 500);
+        });
+      }
+
+      const resultsFunc = getResults(promiseFunc);
+      const { obj } = constructObj({ keyword: 'Brooklyn' });
+
+      resultsFunc('Interest over time', obj)
+      .catch((e) => {
+        const message = 'Available widgets does not contain selected api type';
+
+        expect(e.message).to.equal(message);
+        done();
+      });
+    });
+
+    it('should error if JSON is not valid', (done) => {
       let count = 0;
       const expectedFailureMsg = 'not valid json';
 
@@ -205,6 +236,7 @@ describe('utilities', () => {
                     requestOptions: {},
                   },
                   token: 'dogman',
+                  title: 'Interest over time',
                 }],
               };
 
@@ -219,7 +251,7 @@ describe('utilities', () => {
       const resultsFunc = getResults(promiseFunc);
       const { obj } = constructObj({keyword: 'Brooklyn'});
 
-      resultsFunc('interest over time', obj)
+      resultsFunc('Interest over time', obj)
       .then((res) => {
         expect(res).to.exist;
         expect(res).to.equal(expectedFailureMsg);
