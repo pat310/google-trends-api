@@ -189,7 +189,38 @@ describe('utilities', () => {
       });
     });
 
-    it('should eventually error if JSON is not valid', (done) => {
+    it('should error if widgets do not contain selected api type', (done) => {
+      function promiseFunc() {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            const fakeReqObj = {
+              widgets: [{
+                request: {
+                  requestOptions: {},
+                },
+                token: 'dogman',
+                title: 'Related topics',
+              }],
+            };
+
+            resolve(`1234${JSON.stringify(fakeReqObj)}`);
+          }, 500);
+        });
+      }
+
+      const resultsFunc = getResults(promiseFunc);
+      const { obj } = constructObj({ keyword: 'Brooklyn' });
+
+      resultsFunc('Interest over time', obj)
+      .catch((e) => {
+        const message = 'Available widgets does not contain selected api type';
+
+        expect(e.message).to.equal(message);
+        done();
+      });
+    });
+
+    it('should error if JSON is not valid', (done) => {
       let count = 0;
       const expectedFailureMsg = 'not valid json';
 

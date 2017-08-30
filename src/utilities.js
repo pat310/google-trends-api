@@ -177,6 +177,16 @@ export function getResults(request) {
         return title === searchType ||
           (searchType === 'Auto complete' && request);
       });
+
+      if (!resultObj) {
+        const errObj = {
+          message: 'Available widgets does not contain selected api type',
+          requestBody: results,
+        };
+
+        throw errObj;
+      }
+
       let req = resultObj.request;
       const token = resultObj.token;
 
