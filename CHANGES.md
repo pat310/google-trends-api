@@ -1,3 +1,11 @@
+## [v4.2.1]
+> Sep 1, 2017
+- Unicode characters in results are decoded by default
+- Corrected a bug when a user tries to perform a comparison with a search topic and a search term
+
+[#74]: https://github.com/pat310/google-trends-api/pull/74
+[#76]: https://github.com/pat310/google-trends-api/pull/76
+
 ## [v4.2.0]
 > Aug 21, 2017
 - Added a new api method which returns the results from the "add a search term" input box in the UI: `autoComplete`
