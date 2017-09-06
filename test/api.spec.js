@@ -15,6 +15,7 @@ describe('api', () => {
             requestOptions: {},
           },
           title: 'Interest over time',
+          id: 'TIMESERIES',
           token: 'dogman',
         }],
       };

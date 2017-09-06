@@ -135,16 +135,20 @@ export function getResults(request) {
       },
       'Interest over time': {
         path: '/trends/api/widgetdata/multiline',
+        _id: 'TIMESERIES',
       },
       'Interest by region': {
         path: '/trends/api/widgetdata/comparedgeo',
         resolution: formatResolution(obj.resolution),
+        _id: 'GEO_MAP',
       },
       'Related topics': {
         path: '/trends/api/widgetdata/relatedsearches',
+        _id: 'RELATED_TOPICS',
       },
       'Related queries': {
         path: '/trends/api/widgetdata/relatedsearches',
+        _id: 'RELATED_QUERIES',
       },
     };
 
@@ -163,18 +167,19 @@ export function getResults(request) {
       },
     };
 
-    const { path, resolution } = map[searchType];
+    const { path, resolution, _id } = map[searchType];
 
     return request(options)
     .then((results) => {
       const parsedResults = parseResults(results);
+
       /**
-       * Search for the title that matches the search result
+       * Search for the id that matches the search result
        * Auto complete does not have results on initial query
        * so just pass the first available result with request
       */
-      const resultObj = parsedResults.find(({ title, request }) => {
-        return title === searchType ||
+      const resultObj = parsedResults.find(({ id = '', request }) => {
+        return id.indexOf(_id) > -1 ||
           (searchType === 'Auto complete' && request);
       });
 
