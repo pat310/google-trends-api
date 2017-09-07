@@ -1,3 +1,9 @@
+## [v4.2.2]
+> Sep 7, 2017
+- Using widget `id` rather than `title` for determining token. Title changes for region from `Interest by region` to `Interest by subregion` in certain scenarios. When this would happen, the lookup would break.
+
+[#78]: https://github.com/pat310/google-trends-api/pull/78
+
 ## [v4.2.1]
 > Sep 1, 2017
 - Unicode characters in results are decoded by default
