@@ -13,7 +13,7 @@ export default function request({method, host, proxy, path, qs}) {
     agent,
     timeout: 10000,
     followRedirect: true,
-    maxRedirects: 10
+    maxRedirects: 10,
   };
 
   return new Promise((resolve, reject) => {
