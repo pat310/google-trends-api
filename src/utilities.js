@@ -165,6 +165,7 @@ export function getResults(request) {
         }),
         tz: 300,
       },
+      proxy: obj.proxy,
     };
 
     const { path, resolution, _id } = map[searchType];
@@ -210,6 +211,7 @@ export function getResults(request) {
           token,
           tz: 300,
         },
+        proxy: obj.proxy,
       };
 
       return request(nextOptions);
