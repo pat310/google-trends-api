@@ -28,4 +28,4 @@ export default function request({method, host, path, qs}) {
 
     req.end();
   });
-};
+}

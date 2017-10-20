@@ -1,7 +1,7 @@
 'use strict';
 export function isLessThan7Days(date1, date2) {
   return (Math.abs(date2 - date1) / (24 * 60 * 60 * 1000)) < 7;
-};
+}
 
 export function convertDateToString(d, shouldIncludeTime) {
   let month = (d.getUTCMonth() + 1).toString();
@@ -17,7 +17,7 @@ export function convertDateToString(d, shouldIncludeTime) {
   }
 
   return `${year}-${month}-${day}`;
-};
+}
 
 export function formatTime(obj) {
   if (obj.startTime && !(obj.startTime instanceof Date)) {
@@ -44,7 +44,7 @@ export function formatTime(obj) {
 
   obj.time = `${startTime} ${endTime}`;
   return obj;
-};
+}
 
 export function constructObj(obj, cbFunc) {
   if (typeof obj === 'function') cbFunc = obj;
@@ -73,7 +73,7 @@ export function constructObj(obj, cbFunc) {
     cbFunc,
     obj,
   };
-};
+}
 
 export function formatResolution(resolution = '') {
   const resolutions = ['COUNTRY', 'REGION', 'CITY', 'DMA'];
@@ -226,4 +226,4 @@ export function getResults(request) {
       }
     });
   };
-};
+}
