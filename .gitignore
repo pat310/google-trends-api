@@ -34,3 +34,6 @@ lib
 
 # ignore mac files
 .DS_Store
+
+# ignore webstorm files
+.idea
