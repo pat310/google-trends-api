@@ -28,8 +28,9 @@
 
 // googleTrends.interestOverTime({
 //   keyword: 'Valentines Day',
-//   startTime: new Date(Date.now() - (4 * 60 * 60 * 1000),
-// )}, function(err, results) {
+//   startTime: new Date(Date.now() - (4 * 60 * 60 * 1000)),
+//   granularTimeResolution: true,
+// }, function(err, results) {
 //   if (err) console.log('oh no error!', err);
 //   else console.log(results);
 // });
