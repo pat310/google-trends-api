@@ -73,15 +73,28 @@ describe('utilities', () => {
       expect(time[0]).to.equal('2004-01-1');
     });
 
-    it('should include time if dates are less than a week', () => {
+    it('should include time if dates are less than a week and ' +
+      'granularTimeResolution set to true', () => {
       const endTime = new Date();
       const startTime = new Date(Date.now() - (5 * 24 * 60 * 60 * 1000));
       const startTime2 = new Date(Date.now() - (8 * 24 * 60 * 60 * 1000));
 
-      expect(/T/.test(formatTime({endTime, startTime}).time)).to.be.true;
+      expect(/T/.test(formatTime({
+        endTime,
+        startTime,
+        granularTimeResolution: true,
+      }).time)).to.be.true;
+
+      expect(/T/.test(formatTime({
+        endTime,
+        startTime,
+        granularTimeResolution: false,
+      }).time)).to.be.false;
+
       expect(/T/.test(formatTime({
         endTime,
         startTime: startTime2,
+        granularTimeResolution: true,
       }).time)).to.be.false;
     });
 
