@@ -39,8 +39,10 @@ export function formatTime(obj) {
 
   const shouldIncludeTime = isLessThan7Days(obj.startTime, obj.endTime);
 
-  const startTime = convertDateToString(obj.startTime, shouldIncludeTime);
-  const endTime = convertDateToString(obj.endTime, shouldIncludeTime);
+  const startTime = convertDateToString(obj.startTime,
+    shouldIncludeTime && obj.granularTimeResolution);
+  const endTime = convertDateToString(obj.endTime,
+    shouldIncludeTime && obj.granularTimeResolution);
 
   obj.time = `${startTime} ${endTime}`;
   return obj;
