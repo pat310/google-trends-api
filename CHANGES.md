@@ -1,3 +1,9 @@
+## [v4.3.0]
+> Oct 22, 2017
+- Added `granularTimeResolution` boolean as optional input object parameter, when true will default to finest time resolution possible
+
+[#84]: https://github.com/pat310/google-trends-api/pull/84
+
 ## [v4.2.2]
 > Sep 7, 2017
 - Using widget `id` rather than `title` for determining token. Title changes for region from `Interest by region` to `Interest by subregion` in certain scenarios. When this would happen, the lookup would break.
