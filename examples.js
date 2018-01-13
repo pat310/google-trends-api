@@ -35,6 +35,16 @@
 //   else console.log(results);
 // });
 
+/* ****** Interest over time - Set a custom timezone ***************/
+
+// googleTrends.interestOverTime({
+//   keyword: 'Valentines Day',
+//   timezone: new Date().getTimezoneOffset() / 60,
+// }, function(err, results) {
+//   if (err) console.log('oh no error!', err);
+//   else console.log(results);
+// });
+
 /* ****** Interest over time - Comparing multiple keywords *********/
 // googleTrends.interestOverTime({keyword: ['Valentines Day', 'Christmas Day']})
 // .then((res) => {

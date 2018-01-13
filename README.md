@@ -30,6 +30,7 @@ An object with the following options keys:
 * **endTime** End of time period of interest (`new Date()` object). If `endTime` is not provided, the current date is selected.
 * **geo** Location of interest (`string`).
 * **hl** Preferred language (`string` [defaults to english](https://sites.google.com/site/tomihasa/google-language-codes))
+* **timezone** Timezone (`number` defaults to the time zone difference, in minutes, from UTC to current locale (host system settings))
 * **category** Category to search within (`number` defaults to [all categories](https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories))
 * **resolution** Granularity of the geo search (enumerated `string` ['COUNTRY', 'REGION', 'CITY', 'DMA']).  `resolution` is specific to the [interestByRegion](#interestByRegion) method.
 * **granularTimeResolution** Boolean that dictates if the results should be given in a finer time resolution (if `startTime` and `endTime` is less than one day, this should be set to `true`)
@@ -184,6 +185,7 @@ Requires an `object` as the first parameter with the following keys:
 * `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
 * `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
 * `hl` - *optional* - type `string` - preferred language code for results (defaults to english)
+* `timezone` - *optional* - type `number` - preferred timezone (defaults to the time zone difference, in minutes, from UTC to current locale (host system settings))
 * `category` - *optional* - type `number` - a number corresponding to a particular category to query within (defaults to all categories), see the [category wiki](https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories) for a complete list
 * `granularTimeResolution` - *optional* - type `boolean` - if `true`, will try to return results to a finer time resolution (only relevant for `startTime` and `endTime` less than one week)
 
@@ -247,6 +249,8 @@ Requires an `object` as the first parameter with the following keys:
 * `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
 * `resolution` - *optional* - type `enumerated string` either `COUNTRY`, `REGION`, `CITY` or `DMA`.  Resolution is selected by default otherwise.  Trying to select a resolution larger than a specified `geo` will return an error.
 * `hl` - *optional* - type `string` - preferred language code for results (defaults to english)
+for results (defaults to english)
+* `timezone` - *optional* - type `number` - preferred timezone (defaults to the time zone difference, in minutes, from UTC to current locale (host system settings))
 * `category` - *optional* - type `number` - a number corresponding to a particular category to query within (defaults to all categories), see the [category wiki](https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories) for a complete list
 
 Optional callback `function` as the second parameter (otherwise returns a promise)
@@ -309,6 +313,8 @@ Requires an `object` as the first parameter with the following keys:
 * `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
 * `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
 * `hl` - *optional* - type `string` - preferred language code for results (defaults to english)
+for results (defaults to english)
+* `timezone` - *optional* - type `number` - preferred timezone (defaults to the time zone difference, in minutes, from UTC to current locale (host system settings))
 * `category` - *optional* - type `number` - a number corresponding to a particular category to query within (defaults to all categories), see the [category wiki](https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories) for a complete list
 
 Optional callback `function` as the second parameter (otherwise returns a promise)
@@ -352,6 +358,8 @@ Requires an `object` as the first parameter with the following keys:
 * `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
 * `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
 * `hl` - *optional* - type `string` - preferred language code for results (defaults to english)
+for results (defaults to english)
+* `timezone` - *optional* - type `number` - preferred timezone (defaults to the time zone difference, in minutes, from UTC to current locale (host system settings))
 * `category` - *optional* - type `number` - a number corresponding to a particular category to query within (defaults to all categories), see the [category wiki](https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories) for a complete list
 
 Optional callback `function` as the second parameter (otherwise returns a promise)

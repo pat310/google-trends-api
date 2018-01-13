@@ -61,6 +61,7 @@ export function constructObj(obj, cbFunc) {
 
   if (!obj.hl) obj.hl = 'en-US';
   if (!obj.category) obj.category = 0;
+  if (!obj.timezone) obj.timezone = new Date().getTimezoneOffset();
 
   if (!cbFunc) {
     cbFunc = (err, res) => {
@@ -165,7 +166,7 @@ export function getResults(request) {
           category: obj.category,
           property: '',
         }),
-        tz: 300,
+        tz: obj.timezone,
       },
     };
 
@@ -210,7 +211,7 @@ export function getResults(request) {
           hl: obj.hl,
           req,
           token,
-          tz: 300,
+          tz: obj.timezone,
         },
       };
 
