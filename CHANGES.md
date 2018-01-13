@@ -1,3 +1,9 @@
+## [v4.4.0]
+> Jan 12, 2018
+- Added `timezone` number, defaults to the time zone difference in minutes from UTC to host system settings
+
+[#90]: https://github.com/pat310/google-trends-api/pull/90
+
 ## [v4.3.0]
 > Oct 22, 2017
 - Added `granularTimeResolution` boolean as optional input object parameter, when true will default to finest time resolution possible
