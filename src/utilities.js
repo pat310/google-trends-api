@@ -168,6 +168,7 @@ export function getResults(request) {
         }),
         tz: obj.timezone,
       },
+      proxy: obj.proxy,
     };
 
     const { path, resolution, _id } = map[searchType];
@@ -213,6 +214,7 @@ export function getResults(request) {
           token,
           tz: obj.timezone,
         },
+        proxy: obj.proxy,
       };
 
       return request(nextOptions);
