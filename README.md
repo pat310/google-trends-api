@@ -43,6 +43,7 @@ Optional callback function where the first parameter is an error and the second 
 * [API](#api)
   * [Promises](#promises)
   * [Callbacks](#callbacks)
+  * [Proxy Server](#proxy-server)
   * [Examples](#examples)
   * [API Methods](#api-methods)
     * [autoComplete](#autocomplete)
@@ -98,6 +99,27 @@ googleTrends.interestOverTime({keyword: 'Women\'s march'}, function(err, results
 })
 ```
 
+### Proxy Server
+A proxy server can be used by specifying an http agent as part of the query.
+
+```js
+const HttpsProxyAgent = require('https-proxy-agent');
+
+let proxyAgent =  new HttpsProxyAgent('http://proxy-host:8888/');
+
+let query = {
+    keyword: 'Women\'s march'
+    agent: proxyAgent
+};
+
+googleTrends.interestOverTime(query)
+.then(function(results){
+  console.log('These proxied results are incredible', results);
+})
+.catch(function(err){
+  console.error('Oh no there was an error, double check your proxy settings', err);
+});
+```
 
 ### Multiple Keywords
 Compare multiple keywords with any of the api methods by supplying an `array` instead of a single `string`
