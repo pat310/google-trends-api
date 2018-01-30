@@ -170,6 +170,8 @@ export function getResults(request) {
       },
     };
 
+    if (obj.agent) options.agent = obj.agent;
+
     const { path, resolution, _id } = map[searchType];
 
     return request(options)
