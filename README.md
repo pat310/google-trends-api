@@ -100,7 +100,7 @@ googleTrends.interestOverTime({keyword: 'Women\'s march'}, function(err, results
 ```
 
 ### Proxy Server
-A proxy server can be used by specifying an http agent as part of the query.
+A proxy server can be used by specifying an http agent as part of the query. This example uses [https-proxy-agent](https://www.npmjs.com/package/https-proxy-agent)
 
 ```js
 const HttpsProxyAgent = require('https-proxy-agent');

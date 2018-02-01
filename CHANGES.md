@@ -1,3 +1,8 @@
+## [v4.5.0]
+> Jan 31, 2018
+- Adding ability to use a proxy server
+[#92]: https://github.com/pat310/google-trends-api/pull/92
+
 ## [v4.4.0]
 > Jan 12, 2018
 - Added `timezone` number, defaults to the time zone difference in minutes from UTC to host system settings
