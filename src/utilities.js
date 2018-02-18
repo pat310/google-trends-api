@@ -208,7 +208,7 @@ export function getResults(request) {
 
       if (resolution) req.resolution = resolution;
       req.requestOptions.category = obj.category;
-      req.requestOptions.property = '';
+      req.requestOptions.property = obj.property;
       req = JSON.stringify(req);
 
       const nextOptions = {
