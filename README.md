@@ -32,7 +32,7 @@ An object with the following options keys:
 * **hl** Preferred language (`string` [defaults to english](https://sites.google.com/site/tomihasa/google-language-codes))
 * **timezone** Timezone (`number` defaults to the time zone difference, in minutes, from UTC to current locale (host system settings))
 * **category** Category to search within (`number` defaults to [all categories](https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories))
-* **property** What Google property to filter to. Defaults to web search. Can be images, news, youtube or froogle (for Google Shopping results) (`string`)
+* **property** Google property to filter on. Defaults to web search. (enumerated `string` ['images', 'news', 'youtube' or 'froogle'] where froogle is Google Shopping results)
 * **resolution** Granularity of the geo search (enumerated `string` ['COUNTRY', 'REGION', 'CITY', 'DMA']).  `resolution` is specific to the [interestByRegion](#interestByRegion) method.
 * **granularTimeResolution** Boolean that dictates if the results should be given in a finer time resolution (if `startTime` and `endTime` is less than one day, this should be set to `true`)
 

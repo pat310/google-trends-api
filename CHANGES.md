@@ -1,4 +1,9 @@
-## [v4.5.0]
+### [v4.6.0]
+> Feb 19, 2018
+- Ability to specify a google property filter
+[#94]: https://github.com/pat310/google-trends-api/pull/94
+
+# [v4.5.0]
 > Jan 31, 2018
 - Adding ability to use a proxy server
 [#92]: https://github.com/pat310/google-trends-api/pull/92
