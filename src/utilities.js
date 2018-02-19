@@ -63,6 +63,12 @@ export function constructObj(obj, cbFunc) {
   if (!obj.category) obj.category = 0;
   if (!obj.timezone) obj.timezone = new Date().getTimezoneOffset();
 
+  const possibleProperties = ['images', 'news', 'youtube', 'froogle', ''];
+
+  if (possibleProperties.indexOf(obj.property) === -1) {
+    obj.property = '';
+  }
+
   if (!cbFunc) {
     cbFunc = (err, res) => {
       if (err) return err;
@@ -164,7 +170,7 @@ export function getResults(request) {
         req: JSON.stringify({
           comparisonItem: formatKeywords(obj),
           category: obj.category,
-          property: '',
+          property: obj.property,
         }),
         tz: obj.timezone,
       },
@@ -202,7 +208,7 @@ export function getResults(request) {
 
       if (resolution) req.resolution = resolution;
       req.requestOptions.category = obj.category;
-      req.requestOptions.property = '';
+      req.requestOptions.property = obj.property;
       req = JSON.stringify(req);
 
       const nextOptions = {

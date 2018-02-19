@@ -159,6 +159,28 @@ describe('utilities', () => {
     it('should add default category to 0 if not provided', () => {
       expect(constructObj({keyword: 'Brooklyn'}).obj.category).to.equal(0);
     });
+
+    it('@test should have a property if provided', () => {
+      expect(constructObj({
+        keyword: 'Brooklyn',
+        property: 'youtube',
+      }).obj.property).to.equal('youtube');
+    });
+
+    it('@test has only allowed properties', () => {
+      expect(constructObj({
+        keyword: 'Brooklyn',
+        property: [],
+      }).obj.property).to.equal('');
+      expect(constructObj({
+        keyword: 'Brooklyn',
+        property: 'netflix',
+      }).obj.property).to.equal('');
+      expect(constructObj({
+        keyword: 'Brooklyn',
+        property: undefined,
+      }).obj.property).to.equal('');
+    });
   });
 
   describe('formatResolution', () => {
