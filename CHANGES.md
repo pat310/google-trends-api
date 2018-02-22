@@ -1,4 +1,9 @@
-### [v4.6.0]
+#### [v4.6.1]
+> Feb 21, 2018
+- Fixing proxy bug by adding proxy to `nextOptions`
+[#95]: https://github.com/pat310/google-trends-api/pull/94
+
+## [v4.6.0]
 > Feb 19, 2018
 - Ability to specify a google property filter
 [#94]: https://github.com/pat310/google-trends-api/pull/94
