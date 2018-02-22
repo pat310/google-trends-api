@@ -223,6 +223,8 @@ export function getResults(request) {
         },
       };
 
+      if (obj.agent) nextOptions.agent = obj.agent;
+
       return request(nextOptions);
     })
     .then((res) => {
