@@ -161,6 +161,17 @@ export function getResults(request) {
       },
     };
 
+    // going to modify it don't want to affect the callers data
+    obj = Object.assign({}, obj);
+    let agent = null;
+
+    // formatKeywords will incorporate the agent into the comparisionItem
+    // so remove it first
+    if (obj.agent) {
+      agent = obj.agent;
+      delete obj.agent;
+    }
+
     const options = {
       method: 'GET',
       host: 'trends.google.com',
@@ -176,7 +187,7 @@ export function getResults(request) {
       },
     };
 
-    if (obj.agent) options.agent = obj.agent;
+    options.agent = agent;
 
     const { path, resolution, _id } = map[searchType];
 
