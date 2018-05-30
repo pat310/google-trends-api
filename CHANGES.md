@@ -1,3 +1,8 @@
+#### [v4.6.2]
+> May 29, 2018
+- Fixing 429 errors from google trends
+[#106]: https://github.com/pat310/google-trends-api/pull/106
+
 #### [v4.6.1]
 > Feb 21, 2018
 - Fixing proxy bug by adding proxy to `nextOptions`
