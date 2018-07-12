@@ -28,7 +28,7 @@ An object with the following options keys:
 * **keyword** Target search term(s) `string` or `array` if you wish to compare search terms **required**
 * **startTime** Start of time period of interest (`new Date()` object).  If `startTime` is not provided, a date of January 1, 2004 is assumed (this is the oldest available google trends data)
 * **endTime** End of time period of interest (`new Date()` object). If `endTime` is not provided, the current date is selected.
-* **geo** Location of interest (`string`).
+* **geo** Location of interest (`string` or `array` if you wish to provide separate locations for each keyword).
 * **hl** Preferred language (`string` [defaults to english](https://sites.google.com/site/tomihasa/google-language-codes))
 * **timezone** Timezone (`number` defaults to the time zone difference, in minutes, from UTC to current locale (host system settings))
 * **category** Category to search within (`number` defaults to [all categories](https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories))
@@ -206,7 +206,7 @@ Requires an `object` as the first parameter with the following keys:
 * `keyword` - **required** - type `string` or `array` - the search term(s) of interest
 * `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
 * `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
-* `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
+* `geo` - *optional* - type `string` or `array` - geocode(s) for a country, region, or DMA depending on the granularity required (defaults to worldwide).For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
 * `hl` - *optional* - type `string` - preferred language code for results (defaults to english)
 * `timezone` - *optional* - type `number` - preferred timezone (defaults to the time zone difference, in minutes, from UTC to current locale (host system settings))
 * `category` - *optional* - type `number` - a number corresponding to a particular category to query within (defaults to all categories), see the [category wiki](https://github.com/pat310/google-trends-api/wiki/Google-Trends-Categories) for a complete list
@@ -269,7 +269,7 @@ Requires an `object` as the first parameter with the following keys:
 * `keyword` - **required** - type `string` or `array` - the search term(s) of interest
 * `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
 * `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
-* `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
+* `geo` - *optional* - type `string` or `array` - geocode(s) for a country, region, or DMA depending on the granularity required (defaults to worldwide). For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
 * `resolution` - *optional* - type `enumerated string` either `COUNTRY`, `REGION`, `CITY` or `DMA`.  Resolution is selected by default otherwise.  Trying to select a resolution larger than a specified `geo` will return an error.
 * `hl` - *optional* - type `string` - preferred language code for results (defaults to english)
 for results (defaults to english)
@@ -334,7 +334,7 @@ Requires an `object` as the first parameter with the following keys:
 * `keyword` - **required** - type `string` or `array` - the search term(s) of interest
 * `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
 * `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
-* `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
+* `geo` - *optional* - type `string` or `array` - geocode(s) for a country, region, or DMA depending on the granularity required (defaults to worldwide). For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
 * `hl` - *optional* - type `string` - preferred language code for results (defaults to english)
 for results (defaults to english)
 * `timezone` - *optional* - type `number` - preferred timezone (defaults to the time zone difference, in minutes, from UTC to current locale (host system settings))
@@ -379,7 +379,7 @@ Requires an `object` as the first parameter with the following keys:
 * `keyword` - **required** - type `string` or `array` - the search term(s) of interest
 * `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
 * `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
-* `geo` - *optional* - type `string` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide).  For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
+* `geo` - *optional* - type `string` or `array` - geocode(s) for a country, region, or DMA depending on the granularity required (defaults to worldwide). For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US.
 * `hl` - *optional* - type `string` - preferred language code for results (defaults to english)
 for results (defaults to english)
 * `timezone` - *optional* - type `number` - preferred timezone (defaults to the time zone difference, in minutes, from UTC to current locale (host system settings))

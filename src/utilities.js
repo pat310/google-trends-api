@@ -114,23 +114,33 @@ export function parseResults(results) {
 }
 
 /**
- * Create the array of keywords (comparisonItems) to be used
- * @param  {Object} obj The query obj with .keyword property
+ * Create the array of comparisonItems to be used
+ * @param  {Object} obj The query obj with .keyword property and optionally
+ *                      the .geo property
  * @return {Array}     Returns an array of comparisonItems
  */
-export function formatKeywords(obj) {
+export function formatComparisonItems(obj) {
 
   // If we are requesting an array of keywords for comparison
   if (Array.isArray(obj.keyword)) {
 
     // Map the keywords to the items array
-    return obj.keyword.reduce((arr, keyword) => {
+    let items = obj.keyword.reduce((arr, keyword) => {
       // Add the keyword to the array
       arr.push({ ...obj, keyword });
 
       return arr;
     }, []);
 
+    // Is there an array of regions as well?
+    if (obj.geo && Array.isArray(obj.geo)) {
+
+      obj.geo.forEach((region, index) => {
+        items[index].geo = region;
+      });
+    }
+
+    return items;
   }
 
   return [obj];
@@ -168,7 +178,7 @@ export function getResults(request) {
       qs: {
         hl: obj.hl,
         req: JSON.stringify({
-          comparisonItem: formatKeywords(obj),
+          comparisonItem: formatComparisonItems(obj),
           category: obj.category,
           property: obj.property,
         }),
