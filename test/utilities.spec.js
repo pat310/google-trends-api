@@ -5,7 +5,7 @@ import {
   convertDateToString,
   formatResolution,
   formatTime,
-  formatKeywords,
+  formatComparisonItems,
   getResults,
   isLessThan7Days,
   parseResults,
@@ -109,15 +109,15 @@ describe('utilities', () => {
         });
   });
 
-  describe('formatKeywords', () => {
+  describe('formatComparisonItems', () => {
     it('should return single comparisonItem', () => {
-      let keywords = formatKeywords({ keyword: 'test' });
+      let keywords = formatComparisonItems({ keyword: 'test' });
 
       expect(keywords).to.deep.equal([{ keyword: 'test' }]);
     });
 
     it('should return an array of comparisonItems', () => {
-      let keywords = formatKeywords({
+      let keywords = formatComparisonItems({
         keyword: ['test', 'test2'],
         startDate: '2017-01-01',
       });
@@ -125,6 +125,32 @@ describe('utilities', () => {
       expect(keywords).to.deep.equal([
         {keyword: 'test', startDate: '2017-01-01'},
         {keyword: 'test2', startDate: '2017-01-01'},
+      ]);
+    });
+
+    it('should return comparisonItems with same region', () => {
+      let keywords = formatComparisonItems({
+        keyword: ['test', 'test2'],
+        startDate: '2017-01-01',
+        geo: 'GB',
+      });
+
+      expect(keywords).to.deep.equal([
+        {keyword: 'test', startDate: '2017-01-01', geo: 'GB'},
+        {keyword: 'test2', startDate: '2017-01-01', geo: 'GB'},
+      ]);
+    });
+
+    it('should return comparisonItems with different regions', () => {
+      let keywords = formatComparisonItems({
+        keyword: ['test', 'test2'],
+        startDate: '2017-01-01',
+        geo: ['GB', 'ES'],
+      });
+
+      expect(keywords).to.deep.equal([
+        {keyword: 'test', startDate: '2017-01-01', geo: 'GB'},
+        {keyword: 'test2', startDate: '2017-01-01', geo: 'ES'},
       ]);
     });
 
