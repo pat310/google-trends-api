@@ -120,9 +120,16 @@ export function parseResults(results) {
  * @return {Array}     Returns an array of comparisonItems
  */
 export function formatComparisonItems(obj) {
+  const isMultiRegion = obj.geo && Array.isArray(obj.geo);
+  const isMultiKeyword = () => Array.isArray(obj.keyword);
+
+  // Duplicate keywords to match the length of geo
+  if (isMultiRegion && !isMultiKeyword()) {
+    obj.keyword = Array(obj.geo.length).fill(obj.keyword);
+  }
 
   // If we are requesting an array of keywords for comparison
-  if (Array.isArray(obj.keyword)) {
+  if (isMultiKeyword()) {
 
     // Map the keywords to the items array
     let items = obj.keyword.reduce((arr, keyword) => {
@@ -133,7 +140,7 @@ export function formatComparisonItems(obj) {
     }, []);
 
     // Is there an array of regions as well?
-    if (obj.geo && Array.isArray(obj.geo)) {
+    if (isMultiRegion) {
 
       obj.geo.forEach((region, index) => {
         items[index].geo = region;

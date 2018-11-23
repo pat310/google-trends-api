@@ -154,6 +154,18 @@ describe('utilities', () => {
       ]);
     });
 
+    it('should duplicate single keyword searches for multiple regions', () => {
+      let keywords = formatComparisonItems({
+        keyword: 'test',
+        startDate: '2018-01-01',
+        geo: ['US-MA', 'US-VA'],
+      });
+
+      expect(keywords).to.deep.equal([
+        {keyword: 'test', startDate: '2018-01-01', geo: 'US-MA'},
+        {keyword: 'test', startDate: '2018-01-01', geo: 'US-VA'},
+      ]);
+    });
   });
 
   describe('constructObj', () => {
