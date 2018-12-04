@@ -178,6 +178,13 @@ describe('utilities', () => {
       expect(constructObj({keywords: 'Brooklyn'}).obj).to.be.an('error');
     });
 
+    it('should return an error if keyword and geo length are not equal', () => {
+      expect(constructObj({
+        keyword: ['foo', 'bar'],
+        geo: ['Brooklyn', 'DC', 'Boston'],
+      }).obj).to.be.an('error');
+    });
+
     it('should return an error if cbFunc is not a function', () => {
       expect(constructObj({keyword: 'Brooklyn'}, 'str').obj).to.be.an('error');
     });

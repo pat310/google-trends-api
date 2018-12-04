@@ -59,6 +59,12 @@ export function constructObj(obj, cbFunc) {
     obj = new Error('Callback function must be a function');
   }
 
+  const multiGeoKeyword = Array.isArray(obj.geo) && Array.isArray(obj.keyword);
+
+  if (multiGeoKeyword && obj.geo.length !== obj.keyword.length) {
+    obj = new Error('Geo length must be equal to keyword length');
+  }
+
   if (!obj.hl) obj.hl = 'en-US';
   if (!obj.category) obj.category = 0;
   if (!obj.timezone) obj.timezone = new Date().getTimezoneOffset();
