@@ -20,13 +20,6 @@ export function convertDateToString(d, shouldIncludeTime) {
 }
 
 export function formatTime(obj) {
-  if (obj.startTime && !(obj.startTime instanceof Date)) {
-    return new Error('startTime must be a Date object');
-  }
-  if (obj.endTime && !(obj.endTime instanceof Date)) {
-    return new Error('endTime must be a Date object');
-  }
-
   if (obj.startTime && obj.endTime && obj.startTime > obj.endTime) {
     const temp = obj.startTime;
 
@@ -48,22 +41,60 @@ export function formatTime(obj) {
   return obj;
 }
 
-export function constructObj(obj, cbFunc) {
-  if (typeof obj === 'function') cbFunc = obj;
-
-  if (!obj || !!obj && typeof obj !== 'object' || Array.isArray(obj)) {
-    obj = new Error('Must supply an object');
-  } else if (!obj.keyword) obj = new Error('Must have a keyword field');
-
-  if (!!cbFunc && typeof cbFunc !== 'function') {
-    obj = new Error('Callback function must be a function');
-  }
-
+function validateGeo(obj) {
   const multiGeoKeyword = Array.isArray(obj.geo) && Array.isArray(obj.keyword);
 
   if (multiGeoKeyword && obj.geo.length !== obj.keyword.length) {
-    obj = new Error('Geo length must be equal to keyword length');
+    return new Error('Geo length must be equal to keyword length');
   }
+
+  return obj;
+}
+
+function validateTime(obj) {
+  if (obj.startTime && !(obj.startTime instanceof Date)) {
+    obj = new Error('startTime must be a Date object');
+  }
+
+  if (obj.endTime && !(obj.endTime instanceof Date)) {
+    obj = new Error('endTime must be a Date object');
+  }
+
+  return obj;
+}
+
+const invalidCb = cb => !!cb && typeof cb !== 'function';
+
+function validateObj(obj, cbFunc) {
+  if (!obj) {
+    obj = new Error('Must supply an object');
+  } else if (!!obj && typeof obj !== 'object' || Array.isArray(obj)) {
+    obj = new Error('Must supply an object');
+  } else if (!obj.keyword) {
+    obj = new Error('Must have a keyword field');
+  }
+
+  if (invalidCb(cbFunc)) {
+    obj = new Error('Callback function must be a function');
+  }
+
+  obj = validateGeo(obj);
+  obj = validateTime(obj);
+
+  return obj;
+}
+
+/**
+ * Validates the obj and callback
+ * and sets defaults for anything that haven't been supplied
+ * @param {Object} obj - the object with .keyword property
+ * @param {Function} cb - an optional callback function
+ * @return {Object} - object with decorated obj and cbFunc properties
+ */
+export function constructObj(obj, cbFunc) {
+  if (typeof obj === 'function') cbFunc = obj;
+
+  obj = validateObj(obj, cbFunc);
 
   if (!obj.hl) obj.hl = 'en-US';
   if (!obj.category) obj.category = 0;

@@ -45,18 +45,6 @@ describe('utilities', () => {
   });
 
   describe('formatTime', () => {
-    it('should return an error if startTime is not a date object', () => {
-      const obj = {startTime: '2017-02-04'};
-
-      expect(formatTime(obj)).to.be.an('error');
-    });
-
-    it('should return an error if endTime is not a date object', () => {
-      const obj = {endTime: '2017-02-04'};
-
-      expect(formatTime(obj)).to.be.an('error');
-    });
-
     it('should make endTime the current date if not provided', () => {
       const d = new Date();
       const endTime = convertDateToString(d);
@@ -182,6 +170,20 @@ describe('utilities', () => {
       expect(constructObj({
         keyword: ['foo', 'bar'],
         geo: ['Brooklyn', 'DC', 'Boston'],
+      }).obj).to.be.an('error');
+    });
+
+    it('should return an error if startTime is not a date', () => {
+      expect(constructObj({
+        keyword: 'test',
+        startTime: '2018-01-01',
+      }).obj).to.be.an('error');
+    });
+
+    it('should return an error if endTime is not a date', () => {
+      expect(constructObj({
+        keyword: 'test',
+        endTime: '2018-01-01',
       }).obj).to.be.an('error');
     });
 
