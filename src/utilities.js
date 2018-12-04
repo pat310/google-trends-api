@@ -121,15 +121,16 @@ export function parseResults(results) {
  */
 export function formatComparisonItems(obj) {
   const isMultiRegion = obj.geo && Array.isArray(obj.geo);
-  const isMultiKeyword = () => Array.isArray(obj.keyword);
+  let isMultiKeyword = Array.isArray(obj.keyword);
 
   // Duplicate keywords to match the length of geo
-  if (isMultiRegion && !isMultiKeyword()) {
+  if (isMultiRegion && !isMultiKeyword) {
     obj.keyword = Array(obj.geo.length).fill(obj.keyword);
+    isMultiKeyword = true;
   }
 
   // If we are requesting an array of keywords for comparison
-  if (isMultiKeyword()) {
+  if (isMultiKeyword) {
 
     // Map the keywords to the items array
     let items = obj.keyword.reduce((arr, keyword) => {
