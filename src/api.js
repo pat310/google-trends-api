@@ -1,14 +1,13 @@
 'use strict';
-import { constructObj, getResults } from './utilities';
 
-export default (request, searchType) => {
-  const resultsPromise = getResults(request);
+export default (request, searchType, resultsHandler) => {
+  const resultsPromise = resultsHandler.processor(request);
 
   return (reqObj, cb) => {
     const {
       cbFunc,
       obj,
-    } = constructObj(reqObj, cb);
+    } = resultsHandler.objectConstructor(reqObj, cb);
 
     if (obj instanceof Error) return Promise.reject(cbFunc(obj));
 

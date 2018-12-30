@@ -3,8 +3,9 @@ export function isLessThan7Days(date1, date2) {
   return (Math.abs(date2 - date1) / (24 * 60 * 60 * 1000)) < 7;
 }
 
-export function convertDateToString(d, shouldIncludeTime) {
+export function convertDateToString(d, shouldIncludeTime, shouldIncludeDashes) {
   let month = (d.getUTCMonth() + 1).toString();
+  let dash = shouldIncludeDashes ? '-' : '';
 
   month = month.length < 2 ? '0' + month : month;
   const day = d.getUTCDate().toString();
@@ -13,10 +14,10 @@ export function convertDateToString(d, shouldIncludeTime) {
   const minute = d.getUTCMinutes();
 
   if (shouldIncludeTime) {
-    return `${year}-${month}-${day}T${hour}\\:${minute}\\:00`;
+    return `${year}${dash}${month}${dash}${day}T${hour}\\:${minute}\\:00`;
   }
 
-  return `${year}-${month}-${day}`;
+  return `${year}${dash}${month}${dash}${day}`;
 }
 
 export function formatTime(obj) {
@@ -40,9 +41,9 @@ export function formatTime(obj) {
   const shouldIncludeTime = isLessThan7Days(obj.startTime, obj.endTime);
 
   const startTime = convertDateToString(obj.startTime,
-    shouldIncludeTime && obj.granularTimeResolution);
+    shouldIncludeTime && obj.granularTimeResolution, false);
   const endTime = convertDateToString(obj.endTime,
-    shouldIncludeTime && obj.granularTimeResolution);
+    shouldIncludeTime && obj.granularTimeResolution, false);
 
   obj.time = `${startTime} ${endTime}`;
   return obj;
@@ -248,5 +249,93 @@ export function getResults(request) {
         return res;
       }
     });
+  };
+}
+
+export function getTrendingResults(request) {
+  return (searchType, obj) => {
+    
+    const map = {
+      'Daily trends': {
+        path: '/trends/api/dailytrends',
+        extraParams: {
+          ed: convertDateToString(obj.trendDate, false, false),
+          ns: obj.ns,
+        }
+      },
+      'Real time trends' : {
+        path: '/trends/api/realtimetrends',
+        extraParams: {
+          fi: 0,
+          fs: 0,
+          ri: 300, //# of trending stories IDs returned
+          rs: 20,
+          sort: 0,
+        }
+      },
+    };
+
+    let options = {
+      method: 'GET',
+      host: 'trends.google.com',
+      path: map[searchType].path,
+      qs: {
+        hl: obj.hl,
+        tz: obj.timezone,
+        geo: obj.geo,
+        cat: obj.category,
+      },
+    };
+
+    if (obj.agent) options.agent = obj.agent;
+
+    Object.assign(options.qs, options.qs, map[searchType].extraParams);
+
+    return request(options)
+    .then((res) => {
+      try {
+        /** JSON.parse will decode unicode */
+        const results = JSON.stringify(JSON.parse(res.slice(5)));
+
+        return results;
+      } catch (e) {
+        /** throws if not valid JSON, so just return unaltered res string */
+        return res;
+      }
+    });
+  };
+}
+
+export function constructTrendingObj(obj, cbFunc) {
+  if (typeof obj === 'function') cbFunc = obj;
+
+  if (!obj || !!obj && typeof obj !== 'object' || Array.isArray(obj)) {
+    obj = new Error('Must supply an object');
+  }
+
+  if (!!cbFunc && typeof cbFunc !== 'function') {
+    obj = new Error('Callback function must be a function');
+  }
+
+  if (!obj.geo){
+    obj = new Error('Must supply an geographical location (geo)');
+  }
+
+  if (!obj.hl) obj.hl = 'en-US';
+  if (!obj.category) obj.category = 0;
+  if (!obj.timezone) obj.timezone = new Date().getTimezoneOffset();
+  if (!obj.trendDate || ! (obj.trendDate instanceof Date) ) obj.trendDate = new Date(); 
+  if (!obj.ns) obj.ns = 15;    
+
+  if (!cbFunc) {
+    cbFunc = (err, res) => {
+      if (err) return err;
+      return res;
+    };
+  }
+
+  return {
+    cbFunc,
+    obj,
   };
 }
