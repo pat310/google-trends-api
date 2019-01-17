@@ -364,8 +364,11 @@ describe('utilities', () => {
       expect(constructTrendingObj({geo: 'US'}).obj).to.not.be.an('error');
     });
 
-    it('should create a callback if one is not provided', () => {
+    it('should create a functioning callback if one is not provided', () => {
       expect(constructTrendingObj({geo: 'US'}).cbFunc).to.be.a('function');
+      expect(constructTrendingObj({geo: 'US'})
+        .cbFunc(new Error())).to.be.an('error');
+      expect(constructTrendingObj({geo: 'US'}).cbFunc(0,"")).to.equal("");
     });
 
     it('should add default hl to english if not provided', () => {
@@ -377,23 +380,27 @@ describe('utilities', () => {
     });
 
     it('should return an error if the geo is not provided', () => {
-      expect(constructTrendingObj({trendDate: '2018-12-25'}).obj).to.be.an('error');
+      expect(constructTrendingObj({trendDate: '2018-12-25'}).obj)
+        .to.be.an('error');
     });
 
     it('should default trendDate to today if not provided', () => {
       expect(
-        convertDateToString(constructTrendingObj({geo: 'US', trendDate: '2018-12-25'}).obj.trendDate)).
-        to.equal(convertDateToString(new Date()));
+        convertDateToString(constructTrendingObj(
+          {geo: 'US', trendDate: '2018-12-25'}).obj.trendDate)).to.equal(
+          convertDateToString(new Date()));
     });
 
     it('should default trendDate to today provided in wrong format', () => {
       expect(
-        convertDateToString(constructTrendingObj({geo: 'US', trendDate: '2018-12-25'}).obj.trendDate)).
-        to.equal(convertDateToString(new Date()));
+        convertDateToString(
+          constructTrendingObj({geo: 'US', trendDate: '2018-12-25'})
+          .obj.trendDate)).to.equal(convertDateToString(new Date()));
     });
 
-    it('should default TimeZone to the current regions timezone if not defaulted', () => {
-      expect(constructTrendingObj({geo: 'US'}).obj.timezone).to.equal(new Date().getTimezoneOffset());
+    it('should default TimeZone to the current TZ if not provided', () => {
+      expect(constructTrendingObj({geo: 'US'}).obj.timezone).to.equal(
+          new Date().getTimezoneOffset());
     });
 
     it('should default ns to 15 if not not provided', () => {
@@ -401,52 +408,52 @@ describe('utilities', () => {
     });
   });
 
+  describe('getTrendingResults', () => {
+    it('should return a function', () => {
+      const resultsFunc = getTrendingResults();
 
-describe('getTrendingResults', () => {
-  it('should return a function', () => {
-    const resultsFunc = getTrendingResults();
-    expect(resultsFunc).to.be.a('function');
-  });
-
-  it('should eventually return', (done) => {
-    const resultsFunc = getTrendingResults(request);
-    const { obj } = constructTrendingObj({geo: 'US'});
-
-    resultsFunc('Daily trends', obj)
-    .then((res) => {
-      expect(res).to.exist;
-      expect(JSON.parse(res)).to.not.be.an('error');
-      done();
-    })
-    .catch((e) => {
-      expect(e).to.not.exist();
-      done();
+      expect(resultsFunc).to.be.a('function');
     });
-  });
 
-  it('should error if JSON is not valid', (done) => {
-    const expectedFailureMsg = 'not valid json';
+    it('should eventually return', (done) => {
+      const resultsFunc = getTrendingResults(request);
+      const { obj } = constructTrendingObj({geo: 'US'});
 
-    function promiseFunc() {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(expectedFailureMsg);
-        }, 500);
+      resultsFunc('Daily trends', obj)
+      .then((res) => {
+        expect(res).to.exist;
+        expect(JSON.parse(res)).to.not.be.an('error');
+        done();
+      })
+      .catch((e) => {
+        expect(e).to.not.exist();
+        done();
       });
-    }
+    });
 
-    const resultsFunc = getTrendingResults(promiseFunc);
-    const { obj } = constructTrendingObj({geo: 'US'});
+    it('should error if JSON is not valid', (done) => {
+      const expectedFailureMsg = 'not valid json';
 
-    resultsFunc('Daily trends', obj)
-    .then((res) => {
-      expect(res).to.exist;
-      expect(res).to.equal(expectedFailureMsg);
-      done();
-    })
-    .catch((e) => {
-      done();
+      function promiseFunc() {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve(expectedFailureMsg);
+          }, 500);
+        });
+      }
+
+      const resultsFunc = getTrendingResults(promiseFunc);
+      const { obj } = constructTrendingObj({geo: 'US'});
+
+      resultsFunc('Daily trends', obj)
+      .then((res) => {
+        expect(res).to.exist;
+        expect(res).to.equal(expectedFailureMsg);
+        done();
+      })
+      .catch((e) => {
+        done();
+      });
     });
   });
-});
 });
