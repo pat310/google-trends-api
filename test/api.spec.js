@@ -1,6 +1,12 @@
 'use strict';
 import chai from 'chai';
 import api from '../src/api';
+import { getResults, constructObj } from '../src/utilities';
+
+const interestHandler = {
+  processor: getResults,
+  objectConstructor: constructObj,
+};
 
 const expect = chai.expect;
 
@@ -31,7 +37,7 @@ describe('api', () => {
     });
   }
 
-  const newFunc = api(request, 'Interest over time');
+  const newFunc = api(request, 'Interest over time', interestHandler);
 
   it('should return a function', () => {
     expect(newFunc).to.be.a('function');
@@ -84,7 +90,7 @@ describe('api', () => {
     function errorPromise() {
       return Promise.reject('error on purpose');
     }
-    const errorFunc = api(errorPromise, 'Interest over time');
+    const errorFunc = api(errorPromise, 'Interest over time', interestHandler);
 
     errorFunc({keyword: 'Brooklyn'})
     .then((e) => {

@@ -2,11 +2,13 @@
 import chai from 'chai';
 import {
   constructObj,
+  constructTrendingObj,
   convertDateToString,
   formatResolution,
   formatTime,
   formatComparisonItems,
   getResults,
+  getTrendingResults,
   isLessThan7Days,
   parseResults,
 } from '../src/utilities';
@@ -41,6 +43,15 @@ describe('utilities', () => {
 
           expect(convertDateToString(d, true)).to.equal(
             `2017-02-4T${utcHour}\\:43\\:00`);
+        });
+
+    it('should be able to return a date formatted as YYYYMMDDTHH\\:MM\\:SS',
+        () => {
+          const d = new Date('2017', '01', '04', '12', '43');
+          const utcHour = d.getUTCHours();
+
+          expect(convertDateToString(d, true, true)).to.equal(
+            `2017024T${utcHour}\\:43\\:00`);
         });
   });
 
@@ -340,4 +351,102 @@ describe('utilities', () => {
     });
   });
 
+  describe('constructTrendingObj', () => {
+    it('should return an error if first argument is not an object', () => {
+      expect(constructTrendingObj('not an obj').obj).to.be.an('error');
+    });
+
+    it('should return an error if cbFunc is not a function', () => {
+      expect(constructTrendingObj({geo: 'US'}, 'str').obj).to.be.an('error');
+    });
+
+    it('should not require a callback function', () => {
+      expect(constructTrendingObj({geo: 'US'}).obj).to.not.be.an('error');
+    });
+
+    it('should create a callback if one is not provided', () => {
+      expect(constructTrendingObj({geo: 'US'}).cbFunc).to.be.a('function');
+    });
+
+    it('should add default hl to english if not provided', () => {
+      expect(constructTrendingObj({geo: 'US'}).obj.hl).to.equal('en-US');
+    });
+
+    it('should add default category to 0 if not provided', () => {
+      expect(constructTrendingObj({geo: 'US'}).obj.category).to.equal(0);
+    });
+
+    it('should return an error if the geo is not provided', () => {
+      expect(constructTrendingObj({trendDate: '2018-12-25'}).obj).to.be.an('error');
+    });
+
+    it('should default trendDate to today if not provided', () => {
+      expect(
+        convertDateToString(constructTrendingObj({geo: 'US', trendDate: '2018-12-25'}).obj.trendDate)).
+        to.equal(convertDateToString(new Date()));
+    });
+
+    it('should default trendDate to today provided in wrong format', () => {
+      expect(
+        convertDateToString(constructTrendingObj({geo: 'US', trendDate: '2018-12-25'}).obj.trendDate)).
+        to.equal(convertDateToString(new Date()));
+    });
+
+    it('should default TimeZone to the current regions timezone if not defaulted', () => {
+      expect(constructTrendingObj({geo: 'US'}).obj.timezone).to.equal(new Date().getTimezoneOffset());
+    });
+
+    it('should default ns to 15 if not not provided', () => {
+      expect(constructTrendingObj({geo: 'US'}).obj.ns).to.equal(15);
+    });
+  });
+
+
+describe('getTrendingResults', () => {
+  it('should return a function', () => {
+    const resultsFunc = getTrendingResults();
+    expect(resultsFunc).to.be.a('function');
+  });
+
+  it('should eventually return', (done) => {
+    const resultsFunc = getTrendingResults(request);
+    const { obj } = constructTrendingObj({geo: 'US'});
+
+    resultsFunc('Daily trends', obj)
+    .then((res) => {
+      expect(res).to.exist;
+      expect(JSON.parse(res)).to.not.be.an('error');
+      done();
+    })
+    .catch((e) => {
+      expect(e).to.not.exist();
+      done();
+    });
+  });
+
+  it('should error if JSON is not valid', (done) => {
+    const expectedFailureMsg = 'not valid json';
+
+    function promiseFunc() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(expectedFailureMsg);
+        }, 500);
+      });
+    }
+
+    const resultsFunc = getTrendingResults(promiseFunc);
+    const { obj } = constructTrendingObj({geo: 'US'});
+
+    resultsFunc('Daily trends', obj)
+    .then((res) => {
+      expect(res).to.exist;
+      expect(res).to.equal(expectedFailureMsg);
+      done();
+    })
+    .catch((e) => {
+      done();
+    });
+  });
+});
 });

@@ -1,17 +1,18 @@
 'use strict';
 import api from './api';
 import request from './request';
-import { getResults, getTrendingResults, constructObj, constructTrendingObj } from './utilities';
+import { getResults, getTrendingResults,
+          constructObj, constructTrendingObj } from './utilities';
 
 const interestHandler = {
   processor: getResults,
   objectConstructor: constructObj,
-}
+};
 
 const trendHandler = {
   processor: getTrendingResults,
   objectConstructor: constructTrendingObj,
-}
+};
 
 const apiRequest = api.bind(this, request);
 
