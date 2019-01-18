@@ -105,3 +105,28 @@
 // .catch((err) => {
 //   console.log(err);
 // });
+
+/* ************************* RealTime Trending Searches  ******************/
+// googleTrends.realTimeTrends({
+//   geo: 'US',
+//   category: 'all',
+// }, function(err, results) {
+//    if (err) console.log('oh no error!', err);
+//    else console.log(results);
+// });
+
+/* ***********************  Daily Trends *******************************/
+// Please note that google only keeps around T-15 days of daily trends information.
+// TrendDate designation that go too far back in the past will result in an error.
+// Note: TrendDate is optional and will default to currentDate
+
+// googleTrends.dailyTrends({
+//    trendDate: new Date('2019-01-10'),
+//    geo: 'US',
+// }, function(err, results) {
+//    if (err) {
+//      console.log('oh no error!', err);
+//    }else{
+//      console.log(results);
+//    }
+// }); 
