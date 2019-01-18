@@ -368,7 +368,7 @@ describe('utilities', () => {
       expect(constructTrendingObj({geo: 'US'}).cbFunc).to.be.a('function');
       expect(constructTrendingObj({geo: 'US'})
         .cbFunc(new Error())).to.be.an('error');
-      expect(constructTrendingObj({geo: 'US'}).cbFunc(0,"")).to.equal("");
+      expect(constructTrendingObj({geo: 'US'}).cbFunc(0, '')).to.equal('');
     });
 
     it('should add default hl to english if not provided', () => {
