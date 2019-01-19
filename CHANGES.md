@@ -1,3 +1,8 @@
+#### [4.8.0]
+> Jan 19, 2019
+- Adds support for a single keyword string with an array of geo locations
+[#116]: https://github.com/pat310/google-trends-api/pull/116
+
 #### [v4.7.0]
 > July 14, 2018
 - Allowing locations for different keywords
