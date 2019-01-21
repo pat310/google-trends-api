@@ -21,13 +21,6 @@ export function convertDateToString(d, shouldIncludeTime, shouldRemoveDashes) {
 }
 
 export function formatTime(obj) {
-  if (obj.startTime && !(obj.startTime instanceof Date)) {
-    return new Error('startTime must be a Date object');
-  }
-  if (obj.endTime && !(obj.endTime instanceof Date)) {
-    return new Error('endTime must be a Date object');
-  }
-
   if (obj.startTime && obj.endTime && obj.startTime > obj.endTime) {
     const temp = obj.startTime;
 
@@ -49,16 +42,60 @@ export function formatTime(obj) {
   return obj;
 }
 
+function validateGeo(obj) {
+  const multiGeoKeyword = Array.isArray(obj.geo) && Array.isArray(obj.keyword);
+
+  if (multiGeoKeyword && obj.geo.length !== obj.keyword.length) {
+    return new Error('Geo length must be equal to keyword length');
+  }
+
+  return obj;
+}
+
+function validateTime(obj) {
+  if (obj.startTime && !(obj.startTime instanceof Date)) {
+    obj = new Error('startTime must be a Date object');
+  }
+
+  if (obj.endTime && !(obj.endTime instanceof Date)) {
+    obj = new Error('endTime must be a Date object');
+  }
+
+  return obj;
+}
+
+const invalidCb = cb => !!cb && typeof cb !== 'function';
+
+function validateObj(obj, cbFunc) {
+  if (!obj) {
+    obj = new Error('Must supply an object');
+  } else if (!!obj && typeof obj !== 'object' || Array.isArray(obj)) {
+    obj = new Error('Must supply an object');
+  } else if (!obj.keyword) {
+    obj = new Error('Must have a keyword field');
+  }
+
+  if (invalidCb(cbFunc)) {
+    obj = new Error('Callback function must be a function');
+  }
+
+  obj = validateGeo(obj);
+  obj = validateTime(obj);
+
+  return obj;
+}
+
+/**
+ * Validates the obj and callback
+ * and sets defaults for anything that haven't been supplied
+ * @param {Object} obj - the object with .keyword property
+ * @param {Function} cb - an optional callback function
+ * @return {Object} - object with decorated obj and cbFunc properties
+ */
 export function constructObj(obj, cbFunc) {
   if (typeof obj === 'function') cbFunc = obj;
 
-  if (!obj || !!obj && typeof obj !== 'object' || Array.isArray(obj)) {
-    obj = new Error('Must supply an object');
-  } else if (!obj.keyword) obj = new Error('Must have a keyword field');
-
-  if (!!cbFunc && typeof cbFunc !== 'function') {
-    obj = new Error('Callback function must be a function');
-  }
+  obj = validateObj(obj, cbFunc);
 
   if (!obj.hl) obj.hl = 'en-US';
   if (!obj.category) obj.category = 0;
@@ -121,9 +158,17 @@ export function parseResults(results) {
  * @return {Array}     Returns an array of comparisonItems
  */
 export function formatComparisonItems(obj) {
+  const isMultiRegion = obj.geo && Array.isArray(obj.geo);
+  let isMultiKeyword = Array.isArray(obj.keyword);
+
+  // Duplicate keywords to match the length of geo
+  if (isMultiRegion && !isMultiKeyword) {
+    obj.keyword = Array(obj.geo.length).fill(obj.keyword);
+    isMultiKeyword = true;
+  }
 
   // If we are requesting an array of keywords for comparison
-  if (Array.isArray(obj.keyword)) {
+  if (isMultiKeyword) {
 
     // Map the keywords to the items array
     let items = obj.keyword.reduce((arr, keyword) => {
@@ -134,7 +179,7 @@ export function formatComparisonItems(obj) {
     }, []);
 
     // Is there an array of regions as well?
-    if (obj.geo && Array.isArray(obj.geo)) {
+    if (isMultiRegion) {
 
       obj.geo.forEach((region, index) => {
         items[index].geo = region;
