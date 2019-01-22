@@ -1,13 +1,13 @@
 'use strict';
 import chai from 'chai';
 import {
-  constructObj,
+  constructInterestObj,
   constructTrendingObj,
   convertDateToString,
   formatResolution,
   formatTime,
   formatComparisonItems,
-  getResults,
+  getInterestResults,
   getTrendingResults,
   isLessThan7Days,
   parseResults,
@@ -167,74 +167,81 @@ describe('utilities', () => {
     });
   });
 
-  describe('constructObj', () => {
+  describe('constructInterestObj', () => {
     it('should return an error if first argument is not an object', () => {
-      expect(constructObj('not an obj').obj).to.be.an('error');
+      expect(constructInterestObj('not an obj').obj).to.be.an('error');
     });
 
     it('should return an error if keyword is not provided', () => {
-      expect(constructObj({endTime: new Date()}).obj).to.be.an('error');
-      expect(constructObj({keywords: 'Brooklyn'}).obj).to.be.an('error');
+      expect(constructInterestObj({endTime: new Date()}).obj)
+        .to.be.an('error');
+      expect(constructInterestObj({keywords: 'Brooklyn'}).obj)
+        .to.be.an('error');
     });
 
     it('should return an error if keyword and geo length are not equal', () => {
-      expect(constructObj({
+      expect(constructInterestObj({
         keyword: ['foo', 'bar'],
         geo: ['Brooklyn', 'DC', 'Boston'],
       }).obj).to.be.an('error');
     });
 
     it('should return an error if startTime is not a date', () => {
-      expect(constructObj({
+      expect(constructInterestObj({
         keyword: 'test',
         startTime: '2018-01-01',
       }).obj).to.be.an('error');
     });
 
     it('should return an error if endTime is not a date', () => {
-      expect(constructObj({
+      expect(constructInterestObj({
         keyword: 'test',
         endTime: '2018-01-01',
       }).obj).to.be.an('error');
     });
 
     it('should return an error if cbFunc is not a function', () => {
-      expect(constructObj({keyword: 'Brooklyn'}, 'str').obj).to.be.an('error');
+      expect(constructInterestObj({keyword: 'Brooklyn'}, 'str').obj)
+        .to.be.an('error');
     });
 
     it('should not require a callback function', () => {
-      expect(constructObj({keyword: 'Brooklyn'}).obj).to.not.be.an('error');
+      expect(constructInterestObj({keyword: 'Brooklyn'}).obj)
+        .to.not.be.an('error');
     });
 
     it('should create a callback if one is not provided', () => {
-      expect(constructObj({keyword: 'Brooklyn'}).cbFunc).to.be.a('function');
+      expect(constructInterestObj({keyword: 'Brooklyn'}).cbFunc)
+        .to.be.a('function');
     });
 
     it('should add default hl to english if not provided', () => {
-      expect(constructObj({keyword: 'Brooklyn'}).obj.hl).to.equal('en-US');
+      expect(constructInterestObj({keyword: 'Brooklyn'}).obj.hl)
+        .to.equal('en-US');
     });
 
     it('should add default category to 0 if not provided', () => {
-      expect(constructObj({keyword: 'Brooklyn'}).obj.category).to.equal(0);
+      expect(constructInterestObj({keyword: 'Brooklyn'}).obj.category)
+        .to.equal(0);
     });
 
     it('@test should have a property if provided', () => {
-      expect(constructObj({
+      expect(constructInterestObj({
         keyword: 'Brooklyn',
         property: 'youtube',
       }).obj.property).to.equal('youtube');
     });
 
     it('@test has only allowed properties', () => {
-      expect(constructObj({
+      expect(constructInterestObj({
         keyword: 'Brooklyn',
         property: [],
       }).obj.property).to.equal('');
-      expect(constructObj({
+      expect(constructInterestObj({
         keyword: 'Brooklyn',
         property: 'netflix',
       }).obj.property).to.equal('');
-      expect(constructObj({
+      expect(constructInterestObj({
         keyword: 'Brooklyn',
         property: undefined,
       }).obj.property).to.equal('');
@@ -259,16 +266,16 @@ describe('utilities', () => {
     });
   });
 
-  describe('getResults', () => {
+  describe('getInterestResults', () => {
     it('should return a function', () => {
-      const resultsFunc = getResults();
+      const resultsFunc = getInterestResults();
 
       expect(resultsFunc).to.be.a('function');
     });
 
     it('should eventually return', (done) => {
-      const resultsFunc = getResults(request);
-      const { obj } = constructObj({keyword: 'Brooklyn'});
+      const resultsFunc = getInterestResults(request);
+      const { obj } = constructInterestObj({keyword: 'Brooklyn'});
 
       resultsFunc('Interest over time', obj)
       .then((res) => {
@@ -301,8 +308,8 @@ describe('utilities', () => {
         });
       }
 
-      const resultsFunc = getResults(promiseFunc);
-      const { obj } = constructObj({ keyword: 'Brooklyn' });
+      const resultsFunc = getInterestResults(promiseFunc);
+      const { obj } = constructInterestObj({ keyword: 'Brooklyn' });
 
       resultsFunc('Interest over time', obj)
       .catch((e) => {
@@ -341,8 +348,8 @@ describe('utilities', () => {
         });
       }
 
-      const resultsFunc = getResults(promiseFunc);
-      const { obj } = constructObj({keyword: 'Brooklyn'});
+      const resultsFunc = getInterestResults(promiseFunc);
+      const { obj } = constructInterestObj({keyword: 'Brooklyn'});
 
       resultsFunc('Interest over time', obj)
       .then((res) => {
@@ -396,8 +403,8 @@ describe('utilities', () => {
       expect(constructTrendingObj({geo: 'US'}).obj.hl).to.equal('en-US');
     });
 
-    it('should add default category to 0 if not provided', () => {
-      expect(constructTrendingObj({geo: 'US'}).obj.category).to.equal(0);
+    it('should add default category to \'all\' if not provided', () => {
+      expect(constructTrendingObj({geo: 'US'}).obj.category).to.equal('all');
     });
 
     it('should return an error if the geo is not provided', () => {

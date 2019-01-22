@@ -5,7 +5,7 @@ export function isLessThan7Days(date1, date2) {
 
 export function convertDateToString(d, shouldIncludeTime, shouldRemoveDashes) {
   let month = (d.getUTCMonth() + 1).toString();
-  let dash = shouldRemoveDashes ? '' : '-';
+  const dash = shouldRemoveDashes ? '' : '-';
 
   month = month.length < 2 ? '0' + month : month;
   const day = d.getUTCDate().toString();
@@ -92,7 +92,7 @@ function validateObj(obj, cbFunc) {
  * @param {Function} cb - an optional callback function
  * @return {Object} - object with decorated obj and cbFunc properties
  */
-export function constructObj(obj, cbFunc) {
+export function constructInterestObj(obj, cbFunc) {
   if (typeof obj === 'function') cbFunc = obj;
 
   obj = validateObj(obj, cbFunc);
@@ -192,7 +192,7 @@ export function formatComparisonItems(obj) {
   return [obj];
 }
 
-export function getResults(request) {
+export function getInterestResults(request) {
   return (searchType, obj) => {
     const map = {
       'Auto complete': {
@@ -299,7 +299,7 @@ export function getResults(request) {
 
 export function getTrendingResults(request) {
   return (searchType, obj) => {
-    const map = {
+    const searchTypeMap = {
       'Daily trends': {
         path: '/trends/api/dailytrends',
         extraParams: {
@@ -319,10 +319,10 @@ export function getTrendingResults(request) {
       },
     };
 
-    let options = {
+    const options = {
       method: 'GET',
       host: 'trends.google.com',
-      path: map[searchType].path,
+      path: searchTypeMap[searchType].path,
       qs: {
         hl: obj.hl,
         tz: obj.timezone,
@@ -333,15 +333,13 @@ export function getTrendingResults(request) {
 
     if (obj.agent) options.agent = obj.agent;
 
-    Object.assign(options.qs, options.qs, map[searchType].extraParams);
+    options.qs = {...options.qs, ...searchTypeMap[searchType].extraParams};
 
     return request(options)
     .then((res) => {
       try {
         /** JSON.parse will decode unicode */
-        const results = JSON.stringify(JSON.parse(res.slice(5)));
-
-        return results;
+        return JSON.stringify(JSON.parse(res.slice(5)));
       } catch (e) {
         /** throws if not valid JSON, so just return unaltered res string */
         return res;
@@ -355,23 +353,29 @@ export function constructTrendingObj(obj, cbFunc) {
 
   if (!obj || !!obj && typeof obj !== 'object' || Array.isArray(obj)) {
     obj = new Error('Must supply an object');
+  } else {
+    if (!obj.trendDate || !(obj.trendDate instanceof Date)) {
+      delete obj.trendDate;
+    }
+
+    const date = new Date();
+    const defaults = { hl: 'en-US',
+                      category: 'all',
+                      timezone: date.getTimezoneOffset(),
+                      trendDate: date,
+                      ns: 15,
+                    };
+
+    obj = { ...defaults, ...obj }; // Merge user params into obj with defaults
   }
 
-  if (!!cbFunc && typeof cbFunc !== 'function') {
+  if (invalidCb(cbFunc)) {
     obj = new Error('Callback function must be a function');
   }
 
   if (!obj.geo) {
     obj = new Error('Must supply an geographical location (geo)');
   }
-
-  if (!obj.hl) obj.hl = 'en-US';
-  if (!obj.category) obj.category = 0;
-  if (!obj.timezone) obj.timezone = new Date().getTimezoneOffset();
-  if (!obj.trendDate || !(obj.trendDate instanceof Date)) {
-    obj.trendDate = new Date();
-  }
-  if (!obj.ns) obj.ns = 15;
 
   if (!cbFunc) {
     cbFunc = (err, res) => {

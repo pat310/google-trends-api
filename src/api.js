@@ -1,13 +1,13 @@
 'use strict';
 
-export default (request, searchType, resultsHandler) => {
-  const resultsPromise = resultsHandler.processor(request);
+export default (request, searchType, { processor, objectConstructor }) => {
+  const resultsPromise = processor(request);
 
   return (reqObj, cb) => {
     const {
       cbFunc,
       obj,
-    } = resultsHandler.objectConstructor(reqObj, cb);
+    } = objectConstructor(reqObj, cb);
 
     if (obj instanceof Error) return Promise.reject(cbFunc(obj));
 

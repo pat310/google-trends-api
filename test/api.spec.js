@@ -1,11 +1,11 @@
 'use strict';
 import chai from 'chai';
 import api from '../src/api';
-import { getResults, constructObj } from '../src/utilities';
+import { getInterestResults, constructInterestObj } from '../src/utilities';
 
 const interestHandler = {
-  processor: getResults,
-  objectConstructor: constructObj,
+  processor: getInterestResults,
+  objectConstructor: constructInterestObj,
 };
 
 const expect = chai.expect;
