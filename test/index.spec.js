@@ -30,5 +30,15 @@ describe('index', () => {
       expect(google.relatedTopics).to.exist;
       expect(google.relatedTopics).to.be.a('function');
     });
+
+    it('realTimeTrends', () => {
+      expect(google.realTimeTrends).to.exist;
+      expect(google.realTimeTrends).to.be.a('function');
+    });
+
+    it('dailyTrends', () => {
+      expect(google.dailyTrends).to.exist;
+      expect(google.dailyTrends).to.be.a('function');
+    });
   });
 });

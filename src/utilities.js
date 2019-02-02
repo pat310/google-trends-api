@@ -3,20 +3,24 @@ export function isLessThan7Days(date1, date2) {
   return (Math.abs(date2 - date1) / (24 * 60 * 60 * 1000)) < 7;
 }
 
-export function convertDateToString(d, shouldIncludeTime) {
+export function convertDateToString(d, shouldIncludeTime, formatWithoutDashes) {
   let month = (d.getUTCMonth() + 1).toString();
+  let day = d.getUTCDate().toString();
+
+  const dash = formatWithoutDashes ? '' : '-';
 
   month = month.length < 2 ? '0' + month : month;
-  const day = d.getUTCDate().toString();
+  day = formatWithoutDashes && day.length < 2 ? '0' + day : day;
+
   const year = d.getUTCFullYear().toString();
   const hour = d.getUTCHours();
   const minute = d.getUTCMinutes();
 
   if (shouldIncludeTime) {
-    return `${year}-${month}-${day}T${hour}\\:${minute}\\:00`;
+    return `${year}${dash}${month}${dash}${day}T${hour}\\:${minute}\\:00`;
   }
 
-  return `${year}-${month}-${day}`;
+  return `${year}${dash}${month}${dash}${day}`;
 }
 
 export function formatTime(obj) {
@@ -91,7 +95,8 @@ function validateObj(obj, cbFunc) {
  * @param {Function} cb - an optional callback function
  * @return {Object} - object with decorated obj and cbFunc properties
  */
-export function constructObj(obj, cbFunc) {
+export function constructInterestObj(obj, cbFunc) {
+
   if (typeof obj === 'function') cbFunc = obj;
 
   obj = validateObj(obj, cbFunc);
@@ -191,7 +196,7 @@ export function formatComparisonItems(obj) {
   return [obj];
 }
 
-export function getResults(request) {
+export function getInterestResults(request) {
   return (searchType, obj) => {
     const map = {
       'Auto complete': {
@@ -293,5 +298,98 @@ export function getResults(request) {
         return res;
       }
     });
+  };
+}
+
+export function getTrendingResults(request) {
+  return (searchType, obj) => {
+    const searchTypeMap = {
+      'Daily trends': {
+        path: '/trends/api/dailytrends',
+        extraParams: {
+          ed: convertDateToString(obj.trendDate, false, true),
+          ns: obj.ns,
+        },
+      },
+      'Real time trends': {
+        path: '/trends/api/realtimetrends',
+        extraParams: {
+          fi: 0,
+          fs: 0,
+          ri: 300, // # of trending stories IDs returned
+          rs: 20,
+          sort: 0,
+        },
+      },
+    };
+
+    const options = {
+      method: 'GET',
+      host: 'trends.google.com',
+      path: searchTypeMap[searchType].path,
+      qs: {
+        hl: obj.hl,
+        tz: obj.timezone,
+        geo: obj.geo,
+        cat: obj.category,
+      },
+    };
+
+    if (obj.agent) options.agent = obj.agent;
+
+    options.qs = {...options.qs, ...searchTypeMap[searchType].extraParams};
+
+    return request(options)
+    .then((res) => {
+      try {
+        /** JSON.parse will decode unicode */
+        return JSON.stringify(JSON.parse(res.slice(5)));
+      } catch (e) {
+        /** throws if not valid JSON, so just return unaltered res string */
+        return res;
+      }
+    });
+  };
+}
+
+export function constructTrendingObj(obj, cbFunc) {
+  if (typeof obj === 'function') cbFunc = obj;
+
+  if (!obj || !!obj && typeof obj !== 'object' || Array.isArray(obj)) {
+    obj = new Error('Must supply an object');
+  } else {
+    if (!obj.trendDate || !(obj.trendDate instanceof Date)) {
+      delete obj.trendDate;
+    }
+
+    const date = new Date();
+    const defaults = { hl: 'en-US',
+                      category: 'all',
+                      timezone: date.getTimezoneOffset(),
+                      trendDate: date,
+                      ns: 15,
+                    };
+
+    obj = { ...defaults, ...obj }; // Merge user params into obj with defaults
+  }
+
+  if (invalidCb(cbFunc)) {
+    obj = new Error('Callback function must be a function');
+  }
+
+  if (!obj.geo) {
+    obj = new Error('Must supply an geographical location (geo)');
+  }
+
+  if (!cbFunc) {
+    cbFunc = (err, res) => {
+      if (err) return err;
+      return res;
+    };
+  }
+
+  return {
+    cbFunc,
+    obj,
   };
 }

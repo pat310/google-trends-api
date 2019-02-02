@@ -48,8 +48,10 @@ Optional callback function where the first parameter is an error and the second 
   * [Examples](#examples)
   * [API Methods](#api-methods)
     * [autoComplete](#autocomplete)
+    * [dailyTrends](#dailyTrends)
     * [interestOverTime](#interestovertime)
     * [interestByRegion](#interestbyregion)
+    * [realTimeTrends](#realTimeTrends)
     * [relatedQueries](#relatedqueries)
     * [relatedTopics](#relatedtopics)
 * [Geo help](#geo-help)
@@ -142,10 +144,13 @@ There are examples available for each API method in the root directory of the mo
 The following API methods are available:
 * [autoComplete](#autocomplete): Returns the results from the "Add a search term" input box in the google trends UI. These results (Topics) can then be used in the other API methods. **Note**: Search terms and Topics are measured differently, so `relatedTopics` will not work with comparisons that contain both Search terms and Topics.
 
+* [dailyTrends](#dailyTrends): Daily Search Trends highlights searches that jumped significantly in traffic among all searches over the past 24 hours and updates hourly. These search trends show the specific queries that were searched, and the absolute number of searches made. 20 daily trending search results are returned.You can search retroactively for up to 15 days in the past.
+
 * [interestOverTime](#interestovertime): Numbers represent search interest relative to the highest point on the chart for the given region and time. A value of 100 is the peak popularity for the term. A value of 50 means that the term is half as popular. Likewise a score of 0 means the term was less than 1% as popular as the peak. If you use multiple keywords for a comparison, the return data will also contain an average result for each keyword.
 
 * [interestByRegion](#interestbyregion): See in which location your term was most popular during the specified time frame. Values are calculated on a scale from 0 to 100, where 100 is the location with the most popularity as a fraction of total searches in that location, a value of 50 indicates a location which is half as popular, and a value of 0 indicates a location where the term was less than 1% as popular as the peak. <p><p> **Note:** A higher value means a higher proportion of all queries, not a higher absolute query count. So a tiny country where 80% of the queries are for "bananas" will get twice the score of a giant country where only 40% of the queries are for "bananas".
 
+* [realTimeTrends](#realTimeTrends): Realtime Search Trends highlight stories that are trending across Google surfaces within the last 24 hours, and are updated in realtime. These stories are a collection of Knowledge Graph topics, Search interest, trending YouTube videos, and/or Google News articles detected by Google's algorithms. 13 real time trending stories are returned.
 
 * [relatedQueries](#relatedqueries): Users searching for your term also searched for these queries. The following metrics are returned:
   * **Top** - The most popular search queries. Scoring is on a relative scale where a value of 100 is the most commonly searched query, 50 is a query searched half as often, and a value of 0 is a query searched for less than 1% as often as the most popular query.
@@ -191,6 +196,69 @@ googleTrends.autoComplete({keyword: 'Back to School'})
 ```
 **Note:** You can then use these results in the other API methods. For example, if you wanted `interestOverTime` for 'Back to School' where the type is 'Topic', you would then use:
 `googleTrends.interestOverTime({keyword: '/m/068pw8'})`
+
+[back to top](#introduction)
+
+<hr>
+
+#### dailyTrends
+*Daily Search Trends highlights searches that jumped significantly in traffic among all searches over the past 24 hours and updates hourly. These search trends show the specific queries that were searched, and the absolute number of searches made. 20 daily trending search results are returned*
+
+##### Syntax
+`googleTrends.dailyTrends({ geo: string }, cbFunc)`
+
+Requires an `object` as the first parameter with the following keys:
+
+* `geo` - **required** - type `string` - geocode for a country. For example, `geo: 'US'` will target United States or `geo: 'FR'` will target France. 
+* `hl` - *optional* - type `string` - preferred language code for results (defaults to english). 
+* `timezone` - *optional* - type `number` - preferred timezone (defaults to the time zone difference, in minutes, from UTC to current locale (host system settings))
+* `trendDate` - *optional* - type `Date` object - the date you are interesting in retrieving trends information for (defaults to the current date). **Note that querying for a date more than 15 days in the past will result in an error.**
+
+Optional callback `function` as the second parameter (otherwise returns a promise)
+
+##### Example
+Returning real time trending stories for the United States region.
+
+###### Input
+```js
+googleTrends.dailyTrends({
+  trendDate: new Date('2019-01-10'),
+  geo: 'US',
+}, function(err, results) {
+  if (err) {
+    console.log(err);
+  }else{
+    console.log(results);
+  }
+});
+```
+
+###### Output
+```js
+{
+  default : [Object]{
+    trendingSearchesDays : [Array]
+      [0] : [Object]{
+        date : String
+        formattedDate: String
+        trendingSearches : [Array]{
+          [0] : [Object] //First trending result
+        }
+      [1] : [Object]{
+        date : String
+        formattedDate: String
+        trendingSearches : [Array]{
+          [0] : [Object] //first trending result
+          ...
+          [19] : [Object] //20th trending result
+        }
+      }
+    }
+    endDateForNextRequest : String,
+    rssFeedPageUrl : String,
+  }
+}
+```
 
 [back to top](#introduction)
 
@@ -324,6 +392,65 @@ googleTrends.interestByRegion({keyword: 'Donald Trump', startTime: new Date('201
 
 <hr>
 
+#### realtimeTrends
+*Realtime Search Trends highlight stories that are trending across Google surfaces within the last 24 hours, and are updated in realtime. 13 real time trending stories are returned*
+
+##### Syntax
+`googleTrends.realTimeTrends({ geo: string }, cbFunc)`
+
+Requires an `object` as the first parameter with the following keys:
+
+* `geo` - **required** - type `string` - geocode for a country. For example, `geo: 'US'` will target United States or `geo: 'FR'` will target France. 
+* `hl` - *optional* - type `string` - preferred language code for results (defaults to english)
+for results (defaults to english)
+* `timezone` - *optional* - type `number` - preferred timezone (defaults to the time zone difference, in minutes, from UTC to current locale (host system settings))
+* `category` - *optional* - type `string` - a string corresponding to a particular category to query within (defaults to all categories): 
+  All          : 'all'
+  Entertainment: 'e'
+  Business     : 'b'
+  Science/Tech : 't'
+  Health       : 'm'
+  Sports       : 's'
+  Top Stories  : 'h' 
+
+Optional callback `function` as the second parameter (otherwise returns a promise)
+
+##### Example
+Returning real time trending stories for the United States region.
+
+###### Input
+```js
+googleTrends.realTimeTrends({
+    geo: 'US',
+    category: 'all',
+}, function(err, results) {
+    if (err) {
+       console.log(err);
+    } else {
+      console.log(results);
+    } 
+});
+```
+
+###### Output
+```js
+{
+	featuredStoryIds : [Array], // Empty
+	trendingStoryIds : [Array], // 300 trending story IDs
+  storySummaries : [Object]
+    {
+	  featuredStories : [Array], // Empty
+    trendingStories : [Array], // 13 top trending stories
+    },
+	date : "Date-String",
+  hideAllImages : Boolean,
+}
+```
+
+[back to top](#introduction)
+
+<hr>
+
 #### relatedQueries
 *Users searching for your term also searched for these queries.*
 
@@ -411,6 +538,11 @@ googleTrends.relatedTopics({keyword: 'Chipotle', startTime: new Date('2015-01-01
 ```
 
 [back to top](#introduction)
+
+
+<hr>
+
+
 
 <hr>
 
