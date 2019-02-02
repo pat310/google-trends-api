@@ -3,12 +3,15 @@ export function isLessThan7Days(date1, date2) {
   return (Math.abs(date2 - date1) / (24 * 60 * 60 * 1000)) < 7;
 }
 
-export function convertDateToString(d, shouldIncludeTime, shouldRemoveDashes) {
+export function convertDateToString(d, shouldIncludeTime, formatWithoutDashes) {
   let month = (d.getUTCMonth() + 1).toString();
-  const dash = shouldRemoveDashes ? '' : '-';
+  let day = d.getUTCDate().toString();
+
+  const dash = formatWithoutDashes ? '' : '-';
 
   month = month.length < 2 ? '0' + month : month;
-  const day = d.getUTCDate().toString();
+  day = formatWithoutDashes && day.length < 2 ?  '0' + day : day;
+
   const year = d.getUTCFullYear().toString();
   const hour = d.getUTCHours();
   const minute = d.getUTCMinutes();

@@ -51,7 +51,7 @@ describe('utilities', () => {
           const utcHour = d.getUTCHours();
 
           expect(convertDateToString(d, true, true)).to.equal(
-            `2017024T${utcHour}\\:43\\:00`);
+            `20170204T${utcHour}\\:43\\:00`);
         });
   });
 
@@ -454,6 +454,7 @@ describe('utilities', () => {
         done();
       })
       .catch((e) => {
+        console.log('Error = '+ e);
         expect(e).to.not.exist();
         done();
       });
