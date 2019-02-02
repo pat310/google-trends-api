@@ -96,6 +96,7 @@ function validateObj(obj, cbFunc) {
  * @return {Object} - object with decorated obj and cbFunc properties
  */
 export function constructInterestObj(obj, cbFunc) {
+
   if (typeof obj === 'function') cbFunc = obj;
 
   obj = validateObj(obj, cbFunc);

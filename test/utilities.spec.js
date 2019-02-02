@@ -200,6 +200,27 @@ describe('utilities', () => {
       }).obj).to.be.an('error');
     });
 
+    it('should return an error if keyword and geo length are not equal', () => {
+      expect(constructObj({
+        keyword: ['foo', 'bar'],
+        geo: ['Brooklyn', 'DC', 'Boston'],
+      }).obj).to.be.an('error');
+    });
+
+    it('should return an error if startTime is not a date', () => {
+      expect(constructObj({
+        keyword: 'test',
+        startTime: '2018-01-01',
+      }).obj).to.be.an('error');
+    });
+
+    it('should return an error if endTime is not a date', () => {
+      expect(constructObj({
+        keyword: 'test',
+        endTime: '2018-01-01',
+      }).obj).to.be.an('error');
+    });
+
     it('should return an error if cbFunc is not a function', () => {
       expect(constructInterestObj({keyword: 'Brooklyn'}, 'str').obj)
         .to.be.an('error');
