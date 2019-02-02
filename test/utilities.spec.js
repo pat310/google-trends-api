@@ -454,7 +454,6 @@ describe('utilities', () => {
         done();
       })
       .catch((e) => {
-        console.log('Error = '+ e);
         expect(e).to.not.exist();
         done();
       });

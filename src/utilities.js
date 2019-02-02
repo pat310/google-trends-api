@@ -10,7 +10,7 @@ export function convertDateToString(d, shouldIncludeTime, formatWithoutDashes) {
   const dash = formatWithoutDashes ? '' : '-';
 
   month = month.length < 2 ? '0' + month : month;
-  day = formatWithoutDashes && day.length < 2 ?  '0' + day : day;
+  day = formatWithoutDashes && day.length < 2 ? '0' + day : day;
 
   const year = d.getUTCFullYear().toString();
   const hour = d.getUTCHours();
