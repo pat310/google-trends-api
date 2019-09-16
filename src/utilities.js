@@ -74,8 +74,6 @@ function validateObj(obj, cbFunc) {
     obj = new Error('Must supply an object');
   } else if (!!obj && typeof obj !== 'object' || Array.isArray(obj)) {
     obj = new Error('Must supply an object');
-  } else if (!obj.keyword) {
-    obj = new Error('Must have a keyword field');
   }
 
   if (invalidCb(cbFunc)) {
@@ -100,6 +98,10 @@ export function constructInterestObj(obj, cbFunc) {
   if (typeof obj === 'function') cbFunc = obj;
 
   obj = validateObj(obj, cbFunc);
+
+  if (!obj.keyword) {
+    obj = new Error('Must have a keyword field');
+  }
 
   if (!obj.hl) obj.hl = 'en-US';
   if (!obj.category) obj.category = 0;
@@ -387,6 +389,47 @@ export function constructTrendingObj(obj, cbFunc) {
       return res;
     };
   }
+
+  return {
+    cbFunc,
+    obj,
+  };
+}
+
+/**
+ * Validates the obj and callback
+ * and sets defaults for anything that haven't been supplied
+ * @param {Object} obj - the object with .keyword property
+ * @param {Function} cb - an optional callback function
+ * @return {Object} - object with decorated obj and cbFunc properties
+ */
+export function constructRelatedObj(obj, cbFunc) {
+  if (typeof obj === 'function') cbFunc = obj;
+
+  obj = validateObj(obj, cbFunc);
+
+  if (!obj.keyword && !obj.category) {
+    obj = new Error('Must have a keyword OR category field');
+  }
+
+  if (!obj.hl) obj.hl = 'en-US';
+  if (!obj.category) obj.category = 0;
+  if (!obj.timezone) obj.timezone = new Date().getTimezoneOffset();
+
+  const possibleProperties = ['images', 'news', 'youtube', 'froogle', ''];
+
+  if (possibleProperties.indexOf(obj.property) === -1) {
+    obj.property = '';
+  }
+
+  if (!cbFunc) {
+    cbFunc = (err, res) => {
+      if (err) return err;
+      return res;
+    };
+  }
+
+  obj = formatTime(obj);
 
   return {
     cbFunc,
