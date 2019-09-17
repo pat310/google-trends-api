@@ -86,6 +86,20 @@ function validateObj(obj, cbFunc) {
   return obj;
 }
 
+function setDefaultOptions(obj) {
+  if (!obj.hl) obj.hl = 'en-US';
+  if (!obj.category) obj.category = 0;
+  if (!obj.timezone) obj.timezone = new Date().getTimezoneOffset();
+
+  const possibleProperties = ['images', 'news', 'youtube', 'froogle', ''];
+
+  if (possibleProperties.indexOf(obj.property) === -1) {
+    obj.property = '';
+  }
+
+  return obj;
+}
+
 /**
  * Validates the obj and callback
  * and sets defaults for anything that haven't been supplied
@@ -97,16 +111,7 @@ export function constructRelatedObj(obj, cbFunc) {
   if (typeof obj === 'function') cbFunc = obj;
 
   obj = validateObj(obj, cbFunc);
-
-  if (!obj.hl) obj.hl = 'en-US';
-  if (!obj.category) obj.category = 0;
-  if (!obj.timezone) obj.timezone = new Date().getTimezoneOffset();
-
-  const possibleProperties = ['images', 'news', 'youtube', 'froogle', ''];
-
-  if (possibleProperties.indexOf(obj.property) === -1) {
-    obj.property = '';
-  }
+  obj = setDefaultOptions(obj);
 
   if (!cbFunc) {
     cbFunc = (err, res) => {
