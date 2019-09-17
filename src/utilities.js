@@ -131,11 +131,13 @@ export function constructRelatedObj(obj, cbFunc) {
  * @return {Object} - object with decorated obj and cbFunc properties
  */
 export function constructInterestObj(obj, cbFunc) {
-  if (!obj.keyword) {
-    obj = new Error('Must have a keyword field');
+  const relatedObj = constructRelatedObj(obj, cbFunc);
+
+  if (!(relatedObj.obj instanceof Error) && !relatedObj.obj.keyword) {
+    relatedObj.obj = new Error('Must have a keyword field');
   }
 
-  return constructRelatedObj(obj, cbFunc);
+  return relatedObj;
 }
 
 export function formatResolution(resolution = '') {
