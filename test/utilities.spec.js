@@ -168,108 +168,6 @@ describe('utilities', () => {
     });
   });
 
-  describe('constructInterestObj', () => {
-    it('should return an error if first argument is not an object', () => {
-      expect(constructInterestObj('not an obj').obj).to.be.an('error');
-    });
-
-    it('should return an error if keyword is not provided', () => {
-      expect(constructInterestObj({endTime: new Date()}).obj)
-        .to.be.an('error');
-      expect(constructInterestObj({keywords: 'Brooklyn'}).obj)
-        .to.be.an('error');
-    });
-
-    it('should return an error if keyword and geo length are not equal', () => {
-      expect(constructInterestObj({
-        keyword: ['foo', 'bar'],
-        geo: ['Brooklyn', 'DC', 'Boston'],
-      }).obj).to.be.an('error');
-    });
-
-    it('should return an error if startTime is not a date', () => {
-      expect(constructInterestObj({
-        keyword: 'test',
-        startTime: '2018-01-01',
-      }).obj).to.be.an('error');
-    });
-
-    it('should return an error if endTime is not a date', () => {
-      expect(constructInterestObj({
-        keyword: 'test',
-        endTime: '2018-01-01',
-      }).obj).to.be.an('error');
-    });
-
-    it('should return an error if keyword and geo length are not equal', () => {
-      expect(constructInterestObj({
-        keyword: ['foo', 'bar'],
-        geo: ['Brooklyn', 'DC', 'Boston'],
-      }).obj).to.be.an('error');
-    });
-
-    it('should return an error if startTime is not a date', () => {
-      expect(constructInterestObj({
-        keyword: 'test',
-        startTime: '2018-01-01',
-      }).obj).to.be.an('error');
-    });
-
-    it('should return an error if endTime is not a date', () => {
-      expect(constructInterestObj({
-        keyword: 'test',
-        endTime: '2018-01-01',
-      }).obj).to.be.an('error');
-    });
-
-    it('should return an error if cbFunc is not a function', () => {
-      expect(constructInterestObj({keyword: 'Brooklyn'}, 'str').obj)
-        .to.be.an('error');
-    });
-
-    it('should not require a callback function', () => {
-      expect(constructInterestObj({keyword: 'Brooklyn'}).obj)
-        .to.not.be.an('error');
-    });
-
-    it('should create a callback if one is not provided', () => {
-      expect(constructInterestObj({keyword: 'Brooklyn'}).cbFunc)
-        .to.be.a('function');
-    });
-
-    it('should add default hl to english if not provided', () => {
-      expect(constructInterestObj({keyword: 'Brooklyn'}).obj.hl)
-        .to.equal('en-US');
-    });
-
-    it('should add default category to 0 if not provided', () => {
-      expect(constructInterestObj({keyword: 'Brooklyn'}).obj.category)
-        .to.equal(0);
-    });
-
-    it('@test should have a property if provided', () => {
-      expect(constructInterestObj({
-        keyword: 'Brooklyn',
-        property: 'youtube',
-      }).obj.property).to.equal('youtube');
-    });
-
-    it('@test has only allowed properties', () => {
-      expect(constructInterestObj({
-        keyword: 'Brooklyn',
-        property: [],
-      }).obj.property).to.equal('');
-      expect(constructInterestObj({
-        keyword: 'Brooklyn',
-        property: 'netflix',
-      }).obj.property).to.equal('');
-      expect(constructInterestObj({
-        keyword: 'Brooklyn',
-        property: undefined,
-      }).obj.property).to.equal('');
-    });
-  });
-
   describe('constructRelatedObj', () => {
     it('should return an error if first argument is not an object', () => {
       expect(constructRelatedObj('not an obj').obj).to.be.an('error');
@@ -362,6 +260,15 @@ describe('utilities', () => {
         keyword: 'Brooklyn',
         property: undefined,
       }).obj.property).to.equal('');
+    });
+  });
+
+  describe('constructInterestObj', () => {
+    it('should return an error if keyword is not provided', () => {
+      expect(constructInterestObj({endTime: new Date()}).obj)
+        .to.be.an('error');
+      expect(constructInterestObj({keywords: 'Brooklyn'}).obj)
+        .to.be.an('error');
     });
   });
 
