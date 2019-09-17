@@ -399,7 +399,7 @@ export function constructTrendingObj(obj, cbFunc) {
 /**
  * Validates the obj and callback
  * and sets defaults for anything that haven't been supplied
- * @param {Object} obj - the object with .keyword property
+ * @param {Object} obj - the object with optional .keyword and category property
  * @param {Function} cb - an optional callback function
  * @return {Object} - object with decorated obj and cbFunc properties
  */
@@ -407,10 +407,6 @@ export function constructRelatedObj(obj, cbFunc) {
   if (typeof obj === 'function') cbFunc = obj;
 
   obj = validateObj(obj, cbFunc);
-
-  if (!obj.keyword && !obj.category) {
-    obj = new Error('Must have a keyword OR category field');
-  }
 
   if (!obj.hl) obj.hl = 'en-US';
   if (!obj.category) obj.category = 0;

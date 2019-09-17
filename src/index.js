@@ -2,7 +2,8 @@
 import api from './api';
 import request from './request';
 import { getInterestResults, getTrendingResults,
-          constructInterestObj, constructTrendingObj } from './utilities';
+  constructInterestObj, constructTrendingObj,
+  constructRelatedObj } from './utilities';
 
 const interestHandler = {
   processor: getInterestResults,
@@ -14,6 +15,11 @@ const trendHandler = {
   objectConstructor: constructTrendingObj,
 };
 
+const relatedHandler = {
+  processor: getInterestResults,
+  objectConstructor: constructRelatedObj,
+};
+
 const apiRequest = api.bind(this, request);
 
 export default {
@@ -22,6 +28,6 @@ export default {
   interestByRegion: apiRequest('Interest by region', interestHandler),
   interestOverTime: apiRequest('Interest over time', interestHandler),
   realTimeTrends: apiRequest('Real time trends', trendHandler),
-  relatedQueries: apiRequest('Related queries', interestHandler),
-  relatedTopics: apiRequest('Related topics', interestHandler),
+  relatedQueries: apiRequest('Related queries', relatedHandler),
+  relatedTopics: apiRequest('Related topics', relatedHandler),
 };
