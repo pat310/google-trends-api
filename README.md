@@ -271,7 +271,7 @@ googleTrends.dailyTrends({
 `googleTrends.interestOverTime({keyword: string, startTime: Date, endTime: Date, geo: string}, cbFunc)`
 
 Requires an `object` as the first parameter with the following keys:
-* `keyword` - **required** - type `string` or `array` - the search term(s) of interest
+* `keyword` - **required** - type `string` or `array` - the search term(s) of interest. *Note*: if you're using `array` you can provide max 5 keywords.
 * `startTime` - *optional* - type `Date` object - the start of the time range of interest (defaults to `new Date('2004-01-01')` if not supplied)
 * `endTime` - *optional* - type `Date` object - the end of the time range of interest (defaults to `new Date(Date.now())` if not supplied)
 * `geo` - *optional* - type `string` or `array` - geocode(s) for a country, region, or DMA depending on the granularity required (defaults to worldwide). For example, `geo: 'US-CA-800'` will target the Bakersfield, California, United States or `geo: 'US'` will just target the US. Passing `geo: ['US-CA, US-VA'], keyword: ['wine', 'peanuts']` will search for wine in California and peanuts in Virginia.
