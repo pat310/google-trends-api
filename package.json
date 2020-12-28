@@ -37,6 +37,9 @@
   "bugs": {
     "url": "https://github.com/pat310/google-trends-api/issues"
   },
+  "files": [
+    "src/*"
+  ],
   "homepage": "https://github.com/pat310/google-trends-api#readme",
   "dependencies": {},
   "devDependencies": {
