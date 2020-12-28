@@ -74,8 +74,6 @@ function validateObj(obj, cbFunc) {
     obj = new Error('Must supply an object');
   } else if (!!obj && typeof obj !== 'object' || Array.isArray(obj)) {
     obj = new Error('Must supply an object');
-  } else if (!obj.keyword) {
-    obj = new Error('Must have a keyword field');
   }
 
   if (invalidCb(cbFunc)) {
@@ -88,19 +86,7 @@ function validateObj(obj, cbFunc) {
   return obj;
 }
 
-/**
- * Validates the obj and callback
- * and sets defaults for anything that haven't been supplied
- * @param {Object} obj - the object with .keyword property
- * @param {Function} cb - an optional callback function
- * @return {Object} - object with decorated obj and cbFunc properties
- */
-export function constructInterestObj(obj, cbFunc) {
-
-  if (typeof obj === 'function') cbFunc = obj;
-
-  obj = validateObj(obj, cbFunc);
-
+function setDefaultOptions(obj) {
   if (!obj.hl) obj.hl = 'en-US';
   if (!obj.category) obj.category = 0;
   if (!obj.timezone) obj.timezone = new Date().getTimezoneOffset();
@@ -110,6 +96,22 @@ export function constructInterestObj(obj, cbFunc) {
   if (possibleProperties.indexOf(obj.property) === -1) {
     obj.property = '';
   }
+
+  return obj;
+}
+
+/**
+ * Validates the obj and callback
+ * and sets defaults for anything that haven't been supplied
+ * @param {Object} obj - the object with optional .keyword and category property
+ * @param {Function} cb - an optional callback function
+ * @return {Object} - object with decorated obj and cbFunc properties
+ */
+export function constructRelatedObj(obj, cbFunc) {
+  if (typeof obj === 'function') cbFunc = obj;
+
+  obj = validateObj(obj, cbFunc);
+  obj = setDefaultOptions(obj);
 
   if (!cbFunc) {
     cbFunc = (err, res) => {
@@ -124,6 +126,23 @@ export function constructInterestObj(obj, cbFunc) {
     cbFunc,
     obj,
   };
+}
+
+/**
+ * Validates the obj and callback
+ * and sets defaults for anything that haven't been supplied
+ * @param {Object} obj - the object with .keyword property
+ * @param {Function} cb - an optional callback function
+ * @return {Object} - object with decorated obj and cbFunc properties
+ */
+export function constructInterestObj(obj, cbFunc) {
+  const relatedObj = constructRelatedObj(obj, cbFunc);
+
+  if (!(relatedObj.obj instanceof Error) && !relatedObj.obj.keyword) {
+    relatedObj.obj = new Error('Must have a keyword field');
+  }
+
+  return relatedObj;
 }
 
 export function formatResolution(resolution = '') {
@@ -393,3 +412,4 @@ export function constructTrendingObj(obj, cbFunc) {
     obj,
   };
 }
+
