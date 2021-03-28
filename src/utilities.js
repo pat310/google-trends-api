@@ -24,24 +24,26 @@ export function convertDateToString(d, shouldIncludeTime, formatWithoutDashes) {
 }
 
 export function formatTime(obj) {
-  if (obj.startTime && obj.endTime && obj.startTime > obj.endTime) {
-    const temp = obj.startTime;
+  if (!obj.time) {
+    if (obj.startTime && obj.endTime && obj.startTime > obj.endTime) {
+      const temp = obj.startTime;
 
-    obj.startTime = obj.endTime;
-    obj.endTime = temp;
+      obj.startTime = obj.endTime;
+      obj.endTime = temp;
+    }
+
+    if (!obj.endTime) obj.endTime = new Date();
+    if (!obj.startTime) obj.startTime = new Date('2004-01-01');
+
+    const shouldIncludeTime = isLessThan7Days(obj.startTime, obj.endTime);
+
+    const startTime = convertDateToString(obj.startTime,
+      shouldIncludeTime && obj.granularTimeResolution);
+    const endTime = convertDateToString(obj.endTime,
+      shouldIncludeTime && obj.granularTimeResolution);
+
+    obj.time = `${startTime} ${endTime}`;
   }
-
-  if (!obj.endTime) obj.endTime = new Date();
-  if (!obj.startTime) obj.startTime = new Date('2004-01-01');
-
-  const shouldIncludeTime = isLessThan7Days(obj.startTime, obj.endTime);
-
-  const startTime = convertDateToString(obj.startTime,
-    shouldIncludeTime && obj.granularTimeResolution);
-  const endTime = convertDateToString(obj.endTime,
-    shouldIncludeTime && obj.granularTimeResolution);
-
-  obj.time = `${startTime} ${endTime}`;
   return obj;
 }
 
@@ -56,12 +58,14 @@ function validateGeo(obj) {
 }
 
 function validateTime(obj) {
-  if (obj.startTime && !(obj.startTime instanceof Date)) {
-    obj = new Error('startTime must be a Date object');
-  }
+  if (!obj.time) {
+    if (obj.startTime && !(obj.startTime instanceof Date)) {
+      obj = new Error('startTime must be a Date object');
+    }
 
-  if (obj.endTime && !(obj.endTime instanceof Date)) {
-    obj = new Error('endTime must be a Date object');
+    if (obj.endTime && !(obj.endTime instanceof Date)) {
+      obj = new Error('endTime must be a Date object');
+    }
   }
 
   return obj;
@@ -241,63 +245,63 @@ export function getInterestResults(request) {
     const { path, resolution, _id } = map[searchType];
 
     return request(options)
-    .then((results) => {
-      const parsedResults = parseResults(results);
+      .then((results) => {
+        const parsedResults = parseResults(results);
 
-      /**
-       * Search for the id that matches the search result
-       * Auto complete does not have results on initial query
-       * so just pass the first available result with request
-      */
-      const resultObj = parsedResults.find(({ id = '', request }) => {
-        return id.indexOf(_id) > -1 ||
-          (searchType === 'Auto complete' && request);
-      });
+        /**
+         * Search for the id that matches the search result
+         * Auto complete does not have results on initial query
+         * so just pass the first available result with request
+        */
+        const resultObj = parsedResults.find(({ id = '', request }) => {
+          return id.indexOf(_id) > -1 ||
+            (searchType === 'Auto complete' && request);
+        });
 
-      if (!resultObj) {
-        const errObj = {
-          message: 'Available widgets does not contain selected api type',
-          requestBody: results,
+        if (!resultObj) {
+          const errObj = {
+            message: 'Available widgets does not contain selected api type',
+            requestBody: results,
+          };
+
+          throw errObj;
+        }
+
+        let req = resultObj.request;
+        const token = resultObj.token;
+
+        if (resolution) req.resolution = resolution;
+        req.requestOptions.category = obj.category;
+        req.requestOptions.property = obj.property;
+        req = JSON.stringify(req);
+
+        const nextOptions = {
+          path,
+          method: 'GET',
+          host: 'trends.google.com',
+          qs: {
+            hl: obj.hl,
+            req,
+            token,
+            tz: obj.timezone,
+          },
         };
 
-        throw errObj;
-      }
+        if (obj.agent) nextOptions.agent = obj.agent;
 
-      let req = resultObj.request;
-      const token = resultObj.token;
+        return request(nextOptions);
+      })
+      .then((res) => {
+        try {
+          /** JSON.parse will decode unicode */
+          const results = JSON.stringify(JSON.parse(res.slice(5)));
 
-      if (resolution) req.resolution = resolution;
-      req.requestOptions.category = obj.category;
-      req.requestOptions.property = obj.property;
-      req = JSON.stringify(req);
-
-      const nextOptions = {
-        path,
-        method: 'GET',
-        host: 'trends.google.com',
-        qs: {
-          hl: obj.hl,
-          req,
-          token,
-          tz: obj.timezone,
-        },
-      };
-
-      if (obj.agent) nextOptions.agent = obj.agent;
-
-      return request(nextOptions);
-    })
-    .then((res) => {
-      try {
-        /** JSON.parse will decode unicode */
-        const results = JSON.stringify(JSON.parse(res.slice(5)));
-
-        return results;
-      } catch (e) {
-        /** throws if not valid JSON, so just return unaltered res string */
-        return res;
-      }
-    });
+          return results;
+        } catch (e) {
+          /** throws if not valid JSON, so just return unaltered res string */
+          return res;
+        }
+      });
   };
 }
 
@@ -337,18 +341,18 @@ export function getTrendingResults(request) {
 
     if (obj.agent) options.agent = obj.agent;
 
-    options.qs = {...options.qs, ...searchTypeMap[searchType].extraParams};
+    options.qs = { ...options.qs, ...searchTypeMap[searchType].extraParams };
 
     return request(options)
-    .then((res) => {
-      try {
-        /** JSON.parse will decode unicode */
-        return JSON.stringify(JSON.parse(res.slice(5)));
-      } catch (e) {
-        /** throws if not valid JSON, so just return unaltered res string */
-        return res;
-      }
-    });
+      .then((res) => {
+        try {
+          /** JSON.parse will decode unicode */
+          return JSON.stringify(JSON.parse(res.slice(5)));
+        } catch (e) {
+          /** throws if not valid JSON, so just return unaltered res string */
+          return res;
+        }
+      });
   };
 }
 
@@ -363,12 +367,13 @@ export function constructTrendingObj(obj, cbFunc) {
     }
 
     const date = new Date();
-    const defaults = { hl: 'en-US',
-                      category: 'all',
-                      timezone: date.getTimezoneOffset(),
-                      trendDate: date,
-                      ns: 15,
-                    };
+    const defaults = {
+      hl: 'en-US',
+      category: 'all',
+      timezone: date.getTimezoneOffset(),
+      trendDate: date,
+      ns: 15,
+    };
 
     obj = { ...defaults, ...obj }; // Merge user params into obj with defaults
   }
