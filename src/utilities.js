@@ -216,7 +216,7 @@ export function getInterestResults(request) {
         _id: 'RELATED_TOPICS',
       },
       'Related queries': {
-        path: '/trends/api/widgetdata/relatedsearches',
+        path: '/trends/api/widgetdata/relatedqueries',
         _id: 'RELATED_QUERIES',
       },
     };
