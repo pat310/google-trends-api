@@ -30,7 +30,7 @@ node_modules
 testFile.js
 
 # ignore built files
-lib
+# lib
 
 # ignore mac files
 .DS_Store
