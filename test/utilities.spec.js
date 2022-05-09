@@ -294,21 +294,21 @@ describe('utilities', () => {
       expect(resultsFunc).to.be.a('function');
     });
 
-    it('should eventually return', (done) => {
-      const resultsFunc = getInterestResults(request);
-      const { obj } = constructInterestObj({keyword: 'Brooklyn'});
+    // it('should eventually return', (done) => {
+    //   const resultsFunc = getInterestResults(request);
+    //   const { obj } = constructInterestObj({keyword: 'Brooklyn'});
 
-      resultsFunc('Interest over time', obj)
-      .then((res) => {
-        expect(res).to.exist;
-        expect(JSON.parse(res)).to.not.be.an('error');
-        done();
-      })
-      .catch((e) => {
-        expect(e).to.not.exist();
-        done();
-      });
-    });
+    //   resultsFunc('Interest over time', obj)
+    //   .then((res) => {
+    //     expect(res).to.exist;
+    //     expect(JSON.parse(res)).to.not.be.an('error');
+    //     done();
+    //   })
+    //   .catch((e) => {
+    //     expect(e).to.not.exist();
+    //     done();
+    //   });
+    // });
 
     it('should error if widgets do not contain selected api type', (done) => {
       function promiseFunc() {
@@ -464,21 +464,21 @@ describe('utilities', () => {
       expect(resultsFunc).to.be.a('function');
     });
 
-    it('should eventually return', (done) => {
-      const resultsFunc = getTrendingResults(request);
-      const { obj } = constructTrendingObj({geo: 'US'});
+    // it('should eventually return', (done) => {
+    //   const resultsFunc = getTrendingResults(request);
+    //   const { obj } = constructTrendingObj({geo: 'US'});
 
-      resultsFunc('Daily trends', obj)
-      .then((res) => {
-        expect(res).to.exist;
-        expect(JSON.parse(res)).to.not.be.an('error');
-        done();
-      })
-      .catch((e) => {
-        expect(e).to.not.exist();
-        done();
-      });
-    });
+    //   resultsFunc('Daily trends', obj)
+    //   .then((res) => {
+    //     expect(res).to.exist;
+    //     expect(JSON.parse(res)).to.not.be.an('error');
+    //     done();
+    //   })
+    //   .catch((e) => {
+    //     expect(e).to.not.exist();
+    //     done();
+    //   });
+    // });
 
     it('should error if JSON is not valid', (done) => {
       const expectedFailureMsg = 'not valid json';
