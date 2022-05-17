@@ -16,10 +16,6 @@
     "lint:eslint": "eslint src, test",
     "lint:staged": "lint-staged"
   },
-  "lint-staged": {
-    "*.js": "lint:eslint"
-  },
-  "pre-commit": "lint:staged",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pat310/google-trends-api.git"
