@@ -162,6 +162,10 @@ export function parseResults(results) {
  * @return {Array}     Returns an array of comparisonItems
  */
 export function formatComparisonItems(obj) {
+  // fix the querystring has the agent param from obj
+  obj = Object.assign({}, obj);
+  delete obj.agent;
+
   const isMultiRegion = obj.geo && Array.isArray(obj.geo);
   let isMultiKeyword = Array.isArray(obj.keyword);
 
