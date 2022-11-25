@@ -234,6 +234,7 @@ export function getInterestResults(request) {
         }),
         tz: obj.timezone,
       },
+      headers: obj.headers,
     };
 
     if (obj.agent) options.agent = obj.agent;
@@ -281,6 +282,7 @@ export function getInterestResults(request) {
           token,
           tz: obj.timezone,
         },
+        headers: obj.headers,
       };
 
       if (obj.agent) nextOptions.agent = obj.agent;
@@ -333,6 +335,7 @@ export function getTrendingResults(request) {
         geo: obj.geo,
         cat: obj.category,
       },
+      headers: obj.headers,
     };
 
     if (obj.agent) options.agent = obj.agent;

@@ -25,16 +25,17 @@ function rereq(options, done) {
   req.end();
 }
 
-export default function request({method, host, path, qs, agent}) {
+export default function request({method, host, path, qs, agent, headers = {}}) {
   const options = {
     host,
     method,
     path: `${path}?${querystring.stringify(qs)}`,
+    headers,
   };
 
   if (agent) options.agent = agent;
   // will use cached cookieVal if set on 429 error
-  if (cookieVal) options.headers = {'cookie': cookieVal};
+  if (cookieVal) options.headers.cookie = cookieVal;
 
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {
@@ -49,7 +50,7 @@ export default function request({method, host, path, qs, agent}) {
           // Fix for the "too many requests" issue
           // Look for the set-cookie header and re-request
           cookieVal = res.headers['set-cookie'][0].split(';')[0];
-          options.headers = {'cookie': cookieVal};
+          options.headers.cookie = cookieVal;
           rereq(options, function(err, response) {
             if (err) return reject(err);
             resolve(response);

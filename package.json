@@ -1,7 +1,7 @@
 {
-  "name": "google-trends-api",
-  "version": "4.9.2",
-  "description": "an API layer on top of google trends",
+  "name": "google-trends-api-next",
+  "version": "4.10.0",
+  "description": "a modified version of google-trends-api",
   "main": "lib/google-trends-api.min.js",
   "scripts": {
     "build": "webpack --mode=build",
@@ -22,7 +22,7 @@
   "pre-commit": "lint:staged",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pat310/google-trends-api.git"
+    "url": "git+https://github.com/YuriiHrecheniukMyTelescope/google-trends-api.git"
   },
   "keywords": [
     "google",
@@ -32,16 +32,15 @@
     "search",
     "google-trends"
   ],
-  "author": "Patrick Trasborg <patrick.trasborg@gmail.com> (http://trasb.org)",
+  "author": "Yurii Hrecheniuk <yuriy@mytelescope.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pat310/google-trends-api/issues"
+    "url": "https://github.com/YuriiHrecheniukMyTelescope/google-trends-api/issues"
   },
   "files": [
     "src/*"
   ],
-  "homepage": "https://github.com/pat310/google-trends-api#readme",
-  "dependencies": {},
+  "homepage": "https://github.com/YuriiHrecheniukMyTelescope/google-trends-api#readme",
   "devDependencies": {
     "babel": "6.3.13",
     "babel-core": "6.1.18",
